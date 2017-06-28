@@ -55,8 +55,9 @@ type-speed: 10
 start-delay: 200
 delete-delay: 5000
 lines: # You can add HTML Tags in the Text
-  - text: "The lower you fall, the higher you'll fly."
-  - text: "Where’s your will to be weird?"
+  - text: "Большинство хороших программистов делают свою работу не потому, что ожидают оплаты или признания, а потому что получают удовольствие от программирования. — Linus Torvalds"
+  - text: "Существует только два вида языков программирования: те, которые всех раздражают, и те, которые никто не использует. - Bjarne Stroustrup"
+  - text: "Обучение программированию не может научить быть экспертом, также как и изучение кистей и красок не может превратить кого-либо в художника. - Eric S. Raymond"
 
 me-img: "/img/face.jpg"
 
