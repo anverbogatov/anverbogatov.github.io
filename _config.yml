@@ -22,7 +22,7 @@ google-tracking-id: ""
 # If you are not hosted on Github Pages, and your host doesn't support https
 # then you should disable it
 
-force-https: True
+force-https: False
 
 #############
 # HTML Head #
@@ -30,8 +30,8 @@ force-https: True
 
 lang: "ru"
 author: "Анвер Богатов"
-title: "{ Anver Bogatov }"
-description: "Blog and website of Anver Bogatov, blogging mainly for tech. Opinions expressed are mine."
+title: "{ Анвер Богатов }"
+description: "Личный островок суши в бескрайних просторах рунета."
 keywords: "bogatov, anver, personal, jekyll, theme"
 favicon: "/img/favicon.ico"
 
