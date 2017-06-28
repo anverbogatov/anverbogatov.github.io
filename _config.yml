@@ -176,10 +176,10 @@ keybase-in-footer: True
 # Sections shown in the index page
 
 pages_list:
-  About: 'about'
-  Blog: 'latest-post'
-  Timeline: 'timeline'
-  Contact: 'contact'
+  Обо мне: 'about'
+  Блог: 'latest-post'
+  Хроники: 'timeline'
+  Контакты: 'contact'
 
 # Exclusion list from the generated _site
 
