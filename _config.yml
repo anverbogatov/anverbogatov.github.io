@@ -30,7 +30,7 @@ force-https: False
 
 lang: "ru"
 author: "Анвер Богатов"
-title: "{ Анвер Богатов }"
+title: "{ Anver Bogatov }"
 description: "Личный островок суши в бескрайних просторах рунета."
 keywords: "bogatov, anver, personal, jekyll, theme"
 favicon: "/img/favicon.ico"
@@ -161,14 +161,6 @@ social:
 ############
 
 err-404-img: "/img/labtocat.png"
-
-##################
-# GPG on Keybase #
-##################
-
-keybase-username: johnsmith
-keybase-in-social: True
-keybase-in-footer: True
 
 ################################################################################
 
