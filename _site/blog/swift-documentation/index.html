@@ -1,0 +1,349 @@
+<!DOCTYPE html>
+<html lang="en">
+   <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta http-equiv="Cache-control" content="public">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <meta name="keywords" content="hexed bits, apps, iOS, objective-c, swift, cocoa, apple, xcode, app store, software, programming, engineering, design patterns">
+    <meta name="description" content="Бесконечность - не предел.">
+    <meta name="author" content="Anver Bogatov">
+
+    <title>
+        
+            Swift documentation &middot; Anver Bogatov
+        
+    </title>
+
+    <!-- Begin Jekyll SEO tag v2.2.3 -->
+<meta property="og:title" content="Swift documentation" />
+<meta name="author" content="Anver Bogatov" />
+<meta property="og:locale" content="en_US" />
+<meta name="description" content="The Swift community is ecstatic about Swift. There are so many new libraries being released each week that some have created package indexes — even IBM. But of course, a library is only as great as its documentation." />
+<meta property="og:description" content="The Swift community is ecstatic about Swift. There are so many new libraries being released each week that some have created package indexes — even IBM. But of course, a library is only as great as its documentation." />
+<link rel="canonical" href="http://localhost:4000/blog/swift-documentation/" />
+<meta property="og:url" content="http://localhost:4000/blog/swift-documentation/" />
+<meta property="og:site_name" content="Anver Bogatov" />
+<meta property="og:type" content="article" />
+<meta property="article:published_time" content="2016-05-20T00:00:00+00:00" />
+<meta name="twitter:card" content="summary" />
+<meta name="twitter:site" content="@anver_bogatov" />
+<meta name="twitter:creator" content="@anver_bogatov" />
+<script type="application/ld+json">
+{"@context":"http://schema.org","@type":"BlogPosting","headline":"Swift documentation","author":{"@type":"Person","name":"Anver Bogatov"},"datePublished":"2016-05-20T00:00:00+00:00","dateModified":"2016-05-20T00:00:00+00:00","description":"The Swift community is ecstatic about Swift. There are so many new libraries being released each week that some have created package indexes — even IBM. But of course, a library is only as great as its documentation.","publisher":{"@type":"Organization","logo":{"@type":"ImageObject","url":"http://localhost:4000/img/logo.png"},"name":"Anver Bogatov"},"mainEntityOfPage":{"@type":"WebPage","@id":"http://localhost:4000/blog/swift-documentation/"},"url":"http://localhost:4000/blog/swift-documentation/"}</script>
+<!-- End Jekyll SEO tag -->
+
+
+    <meta name="twitter:image" content="/img/logo.png" />
+    <meta property="og:image" content="/img/logo.png" />
+    <meta property="og:image:type" content="image/png" />
+    <meta property="og:image:width" content="512" />
+    <meta property="og:image:height" content="512" />
+
+    <link href="/bower_components/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="/bower_components/font-awesome/css/font-awesome.min.css" rel="stylesheet">
+    <link href="/bower_components/ubuntuMono/ubuntuMono.css" rel="stylesheet">
+    <link href="/css/syntax.css" rel="stylesheet">
+    <link href="/css/style.css" rel="stylesheet">
+
+    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+      <script src="/bower_components/html5shiv/dist/html5shiv.min.js"></script>
+      <script src="/bower_components/respond/dest/respond.min.js"></script>
+    <![endif]-->
+
+    <link rel="apple-touch-icon" sizes="76x76" href="/ico/icon76.png">
+    <link rel="apple-touch-icon" sizes="120x120" href="/ico/icon120.png">
+    <link rel="apple-touch-icon" sizes="152x152" href="/ico/icon152.png">
+    <link rel="apple-touch-icon" sizes="167x167" href="/ico/icon167.png">
+    <link rel="apple-touch-icon" sizes="180x180" href="/ico/icon180.png">
+
+    <link rel="shortcut icon" href="/favicon.ico">
+    <link type="application/atom+xml" rel="alternate" href="/feed.xml" title="Anver Bogatov" />
+
+    <script>
+         (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+         (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+         m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+         })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+         ga('create', 'UA-37319916-5', 'auto');
+         ga('send', 'pageview');
+    </script>
+</head>
+
+   <body>
+      
+<header class="container container-fluid">
+   <div class="row">
+      <div class="col-md-12 col-sm-12 col-xs-12">
+        <h1 class="text-center"><a href="/">Anver Bogatov</a></h1>
+        <div class="col-md-12 col-sm-12 col-xs-12">
+            <h2 class="tagline">&mdash; Turing complete with a stack of <code>0xdeadbeef</code>&mdash;</h2>
+         </div> <!-- col -->
+      </div> <!-- col -->
+   </div> <!-- row -->
+
+   <div class="row menu">
+      <div class="col-md-12 col-sm-12 col-xs-12">
+         <a class="btn btn-default" href="/">Blog</a>
+         <a class="btn btn-default" href="/speaking/">Speaking</a>
+         <a class="btn btn-default" href="/about/">About</a>
+      </div> <!-- col -->
+   </div> <!-- row -->
+   <hr>
+</header>
+
+
+      <div class="container container-fluid">
+         <div class="row">
+            <div class="col-sm-12 col-sm-offset-0 col-md-10 col-md-offset-1">
+               <article>
+   <h1 class="post-title"><a href="">Swift documentation</a></h1>
+   <h2 class="post-subtitle">Writing, generating, and publishing great docs in Swift <small class="post-date">20 May 2016</small></h2>
+   
+
+   <div class="post-content">
+      <p>The Swift community is ecstatic about Swift. There are so many new libraries being released each week that some have created <a href="https://swiftmodules.com">package indexes</a> — even <a href="https://developer.ibm.com/swift/products/package-catalog/">IBM</a>. But of course, a library is only as great as its documentation.</p>
+
+<!--excerpt-->
+
+<h3 id="successful-open-source-projects">Successful open source projects</h3>
+
+<p>With open source, I’ve learned that if you want to encourage adoption of your library, then you need a few things:</p>
+
+<ol>
+  <li>A great library that solves a real problem for developers (of course!)</li>
+  <li>You need to build an open and supportive community around your project</li>
+  <li>Write excellent documentation that’s easily accessible</li>
+</ol>
+
+<p>If you look at any popular project (even outside of the Swift/Objective-C/Cocoa community), you’ll find these common attributes. See <a href="https://github.com/Alamofire/Alamofire">Alamofire</a>, <a href="https://cocoapods.org">CocoaPods</a>, and <a href="https://github.com/jessesquires/JSQMessagesViewController">JSQMessagesViewController</a>.</p>
+
+<p>This post will focus on the third item in that list above — documentation. First, we’ll look at each step of creating documentation and then I’ll share my complete workflow.</p>
+
+<h3 id="writing-docs">Writing docs</h3>
+
+<p>Writing clear, understandable documentation is not easy to learn and it’s more difficult to explain. The best way to learn write documentation is to <em>read</em> documentation. If writing a library for iOS, allow the <a href="https://developer.apple.com/library/ios/navigation/">iOS documentation</a> to guide you. If writing a library in Swift, allow the <a href="https://developer.apple.com/library/ios/documentation/General/Reference/SwiftStandardLibraryReference/">Swift documentation</a> to guide you. How do <em>those</em> authors explain certain concepts or parameter values? Search for APIs that are similar to the ones you have written for your library, and begin writing by mimicking others — whether that’s Apple or other open source authors. Iterate until you arrive at something that unambiguously explains your API.</p>
+
+<p>Here’s an example from <a href="http://cocoadocs.org/docsets/JSQMessagesViewController/7.2.0/Protocols/JSQMessagesCollectionViewDataSource.html#//api/name/collectionView:messageDataForItemAtIndexPath:">JSQMessagesViewController</a>. It’s not Swift, but it illustrates these ideas.</p>
+
+<figure class="highlight"><pre><code class="language-objc" data-lang="objc"><span class="cm">/**
+ *  Asks the data source for the message data that corresponds to the specified item at indexPath in the collectionView.
+ *
+ *  @param collectionView The collection view requesting this information.
+ *  @param indexPath      The index path that specifies the location of the item.
+ *
+ *  @return An initialized object that conforms to the `JSQMessageData` protocol. You must not return `nil` from this method.
+ */</span>
+<span class="k">-</span> <span class="p">(</span><span class="n">id</span><span class="o">&lt;</span><span class="n">JSQMessageData</span><span class="o">&gt;</span><span class="p">)</span><span class="nf">collectionView</span><span class="p">:(</span><span class="n">JSQMessagesCollectionView</span> <span class="o">*</span><span class="p">)</span><span class="nv">collectionView</span> <span class="nf">messageDataForItemAtIndexPath</span><span class="p">:(</span><span class="n">NSIndexPath</span> <span class="o">*</span><span class="p">)</span><span class="nv">indexPath</span><span class="p">;</span></code></pre></figure>
+
+<p>This reads very similarly to the <code class="highlighter-rouge">UICollectionViewDataSource</code> method <code class="highlighter-rouge">- collectionView: cellForItemAtIndexPath:</code>. It follows the precedent set by UIKit, not only in terms of the API design but also the documentation. Doing this allows your library to feel natural and familiar to users.</p>
+
+<p>After enough imitation, you’ll eventually find your own voice and get enough experience that you won’t need to reference others’ documentation in order to write your own. Writing documentation will begin to flow naturally. It might even be fun! 😉</p>
+
+<p>Also, strive to provide <a href="https://twitter.com/orta/status/471009574276050944">100% coverage</a>. This is relatively easy to do. It’s much easier than having 100% test coverage, for example. It’s something to be proud of, and it will make you and your library feel complete.</p>
+
+<p>One final tip — use <a href="https://github.com/onevcat">Wei Wang</a>’s plug-in, <a href="https://github.com/onevcat/VVDocumenter-Xcode">VVDocumenter-Xcode</a>. This Xcode plug-in will generate the doc comment templates for you. All you have to do is type <code class="highlighter-rouge">///</code> above any method or class and then fill-in the docs.</p>
+
+<p><img class="img-thumbnail img-responsive center" src="/img/feels_good_docs.jpg" title="100% docs" alt="100% docs" /></p>
+
+<h3 id="generating-docs">Generating docs</h3>
+
+<p>By far, the best way to generate docs for Swift (and Objective-C!) libraries is by using Realm’s <a href="https://github.com/realm/jazzy">jazzy</a> — <em>Soulful docs for Swift and Objective-C</em>. It’s an amazing project and one of my favorite open source tools, maintained by <a href="https://github.com/jpsim">JP Simard</a> and <a href="https://github.com/segiddins">Samuel Giddins</a>.</p>
+
+<p>Once installed, just run <code class="highlighter-rouge">jazzy</code> from the command line with a few configuration parameters and you’ll have beautifully generated docs in seconds. The <a href="https://github.com/realm/jazzy/blob/master/README.md">README</a> has all of the details, but here’s an example from <a href="https://github.com/jessesquires/PresenterKit">PresenterKit</a>:</p>
+
+<figure class="highlight"><pre><code class="language-bash" data-lang="bash">jazzy --swift-version 2.2 -o ./ <span class="se">\</span>
+      --source-directory PresenterKit/ <span class="se">\</span>
+      --readme PresenterKit/README.md <span class="se">\</span>
+      -a <span class="s1">'Jesse Squires'</span> <span class="se">\</span>
+      -u <span class="s1">'https://twitter.com/jesse_squires'</span> <span class="se">\</span>
+      -m <span class="s1">'PresenterKit'</span> <span class="se">\</span>
+      -g <span class="s1">'https://github.com/jessesquires/PresenterKit'</span></code></pre></figure>
+
+<p>You need to specify a version of Swift, tell jazzy where your source code is, and provide some basic author information. It couldn’t be easier. Run <code class="highlighter-rouge">jazzy --help</code> to see all of the possible usage options.</p>
+
+<h3 id="publishing-docs">Publishing docs</h3>
+
+<p>Publishing is the final piece to this puzzle. If you are distributing your library with CocoaPods, then you’ll get <a href="http://cocoadocs.org">CocoaDocs</a> for free. Thanks <a href="https://twitter.com/orta">Orta</a>! Note that CocoaDocs uses jazzy for Swift pods.</p>
+
+<p>However, with <a href="https://developer.ibm.com/swift/">server-side Swift</a> or projects that do not use CocoaPods you’ll need another solution. Even the <a href="https://github.com/apple/swift-package-manager">Swift Package Manager</a> does not provide any solutions for documentation. The best solution I’ve found for publishing is <a href="https://pages.github.com">GitHub Pages</a>. All you need to do is create an orphan branch in git named <code class="highlighter-rouge">gh-pages</code>, push some html or markdown using <a href="https://jekyllrb.com">Jekyll</a>, and your site will be published at <code class="highlighter-rouge">username.github.io/repository</code>. (In fact, <a href="https://github.com/jessesquires/jessesquires.github.io">this site</a> is hosted on GitHub pages and created using Jekyll.) What I like most about using GitHub Pages for docs is that it keeps everything contained within a single repository. So you not only have version control for your source code, but also for your documentation.</p>
+
+<p>But if your source code and docs live in separate disjoint branches, then how do you coordinate between them to keep your docs up-to-date? That’s what we’ll discuss next.</p>
+
+<p class="text-muted"><b>Note:</b> Even though CocoaDocs provides docs for free, I still prefer using jazzy and GitHub Pages in addition to this. One small shortcoming of CocoaDocs is the inability to update documentation independent of a version release. Suppose you release <code>v1.0</code> of your library and then discover errors in your documentation. To update CocoaDocs, you'll need to push another version, say <code>v1.0.1</code>, to CocoaPods. In any case, it's nice to have documentation in both places. Whether a user discovers your library via GitHub or CocoaPods, the docs are right there.</p>
+
+<h3 id="complete-workflow">Complete workflow</h3>
+
+<p>We’ve covered writing, generating, and publishing. Now let’s find out how we can coordinate these into a seamless, mostly automated workflow. I’ll share how I set this up for all of my libraries. We’ll use <a href="https://github.com/jessesquires/JSQCoreDataKit">JSQCoreDataKit</a> as an example.</p>
+
+<h4 id="branches">Branches</h4>
+
+<ul>
+  <li>The <a href="https://github.com/jessesquires/JSQCoreDataKit">develop</a> branch contains the library, an example app, a readme, and other supporting files like the <code class="highlighter-rouge">.podspec</code> and <code class="highlighter-rouge">.travis.yml</code>.</li>
+  <li>The <a href="https://github.com/jessesquires/JSQCoreDataKit/tree/gh-pages">gh-pages</a> branch only contains documentation and scripts for generating it.</li>
+</ul>
+
+<h4 id="directories">Directories</h4>
+
+<p>On my machine I checkout the repo <em>twice</em>. One checkout for both the <em>develop</em> and <em>gh-pages</em> branches.</p>
+
+<ul>
+  <li><code class="highlighter-rouge">~/GitHub/JSQCoreDataKit</code> is the checkout for <em>develop</em></li>
+  <li><code class="highlighter-rouge">~/GitHub-Pages/JSQCoreDataKit</code> is the checkout for <em>gh-pages</em></li>
+</ul>
+
+<p>This setup allows me to more easily develop and write docs, and quickly build and preview the generated docs. Constantly having to switch branches would cause a lot of churn, since the <em>gh-pages</em> branch doesn’t contain the library source.</p>
+
+<h4 id="submodules">Submodules</h4>
+
+<p>This is where it all comes together. On the <em>gh-pages</em> branch, I add the <em>develop</em> branch of the library as a <a href="https://git-scm.com/book/en/v2/Git-Tools-Submodules">git submodule</a>. By running <code class="highlighter-rouge">git submodule update</code>, the <em>gh-pages</em> branch can pull in the library source without including it in the git history. Now, we can run <code class="highlighter-rouge">jazzy</code> from the root directory of the <em>gh-pages</em> checkout and provide the submodule directory as the <code class="highlighter-rouge">--source-directory</code>.</p>
+
+<h4 id="automation">Automation</h4>
+
+<p>On the <a href="https://github.com/jessesquires/JSQCoreDataKit/tree/gh-pages">gh-pages</a> branch of <a href="https://github.com/jessesquires/JSQCoreDataKit">JSQCoreDataKit</a>, you’ll find two small bash scripts.</p>
+
+<p>The first is <a href="https://github.com/jessesquires/JSQCoreDataKit/blob/gh-pages/build_docs.sh">build_docs.sh</a>, which will update the submodule and build the docs. These can then be previewed in Safari by opening <code class="highlighter-rouge">index.html</code>.</p>
+
+<figure class="highlight"><pre><code class="language-bash" data-lang="bash">git submodule update --remote
+
+jazzy --swift-version 2.2 -o ./ <span class="se">\</span>
+      --source-directory JSQCoreDataKit/ <span class="se">\</span>
+      --readme JSQCoreDataKit/README.md <span class="se">\</span>
+      -a <span class="s1">'Jesse Squires'</span> <span class="se">\</span>
+      -u <span class="s1">'https://twitter.com/jesse_squires'</span> <span class="se">\</span>
+      -m <span class="s1">'JSQCoreDataKit'</span> <span class="se">\</span>
+      -g <span class="s1">'https://github.com/jessesquires/JSQCoreDataKit'</span></code></pre></figure>
+
+<p>The second is <a href="https://github.com/jessesquires/JSQCoreDataKit/blob/gh-pages/publish_docs.sh">publish_docs.sh</a> which will first call the build script, then push the docs to GitHub.</p>
+
+<figure class="highlight"><pre><code class="language-bash" data-lang="bash">./build_docs.sh
+git add .
+git commit -am <span class="s2">"auto-update docs"</span>
+git push
+git status</code></pre></figure>
+
+<h4 id="workflow">Workflow</h4>
+
+<p>With all of this in place, updating the documentation for my library is painless. I write code and docs, then push to <em>develop</em>. Then I switch directories to the <em>gh-pages</em> checkout and run <code class="highlighter-rouge">./publish_docs.sh</code>.</p>
+
+<figure class="highlight"><pre><code class="language-bash" data-lang="bash"><span class="nb">cd</span> ~/GitHub/JSQCoreDataKit
+<span class="c"># write code and docs</span>
+<span class="c"># commit</span>
+git push
+
+<span class="nb">cd</span> ~/GitHub-Pages/JSQCoreDataKit
+./publish_docs.sh <span class="c"># update docs</span></code></pre></figure>
+
+<p>Right now, I prefer running the <code class="highlighter-rouge">publish_docs.sh</code> script manually so that the docs only update when I want them to — for corrections and major releases. However, you could easily do this in the <code class="highlighter-rouge">after_success:</code> step of your <a href="https://travis-ci.org">Travis-CI</a> script.</p>
+
+<p>Here’s the <a href="http://www.jessesquires.com/JSQCoreDataKit/">final product</a> for JSQCoreDataKit.</p>
+
+<h3 id="its-easy">It’s easy</h3>
+
+<p>Writing, even if technical, is a great way to take a break from coding — which I think we can all agree is a good thing to do. The workflow I’ve outlined above is how I setup <em>all</em> of my libraries now. When we have the tools that make this <em>so easy</em>, there are no excuses to not do it!</p>
+
+   </div> <!-- post-content -->
+</article>
+
+
+<div class="post-share-subscribe">
+   <div class="row">
+      <div class="col-md-6 col-sm-6 col-xs-12 center">
+         <div class="btn-group btn-group-justified" role="group">
+
+            <div class="btn-group dropup" role="group">
+               <button class="btn btn-default dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                  Share &nbsp;<i class="fa fa-share-alt" aria-hidden="true"></i>
+               </button>
+               <ul class="dropdown-menu">
+                  <li>
+                     <a href="https://twitter.com/intent/tweet?text=Swift%20documentation%20http://localhost:4000/blog/swift-documentation/%20via%20@anver_bogatov" title="Tweet" target="_blank">
+                     Twitter &nbsp;<i class="fa fa-twitter" aria-hidden="true"></i>
+                     </a>
+                  </li>
+                  <li>
+                     <a href="https://www.facebook.com/sharer.php?u=http://localhost:4000/blog/swift-documentation/" title="Post" target="_blank">
+                     Facebook &nbsp;<i class="fa fa-facebook" aria-hidden="true"></i>
+                     </a>
+                  </li>
+                  <li>
+                     <a href="https://plus.google.com/share?url=http://localhost:4000/blog/swift-documentation/" title="Share" target="_blank">
+                     Google &nbsp;<i class="fa fa-google-plus" aria-hidden="true"></i>
+                     </a>
+                  </li>
+               </ul>
+            </div> <!-- share dropup -->
+
+            <div class="btn-group dropup" role="group">
+               <button class="btn btn-default dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                  Subscribe &nbsp;<i class="fa fa-rss" aria-hidden="true"></i>
+               </button>
+               <ul class="dropdown-menu">
+                  <li><a href="/feed.xml" title="Subscribe via RSS/atom">RSS/Atom &nbsp;<i class="fa fa-rss" aria-hidden="true"></i></a></li>
+                  <li><a href="" title="Add to Apple News">Apple News &nbsp;<i class="fa fa-apple" aria-hidden="true"></i></a></li>
+               </ul>
+            </div> <!-- subscribe drop-up -->
+
+            <div class="btn-group dropup" role="group">
+               <button class="btn btn-default dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                  Support &nbsp;<i class="fa fa-star" aria-hidden="true"></i>
+               </button>
+               <ul class="dropdown-menu">
+                  <li><a href="" title="Donate via PayPal" target="_blank">Donate via PayPal &nbsp;<i class="fa fa-paypal" aria-hidden="true"></i></a></li>
+                  <li><a href="" title="Donate via Square Cash" target="_blank">Donate via Square &nbsp;<i class="fa fa-dollar" aria-hidden="true"></i></a></li>
+                  <li><a href="" title="Donate Bitcoin" target="_blank">Donate Bitcoin &nbsp;<i class="fa fa-btc" aria-hidden="true"></i></a></li>
+               </ul>
+            </div> <!-- donate drop-up -->
+
+         </div> <!-- btn-group -->
+      </div> <!-- col -->
+   </div> <!-- row -->
+
+   <div class="row feedback">
+      <div class="col-md-6 col-sm-6 col-xs-12 center">
+         <p class="text-muted text-center"><small><b>Questions? Feedback? Corrections?</b></small></p>
+         <p class="text-muted text-center"><small>
+         Open an <a href="https://github.com/anverbogatov/anverbogatov.github.io/issues/new" target="_blank">issue</a> or
+         submit a <a href="https://github.com/anverbogatov/anverbogatov.github.io/compare" target="_blank">pull request</a>.
+         </small></p>
+      </div> <!-- col -->
+   </div> <!-- row -->
+
+</div> <!-- post-share-subscribe -->
+
+
+            </div> <!-- col -->
+         </div> <!-- row -->
+      </div> <!-- container -->
+
+      
+<footer class="container container-fluid">
+   <hr>
+
+   <div class="row contact">
+    <div class="col-sm-12 col-sm-offset-0 col-md-8 col-md-offset-2">
+        <ul class="inline center">
+            <li><a href="https://github.com/anverbogatov" title="Follow me on Github"><i class="fa fa-2x fa-github" aria-hidden="true"></i></a></li>
+            <li><a href="https://twitter.com/anver_bogatov" title="Follow me on Twitter"><i class="fa fa-2x fa-twitter" aria-hidden="true"></i></a></li>
+            <li><a href="https://www.linkedin.com/in/anver-bogatov-64b32661/" title="Connect with me on LinkedIn"><i class="fa fa-2x fa-linkedin" aria-hidden="true"></i></a></li>
+            <li><a href="/feed.xml" title="Subscribe via RSS/atom"><i class="fa fa-2x fa-rss-square" aria-hidden="true"></i></a></li>
+            <li><a href="" title="Add to Apple News"><i class="fa fa-2x fa-apple" aria-hidden="true"></i></a></li>
+        </ul>
+    </div> <!-- col -->
+</div> <!-- row -->
+
+
+   <p class="text-muted text-center"><small>
+   &copy; 2017 Anver Bogatov.
+   This site is <a href="https://github.com/anverbogatov/anverbogatov.github.io">open source</a>.
+   </small></p>
+</footer>
+
+      
+<script src="/bower_components/jquery/dist/jquery.min.js"></script>
+<script src="/bower_components/bootstrap/dist/js/bootstrap.min.js"></script>
+
+   </body>
+</html>

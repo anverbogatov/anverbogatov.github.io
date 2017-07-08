@@ -1,0 +1,237 @@
+<!DOCTYPE html>
+<html lang="en">
+   <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta http-equiv="Cache-control" content="public">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <meta name="keywords" content="hexed bits, apps, iOS, objective-c, swift, cocoa, apple, xcode, app store, software, programming, engineering, design patterns">
+    <meta name="description" content="Бесконечность - не предел.">
+    <meta name="author" content="Anver Bogatov">
+
+    <title>
+        
+            Writing better singletons in Swift &middot; Anver Bogatov
+        
+    </title>
+
+    <!-- Begin Jekyll SEO tag v2.2.3 -->
+<meta property="og:title" content="Writing better singletons in Swift" />
+<meta name="author" content="Anver Bogatov" />
+<meta property="og:locale" content="en_US" />
+<meta name="description" content="In a previous post I discussed strategies for using singletons in a cleaner, more modular way. Singletons are a fact of software development, especially in iOS. Sometimes the design pattern actually is the right tool for the job. In those situations, how we can improve the way we write our own singleton classes?" />
+<meta property="og:description" content="In a previous post I discussed strategies for using singletons in a cleaner, more modular way. Singletons are a fact of software development, especially in iOS. Sometimes the design pattern actually is the right tool for the job. In those situations, how we can improve the way we write our own singleton classes?" />
+<link rel="canonical" href="http://localhost:4000/blog/writing-better-singletons-in-swift/" />
+<meta property="og:url" content="http://localhost:4000/blog/writing-better-singletons-in-swift/" />
+<meta property="og:site_name" content="Anver Bogatov" />
+<meta property="og:type" content="article" />
+<meta property="article:published_time" content="2017-06-04T00:00:00+00:00" />
+<meta name="twitter:card" content="summary" />
+<meta name="twitter:site" content="@anver_bogatov" />
+<meta name="twitter:creator" content="@anver_bogatov" />
+<script type="application/ld+json">
+{"@context":"http://schema.org","@type":"BlogPosting","headline":"Writing better singletons in Swift","author":{"@type":"Person","name":"Anver Bogatov"},"datePublished":"2017-06-04T00:00:00+00:00","dateModified":"2017-06-04T00:00:00+00:00","description":"In a previous post I discussed strategies for using singletons in a cleaner, more modular way. Singletons are a fact of software development, especially in iOS. Sometimes the design pattern actually is the right tool for the job. In those situations, how we can improve the way we write our own singleton classes?","publisher":{"@type":"Organization","logo":{"@type":"ImageObject","url":"http://localhost:4000/img/logo.png"},"name":"Anver Bogatov"},"mainEntityOfPage":{"@type":"WebPage","@id":"http://localhost:4000/blog/writing-better-singletons-in-swift/"},"url":"http://localhost:4000/blog/writing-better-singletons-in-swift/"}</script>
+<!-- End Jekyll SEO tag -->
+
+
+    <meta name="twitter:image" content="/img/logo.png" />
+    <meta property="og:image" content="/img/logo.png" />
+    <meta property="og:image:type" content="image/png" />
+    <meta property="og:image:width" content="512" />
+    <meta property="og:image:height" content="512" />
+
+    <link href="/bower_components/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="/bower_components/font-awesome/css/font-awesome.min.css" rel="stylesheet">
+    <link href="/bower_components/ubuntuMono/ubuntuMono.css" rel="stylesheet">
+    <link href="/css/syntax.css" rel="stylesheet">
+    <link href="/css/style.css" rel="stylesheet">
+
+    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+      <script src="/bower_components/html5shiv/dist/html5shiv.min.js"></script>
+      <script src="/bower_components/respond/dest/respond.min.js"></script>
+    <![endif]-->
+
+    <link rel="apple-touch-icon" sizes="76x76" href="/ico/icon76.png">
+    <link rel="apple-touch-icon" sizes="120x120" href="/ico/icon120.png">
+    <link rel="apple-touch-icon" sizes="152x152" href="/ico/icon152.png">
+    <link rel="apple-touch-icon" sizes="167x167" href="/ico/icon167.png">
+    <link rel="apple-touch-icon" sizes="180x180" href="/ico/icon180.png">
+
+    <link rel="shortcut icon" href="/favicon.ico">
+    <link type="application/atom+xml" rel="alternate" href="/feed.xml" title="Anver Bogatov" />
+
+    <script>
+         (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+         (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+         m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+         })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+         ga('create', 'UA-37319916-5', 'auto');
+         ga('send', 'pageview');
+    </script>
+</head>
+
+   <body>
+      
+<header class="container container-fluid">
+   <div class="row">
+      <div class="col-md-12 col-sm-12 col-xs-12">
+        <h1 class="text-center"><a href="/">Anver Bogatov</a></h1>
+        <div class="col-md-12 col-sm-12 col-xs-12">
+            <h2 class="tagline">&mdash; Turing complete with a stack of <code>0xdeadbeef</code>&mdash;</h2>
+         </div> <!-- col -->
+      </div> <!-- col -->
+   </div> <!-- row -->
+
+   <div class="row menu">
+      <div class="col-md-12 col-sm-12 col-xs-12">
+         <a class="btn btn-default" href="/">Blog</a>
+         <a class="btn btn-default" href="/speaking/">Speaking</a>
+         <a class="btn btn-default" href="/about/">About</a>
+      </div> <!-- col -->
+   </div> <!-- row -->
+   <hr>
+</header>
+
+
+      <div class="container container-fluid">
+         <div class="row">
+            <div class="col-sm-12 col-sm-offset-0 col-md-10 col-md-offset-1">
+               <article>
+   <h1 class="post-title"><a href="">Writing better singletons in Swift</a></h1>
+   <h2 class="post-subtitle">Avoiding common pitfalls <small class="post-date">04 Jun 2017</small></h2>
+   
+
+   <div class="post-content">
+      <p>In a <a href="/blog/refactoring-singletons-in-swift/">previous post</a> I discussed strategies for using singletons in a cleaner, more modular way. <a href="https://en.wikipedia.org/wiki/Singleton_pattern">Singletons</a> are a fact of software development, especially in iOS. <em>Sometimes</em> the design pattern actually <em>is</em> the right tool for the job. In those situations, how we can improve the way we write our own singleton classes?</p>
+
+<!--excerpt-->
+
+<h3 id="the-case-for-the-singleton">The case for the singleton</h3>
+
+<p>Generally, I’m not enthusiastic about singletons. In most situations I consider them to be an <a href="https://en.wikipedia.org/wiki/Anti-pattern">anti-pattern</a>. However, there are certainly valid use cases. In the Cocoa and Cocoa Touch frameworks, there are quite a few singletons that we interact with regularly — <code class="highlighter-rouge">UIApplication.shared</code>, <code class="highlighter-rouge">FileManager.default</code>, <code class="highlighter-rouge">NotificationCenter.default</code>, <code class="highlighter-rouge">UserDefaults.standard</code>, <code class="highlighter-rouge">URLSession.shared</code>, and others. These singletons make sense. They manage a shared resource or manage access to a shared resource of which there is only one, or (<em>usually</em>) only should be one. If this is the conceptual model you are working with, then a singleton might be a decent solution.</p>
+
+<p>The reason we dislike singletons is because they grow in scope and responsibility over time. They end up owning and managing way too much state, they collect random business or application logic, they accumulate a litany of static methods, and their pervasive, implicit use throughout a codebase entangles and demoralizes your object graph. (Addressing how to disentangle them was the subject of my <a href="/blog/refactoring-singletons-in-swift/">earlier post</a>.) In other words, all of the problems we face with singletons arise from abuse and negligence. With a few tweaks to how we approach writing singletons, we can dramatically improve or even avoid such situations.</p>
+
+<h3 id="extracting-the-singleton-ness">Extracting the ‘singleton-ness’</h3>
+
+<p>A brief look at Cocoa and Cocoa Touch reveal a clue. Take a look at <a href="https://developer.apple.com/reference/foundation/filemanager"><code class="highlighter-rouge">FileManager</code></a> and <a href="https://developer.apple.com/reference/foundation/urlsession"><code class="highlighter-rouge">URLSession</code></a>. Notice anything? Both have an <code class="highlighter-rouge">init()</code> method — you can initialize <strong>non-singleton instances</strong> of these classes. That is, you can <strong>create an instance</strong> of <code class="highlighter-rouge">FileManager</code> and <code class="highlighter-rouge">URLSession</code> rather than use the singleton (<code class="highlighter-rouge">.default</code> or <code class="highlighter-rouge">.shared</code>). This is perhaps the most important and powerful aspect of their design, yet it is often overlooked. (Rarely do we opt out of using these singletons, but there are scenarios where it may be appropriate.)</p>
+
+<p>What this reveals is that “singleton-ness” is not hard-coded into the design of these classes. The essence of a singleton is not an intrinsic aspect of the class, but merely an option. You can allocate and initialize a regular instance of the class with no global state, use it and discard it later.</p>
+
+<p><strong>This</strong> is how we should write singletons — as regular classes with a single designated <code class="highlighter-rouge">init()</code> and a <a href="https://en.wikipedia.org/wiki/Single_responsibility_principle">single responsibility</a>. After writing and unit testing the class, <em>then</em> add a <code class="highlighter-rouge">.shared</code> class property for clients to use. Then you can either remove <code class="highlighter-rouge">init()</code>, make it <code class="highlighter-rouge">private</code>, or put this class in its own framework and make it <code class="highlighter-rouge">internal</code> to restrict access. Swift makes creating lightweight micro-libraries easy. Moving the class to its own framework will add an additional barrier to prevent adding unrelated functionality and state over time.</p>
+
+<p>Create a singleton, <strong>but only when there is no other solution</strong>. And when you do, do it right:</p>
+
+<ol>
+  <li>Create a normal class with a single <code class="highlighter-rouge">init()</code> and single responsibility</li>
+  <li>Write unit tests</li>
+  <li>Put this class and tests in their own framework / micro-library</li>
+  <li>Add a <code class="highlighter-rouge">.shared</code> class property to “make it a singleton”</li>
+  <li>Either mark <code class="highlighter-rouge">init()</code> as <code class="highlighter-rouge">internal</code>, remove it altogether, or mark it as <code class="highlighter-rouge">private</code> to prevent clients from allocating an instance. (I would recommend <code class="highlighter-rouge">internal</code> so that <code class="highlighter-rouge">init()</code> is accessible within the test target of the framework, allowing you to maintain your test suite while ensuring clients can only access the singleton.)</li>
+</ol>
+
+   </div> <!-- post-content -->
+</article>
+
+
+<div class="post-share-subscribe">
+   <div class="row">
+      <div class="col-md-6 col-sm-6 col-xs-12 center">
+         <div class="btn-group btn-group-justified" role="group">
+
+            <div class="btn-group dropup" role="group">
+               <button class="btn btn-default dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                  Share &nbsp;<i class="fa fa-share-alt" aria-hidden="true"></i>
+               </button>
+               <ul class="dropdown-menu">
+                  <li>
+                     <a href="https://twitter.com/intent/tweet?text=Writing%20better%20singletons%20in%20Swift%20http://localhost:4000/blog/writing-better-singletons-in-swift/%20via%20@anver_bogatov" title="Tweet" target="_blank">
+                     Twitter &nbsp;<i class="fa fa-twitter" aria-hidden="true"></i>
+                     </a>
+                  </li>
+                  <li>
+                     <a href="https://www.facebook.com/sharer.php?u=http://localhost:4000/blog/writing-better-singletons-in-swift/" title="Post" target="_blank">
+                     Facebook &nbsp;<i class="fa fa-facebook" aria-hidden="true"></i>
+                     </a>
+                  </li>
+                  <li>
+                     <a href="https://plus.google.com/share?url=http://localhost:4000/blog/writing-better-singletons-in-swift/" title="Share" target="_blank">
+                     Google &nbsp;<i class="fa fa-google-plus" aria-hidden="true"></i>
+                     </a>
+                  </li>
+               </ul>
+            </div> <!-- share dropup -->
+
+            <div class="btn-group dropup" role="group">
+               <button class="btn btn-default dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                  Subscribe &nbsp;<i class="fa fa-rss" aria-hidden="true"></i>
+               </button>
+               <ul class="dropdown-menu">
+                  <li><a href="/feed.xml" title="Subscribe via RSS/atom">RSS/Atom &nbsp;<i class="fa fa-rss" aria-hidden="true"></i></a></li>
+                  <li><a href="" title="Add to Apple News">Apple News &nbsp;<i class="fa fa-apple" aria-hidden="true"></i></a></li>
+               </ul>
+            </div> <!-- subscribe drop-up -->
+
+            <div class="btn-group dropup" role="group">
+               <button class="btn btn-default dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                  Support &nbsp;<i class="fa fa-star" aria-hidden="true"></i>
+               </button>
+               <ul class="dropdown-menu">
+                  <li><a href="" title="Donate via PayPal" target="_blank">Donate via PayPal &nbsp;<i class="fa fa-paypal" aria-hidden="true"></i></a></li>
+                  <li><a href="" title="Donate via Square Cash" target="_blank">Donate via Square &nbsp;<i class="fa fa-dollar" aria-hidden="true"></i></a></li>
+                  <li><a href="" title="Donate Bitcoin" target="_blank">Donate Bitcoin &nbsp;<i class="fa fa-btc" aria-hidden="true"></i></a></li>
+               </ul>
+            </div> <!-- donate drop-up -->
+
+         </div> <!-- btn-group -->
+      </div> <!-- col -->
+   </div> <!-- row -->
+
+   <div class="row feedback">
+      <div class="col-md-6 col-sm-6 col-xs-12 center">
+         <p class="text-muted text-center"><small><b>Questions? Feedback? Corrections?</b></small></p>
+         <p class="text-muted text-center"><small>
+         Open an <a href="https://github.com/anverbogatov/anverbogatov.github.io/issues/new" target="_blank">issue</a> or
+         submit a <a href="https://github.com/anverbogatov/anverbogatov.github.io/compare" target="_blank">pull request</a>.
+         </small></p>
+      </div> <!-- col -->
+   </div> <!-- row -->
+
+</div> <!-- post-share-subscribe -->
+
+
+            </div> <!-- col -->
+         </div> <!-- row -->
+      </div> <!-- container -->
+
+      
+<footer class="container container-fluid">
+   <hr>
+
+   <div class="row contact">
+    <div class="col-sm-12 col-sm-offset-0 col-md-8 col-md-offset-2">
+        <ul class="inline center">
+            <li><a href="https://github.com/anverbogatov" title="Follow me on Github"><i class="fa fa-2x fa-github" aria-hidden="true"></i></a></li>
+            <li><a href="https://twitter.com/anver_bogatov" title="Follow me on Twitter"><i class="fa fa-2x fa-twitter" aria-hidden="true"></i></a></li>
+            <li><a href="https://www.linkedin.com/in/anver-bogatov-64b32661/" title="Connect with me on LinkedIn"><i class="fa fa-2x fa-linkedin" aria-hidden="true"></i></a></li>
+            <li><a href="/feed.xml" title="Subscribe via RSS/atom"><i class="fa fa-2x fa-rss-square" aria-hidden="true"></i></a></li>
+            <li><a href="" title="Add to Apple News"><i class="fa fa-2x fa-apple" aria-hidden="true"></i></a></li>
+        </ul>
+    </div> <!-- col -->
+</div> <!-- row -->
+
+
+   <p class="text-muted text-center"><small>
+   &copy; 2017 Anver Bogatov.
+   This site is <a href="https://github.com/anverbogatov/anverbogatov.github.io">open source</a>.
+   </small></p>
+</footer>
+
+      
+<script src="/bower_components/jquery/dist/jquery.min.js"></script>
+<script src="/bower_components/bootstrap/dist/js/bootstrap.min.js"></script>
+
+   </body>
+</html>

@@ -1,0 +1,343 @@
+<!DOCTYPE html>
+<html lang="en">
+   <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta http-equiv="Cache-control" content="public">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <meta name="keywords" content="hexed bits, apps, iOS, objective-c, swift, cocoa, apple, xcode, app store, software, programming, engineering, design patterns">
+    <meta name="description" content="Бесконечность - не предел.">
+    <meta name="author" content="Anver Bogatov">
+
+    <title>
+        
+            Failable initializers, revisited &middot; Anver Bogatov
+        
+    </title>
+
+    <!-- Begin Jekyll SEO tag v2.2.3 -->
+<meta property="og:title" content="Failable initializers, revisited" />
+<meta name="author" content="Anver Bogatov" />
+<meta property="og:locale" content="en_US" />
+<meta name="description" content="In a previous post, I discussed how Swift’s failable initializers could be problematic. Specifically, I argued that their ease of use could persuade or encourage us to revert to old (bad) Objective-C habits of returning nil from init. Initialization is usually not the right place to fail. We should aim to avoid optionals as much as possible to reduce having to handle this absence of values. Recently, @danielgomezrico asked a great question about a possible use case for a failable initializer — parsing JSON. Given this problem’s popularity in the Swift community, I thought sharing my response here would be helpful." />
+<meta property="og:description" content="In a previous post, I discussed how Swift’s failable initializers could be problematic. Specifically, I argued that their ease of use could persuade or encourage us to revert to old (bad) Objective-C habits of returning nil from init. Initialization is usually not the right place to fail. We should aim to avoid optionals as much as possible to reduce having to handle this absence of values. Recently, @danielgomezrico asked a great question about a possible use case for a failable initializer — parsing JSON. Given this problem’s popularity in the Swift community, I thought sharing my response here would be helpful." />
+<link rel="canonical" href="http://localhost:4000/blog/swift-failable-initializers-revisited/" />
+<meta property="og:url" content="http://localhost:4000/blog/swift-failable-initializers-revisited/" />
+<meta property="og:site_name" content="Anver Bogatov" />
+<meta property="og:type" content="article" />
+<meta property="article:published_time" content="2015-04-06T00:00:00+00:00" />
+<meta name="twitter:card" content="summary" />
+<meta name="twitter:site" content="@anver_bogatov" />
+<meta name="twitter:creator" content="@anver_bogatov" />
+<script type="application/ld+json">
+{"@context":"http://schema.org","@type":"BlogPosting","headline":"Failable initializers, revisited","author":{"@type":"Person","name":"Anver Bogatov"},"datePublished":"2015-04-06T00:00:00+00:00","dateModified":"2015-04-06T00:00:00+00:00","description":"In a previous post, I discussed how Swift’s failable initializers could be problematic. Specifically, I argued that their ease of use could persuade or encourage us to revert to old (bad) Objective-C habits of returning nil from init. Initialization is usually not the right place to fail. We should aim to avoid optionals as much as possible to reduce having to handle this absence of values. Recently, @danielgomezrico asked a great question about a possible use case for a failable initializer — parsing JSON. Given this problem’s popularity in the Swift community, I thought sharing my response here would be helpful.","publisher":{"@type":"Organization","logo":{"@type":"ImageObject","url":"http://localhost:4000/img/logo.png"},"name":"Anver Bogatov"},"mainEntityOfPage":{"@type":"WebPage","@id":"http://localhost:4000/blog/swift-failable-initializers-revisited/"},"url":"http://localhost:4000/blog/swift-failable-initializers-revisited/"}</script>
+<!-- End Jekyll SEO tag -->
+
+
+    <meta name="twitter:image" content="/img/logo.png" />
+    <meta property="og:image" content="/img/logo.png" />
+    <meta property="og:image:type" content="image/png" />
+    <meta property="og:image:width" content="512" />
+    <meta property="og:image:height" content="512" />
+
+    <link href="/bower_components/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="/bower_components/font-awesome/css/font-awesome.min.css" rel="stylesheet">
+    <link href="/bower_components/ubuntuMono/ubuntuMono.css" rel="stylesheet">
+    <link href="/css/syntax.css" rel="stylesheet">
+    <link href="/css/style.css" rel="stylesheet">
+
+    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+      <script src="/bower_components/html5shiv/dist/html5shiv.min.js"></script>
+      <script src="/bower_components/respond/dest/respond.min.js"></script>
+    <![endif]-->
+
+    <link rel="apple-touch-icon" sizes="76x76" href="/ico/icon76.png">
+    <link rel="apple-touch-icon" sizes="120x120" href="/ico/icon120.png">
+    <link rel="apple-touch-icon" sizes="152x152" href="/ico/icon152.png">
+    <link rel="apple-touch-icon" sizes="167x167" href="/ico/icon167.png">
+    <link rel="apple-touch-icon" sizes="180x180" href="/ico/icon180.png">
+
+    <link rel="shortcut icon" href="/favicon.ico">
+    <link type="application/atom+xml" rel="alternate" href="/feed.xml" title="Anver Bogatov" />
+
+    <script>
+         (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+         (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+         m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+         })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+         ga('create', 'UA-37319916-5', 'auto');
+         ga('send', 'pageview');
+    </script>
+</head>
+
+   <body>
+      
+<header class="container container-fluid">
+   <div class="row">
+      <div class="col-md-12 col-sm-12 col-xs-12">
+        <h1 class="text-center"><a href="/">Anver Bogatov</a></h1>
+        <div class="col-md-12 col-sm-12 col-xs-12">
+            <h2 class="tagline">&mdash; Turing complete with a stack of <code>0xdeadbeef</code>&mdash;</h2>
+         </div> <!-- col -->
+      </div> <!-- col -->
+   </div> <!-- row -->
+
+   <div class="row menu">
+      <div class="col-md-12 col-sm-12 col-xs-12">
+         <a class="btn btn-default" href="/">Blog</a>
+         <a class="btn btn-default" href="/speaking/">Speaking</a>
+         <a class="btn btn-default" href="/about/">About</a>
+      </div> <!-- col -->
+   </div> <!-- row -->
+   <hr>
+</header>
+
+
+      <div class="container container-fluid">
+         <div class="row">
+            <div class="col-sm-12 col-sm-offset-0 col-md-10 col-md-offset-1">
+               <article>
+   <h1 class="post-title"><a href="">Failable initializers, revisited</a></h1>
+   <h2 class="post-subtitle">Functional approaches to avoid Swift's failable initializers <small class="post-date">06 Apr 2015</small></h2>
+   
+
+   <div class="post-content">
+      <p>In a <a href="/swift-failable-initializers/">previous</a> post, I discussed how Swift’s <a href="https://developer.apple.com/swift/blog/?id=17">failable initializers</a> could be problematic. Specifically, I argued that their ease of use could persuade or encourage us to revert to old (bad) Objective-C habits of returning <code class="highlighter-rouge">nil</code> from <code class="highlighter-rouge">init</code>. Initialization is usually <em>not the right place</em> to fail. We should aim to avoid optionals as much as possible to reduce having to handle this absence of values. Recently, <strong>@danielgomezrico</strong> asked a great <a href="https://github.com/jessesquires/jessesquires.github.io/issues/8">question</a> about a possible use case for a failable initializer — parsing JSON. <a href="http://owensd.io/2014/06/18/json-parsing.html">Given</a> <a href="http://chris.eidhof.nl/posts/json-parsing-in-swift.html">this</a> problem’s <a href="https://github.com/SwiftyJSON/SwiftyJSON">popularity</a> in the Swift community, I thought sharing my response here would be helpful.</p>
+
+<!--excerpt-->
+
+<h3 id="the-problem">The problem</h3>
+
+<p>Suppose we have a JSON object that contains the data for a model object. Should we write a failable initializer for this model that receives the JSON, and fails if there is problem with parsing or validation? This scenario would look similar to the following:</p>
+
+<figure class="highlight"><pre><code class="language-swift" data-lang="swift"><span class="c1">// Some JSON for MyModel</span>
+<span class="kd">struct</span> <span class="kt">JSON</span> <span class="p">{</span>
+    <span class="nf">init</span><span class="p">(</span><span class="nv">data</span><span class="p">:</span> <span class="kt">NSData</span><span class="p">)</span>
+<span class="p">}</span>
+
+<span class="c1">// Some model</span>
+<span class="kd">struct</span> <span class="kt">MyModel</span> <span class="p">{</span>
+    <span class="k">let</span> <span class="nv">name</span><span class="p">:</span> <span class="kt">String</span>
+    <span class="k">let</span> <span class="nv">number</span><span class="p">:</span> <span class="kt">Int</span>
+    <span class="k">let</span> <span class="nv">date</span><span class="p">:</span> <span class="kt">NSDate</span>
+
+    <span class="nf">init</span><span class="p">?(</span><span class="nv">json</span><span class="p">:</span> <span class="kt">JSON</span><span class="p">)</span>
+<span class="p">}</span>
+
+<span class="c1">// Usage</span>
+<span class="k">if</span> <span class="k">let</span> <span class="nv">model</span> <span class="o">=</span> <span class="kt">MyModel</span><span class="p">(</span><span class="nv">json</span><span class="p">:</span> <span class="kt">JSON</span><span class="p">(</span><span class="nv">data</span><span class="p">:</span> <span class="n">dataFromServer</span><span class="p">))</span> <span class="p">{</span>
+    <span class="c1">// success</span>
+<span class="p">}</span>
+<span class="k">else</span> <span class="p">{</span>
+    <span class="c1">// failure</span>
+<span class="p">}</span></code></pre></figure>
+
+<p>This rather straightforward, but is using <code class="highlighter-rouge">init?</code> the best solution? There are some issues here that we need to address. First, the model <em>knows</em> <strong>everything</strong>. It knows that JSON is a thing, that JSON exists. It shouldn’t. A model should be a dumb container (preferably immutable) that holds data. Even worse, the model knows <em>how to parse</em> the JSON. This means the model knows how JSON is generally structured and how it works, but more specifically it knows how <em>itself is represented as JSON</em>.</p>
+
+<p>What if the structure or keys in the JSON change? Then we would have to update our model. What if we are using <a href="https://developer.apple.com/library/mac/documentation/Cocoa/Conceptual/CoreData/cdProgrammingGuide.html">Core Data</a>, and our model is an <code class="highlighter-rouge">NSManagedObject</code> subclass? Then we would have to stand up an <strong>entire</strong> Core Data stack just to unit test the JSON parsing. What if the service from which we receive the JSON changes and instead we receive XML? Then we would need a new initializer, <code class="highlighter-rouge">init?(xml: XML)</code>, and the model would know all about XML.</p>
+
+<p>This design has put our model in a fragile position.</p>
+
+<h3 id="the-solution">The solution</h3>
+
+<p>The issues above can be addressed by removing the model’s dependency on JSON (or XML) and creating single-purpose objects for each step of the process: (1) validating the JSON, (2) parsing the JSON, and (3) constructing the model.</p>
+
+<p>The first step is creating a generic validator object. We’ll use a <a href="http://www.objc.io/snippets/13.html">phantom type</a> to ensure that a validator can only validate the JSON for a specific type of model. We initialize the validator with a closure that receives JSON and returns a <code class="highlighter-rouge">Bool</code> indicating whether or not it is valid. This closure is saved as a property on the validator.</p>
+
+<figure class="highlight"><pre><code class="language-swift" data-lang="swift"><span class="kd">struct</span> <span class="kt">JSONValidator</span><span class="o">&lt;</span><span class="kt">T</span><span class="o">&gt;</span> <span class="p">{</span>
+
+    <span class="kd">typealias</span> <span class="kt">ValidationClosure</span> <span class="o">=</span> <span class="p">(</span><span class="kt">JSON</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kt">Bool</span>
+
+    <span class="k">let</span> <span class="nv">validator</span><span class="p">:</span> <span class="kt">ValidationClosure</span>
+
+    <span class="nf">init</span><span class="p">(</span><span class="nv">validator</span><span class="p">:</span> <span class="kt">ValidationClosure</span><span class="p">)</span> <span class="p">{</span>
+        <span class="k">self</span><span class="o">.</span><span class="n">validator</span> <span class="o">=</span> <span class="n">validator</span>
+    <span class="p">}</span>
+
+    <span class="kd">func</span> <span class="nf">isValid</span><span class="p">(</span><span class="nv">json</span><span class="p">:</span> <span class="kt">JSON</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kt">Bool</span> <span class="p">{</span>
+        <span class="k">return</span> <span class="nf">validator</span><span class="p">(</span><span class="n">json</span><span class="p">)</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+
+<span class="c1">// Usage</span>
+<span class="k">let</span> <span class="nv">validator</span> <span class="o">=</span> <span class="kt">JSONValidator</span><span class="o">&lt;</span><span class="kt">MyModel</span><span class="o">&gt;</span> <span class="p">{</span> <span class="p">(</span><span class="n">json</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kt">Bool</span> <span class="k">in</span>
+    <span class="c1">// validate the json</span>
+    <span class="k">return</span> <span class="kc">true</span>
+<span class="p">}</span></code></pre></figure>
+
+<p>The combination of a phantom type and a closure property enable us to construct many unique validators, while maintaining a single generic interface through which validation occurs. In other words, we do not have to create many different concrete validators (or validator subclasses) for many different models. Additionally, in this example you can see how this brings type-safety and readability to the validator. We know that this validator is for <code class="highlighter-rouge">MyModel</code> instances.</p>
+
+<p>Next, we’ll define a JSON parser protocol, and implement a concrete parser. The protocol will allow us to reference parsers throughout our code in a generic way, while enabling each concrete parser to know about parsing a specific type of model. The parser will receive JSON, parse it, and return a model. We’ll also add a new (more proper) designated initializer to <code class="highlighter-rouge">MyModel</code> that uses <a href="http://en.wikipedia.org/wiki/Dependency_injection">dependency injection</a> and remove the old one, <code class="highlighter-rouge">init?(json: JSON)</code>. This parser assumes that the JSON has already been validated.</p>
+
+<figure class="highlight"><pre><code class="language-swift" data-lang="swift"><span class="kd">struct</span> <span class="kt">MyModel</span> <span class="p">{</span>
+    <span class="k">let</span> <span class="nv">name</span><span class="p">:</span> <span class="kt">String</span>
+    <span class="k">let</span> <span class="nv">number</span><span class="p">:</span> <span class="kt">Int</span>
+    <span class="k">let</span> <span class="nv">date</span><span class="p">:</span> <span class="kt">NSDate</span>
+
+    <span class="nf">init</span><span class="p">(</span><span class="nv">name</span><span class="p">:</span> <span class="kt">String</span><span class="p">,</span> <span class="nv">number</span><span class="p">:</span> <span class="kt">Int</span><span class="p">,</span> <span class="nv">date</span><span class="p">:</span> <span class="kt">NSDate</span><span class="p">)</span>
+<span class="p">}</span>
+
+<span class="kd">protocol</span> <span class="kt">JSONParserType</span> <span class="p">{</span>
+    <span class="kd">typealias</span> <span class="kt">T</span>
+    <span class="kd">func</span> <span class="nf">parseJSON</span><span class="p">(</span><span class="nv">json</span><span class="p">:</span> <span class="kt">JSON</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kt">T</span>
+<span class="p">}</span>
+
+<span class="kd">struct</span> <span class="kt">MyModelParser</span><span class="p">:</span> <span class="kt">JSONParserType</span> <span class="p">{</span>
+
+    <span class="kd">func</span> <span class="nf">parseJSON</span><span class="p">(</span><span class="nv">json</span><span class="p">:</span> <span class="kt">JSON</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kt">MyModel</span> <span class="p">{</span>
+        <span class="c1">// parse json and construct MyModel</span>
+        <span class="k">return</span> <span class="kt">MyModel</span><span class="p">(</span><span class="nv">name</span><span class="p">:</span> <span class="s">"name"</span><span class="p">,</span> <span class="nv">number</span><span class="p">:</span> <span class="mi">1</span><span class="p">,</span> <span class="nv">date</span><span class="p">:</span> <span class="kt">NSDate</span><span class="p">())</span>
+    <span class="p">}</span>
+<span class="p">}</span></code></pre></figure>
+
+<p>Now we can put everything together. Once we receive JSON, we can validate it. If validation fails, then we are finished and there is no need to continue. With this solution, no failable initializers are required.</p>
+
+<figure class="highlight"><pre><code class="language-swift" data-lang="swift"><span class="k">let</span> <span class="nv">json</span> <span class="o">=</span> <span class="kt">JSON</span><span class="p">(</span><span class="nv">data</span><span class="p">:</span> <span class="n">dataFromServer</span><span class="p">)</span>
+
+<span class="k">let</span> <span class="nv">validator</span> <span class="o">=</span> <span class="kt">JSONValidator</span><span class="o">&lt;</span><span class="kt">MyModel</span><span class="o">&gt;</span> <span class="p">{</span> <span class="p">(</span><span class="n">json</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kt">Bool</span> <span class="k">in</span>
+    <span class="c1">// validate the json</span>
+    <span class="k">return</span> <span class="kc">true</span>
+<span class="p">}</span>
+
+<span class="k">if</span> <span class="o">!</span><span class="n">validator</span><span class="o">.</span><span class="nf">isValid</span><span class="p">(</span><span class="n">json</span><span class="p">)</span> <span class="p">{</span>
+    <span class="c1">// handle bad json</span>
+    <span class="k">return</span>
+<span class="p">}</span>
+
+<span class="k">let</span> <span class="nv">parser</span> <span class="o">=</span> <span class="kt">MyModelParser</span><span class="p">()</span>
+
+<span class="k">let</span> <span class="nv">myModel</span> <span class="o">=</span> <span class="n">parser</span><span class="o">.</span><span class="nf">parseJSON</span><span class="p">(</span><span class="n">json</span><span class="p">)</span></code></pre></figure>
+
+<p>This is much better. We have divided the problem into smaller subproblems and addressed each one individually. Even better, we can now unit test each component in isolation. However, because we are using Swift we can make this better. We can combine all the steps above into a top-level generic function. This function receives each of the components above — JSON, a validator, and a parser — and returns a model.</p>
+
+<figure class="highlight"><pre><code class="language-swift" data-lang="swift"><span class="kd">func</span> <span class="n">parse</span><span class="o">&lt;</span><span class="kt">T</span><span class="p">,</span> <span class="kt">P</span><span class="p">:</span> <span class="kt">JSONParserType</span> <span class="k">where</span> <span class="kt">P</span><span class="o">.</span><span class="kt">T</span> <span class="o">==</span> <span class="kt">T</span><span class="o">&gt;</span><span class="p">(</span><span class="nv">json</span><span class="p">:</span> <span class="kt">JSON</span><span class="p">,</span> <span class="nv">validator</span><span class="p">:</span> <span class="kt">JSONValidator</span><span class="o">&lt;</span><span class="kt">T</span><span class="o">&gt;</span><span class="p">,</span> <span class="nv">parser</span><span class="p">:</span> <span class="kt">P</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kt">T</span><span class="p">?</span> <span class="p">{</span>
+    <span class="k">if</span> <span class="o">!</span><span class="n">validator</span><span class="o">.</span><span class="nf">isValid</span><span class="p">(</span><span class="n">json</span><span class="p">)</span> <span class="p">{</span>
+        <span class="k">return</span> <span class="kc">nil</span>
+    <span class="p">}</span>
+
+    <span class="k">return</span> <span class="n">parser</span><span class="o">.</span><span class="nf">parseJSON</span><span class="p">(</span><span class="n">json</span><span class="p">)</span>
+<span class="p">}</span>
+
+<span class="c1">// Usage</span>
+<span class="k">if</span> <span class="k">let</span> <span class="nv">myModel</span> <span class="o">=</span> <span class="nf">parse</span><span class="p">(</span><span class="n">json</span><span class="p">,</span> <span class="n">validator</span><span class="p">,</span> <span class="n">parser</span><span class="p">)</span> <span class="p">{</span>
+    <span class="c1">// success</span>
+<span class="p">}</span>
+<span class="k">else</span> <span class="p">{</span>
+    <span class="c1">// failure</span>
+<span class="p">}</span></code></pre></figure>
+
+<p>Suffering from <a href="http://inessential.com/2015/02/04/random_swift_things">angle-brack-T blindness</a>? Me too. Let’s break this down. The type parameter <code class="highlighter-rouge">T</code> specifies the model type. The validator must be a validator for <code class="highlighter-rouge">T</code>, and the function returns an optional <code class="highlighter-rouge">T?</code>. The type parameter <code class="highlighter-rouge">P</code> specifies the parser type, and the <code class="highlighter-rouge">where</code> clause enforces that the parser <code class="highlighter-rouge">P</code> parses models of type <code class="highlighter-rouge">T</code>. If validation fails, then the function returns <code class="highlighter-rouge">nil</code>, otherwise it will parse the JSON and return a model.</p>
+
+<p><span class="text-muted"><strong>Note:</strong> Depending on your architecture, it may not be possible nor worthwhile to have separate validation and parsing steps for JSON. If so, these two steps could be combined into the parser object and everything will still work wonderfully.</span></p>
+
+<h3 id="when-to-fail">When to fail</h3>
+
+<p>As you can see, we have a clear separation of concerns, easily testable code, and no failable initializers. Of course there will be situations where a solution like this is not possible, namely, resource loading. For example, a <code class="highlighter-rouge">UIImage</code> or <code class="highlighter-rouge">NSBundle</code> represents an actual resource on disk. If a resource does not exist, then the class that represents it cannot be instantiated and using a failable initializer is perfect. In this situation, <code class="highlighter-rouge">init?</code> has exactly the semantics we want. But for models and similar instances, using <code class="highlighter-rouge">init?</code> is probably not a good idea.</p>
+
+<p>Next time you find yourself wanting to write <code class="highlighter-rouge">init?</code> instead of <code class="highlighter-rouge">init</code>, there is likely a way to avoid it with a more thoughtful design that will push optionals and failure states further toward the edges of your object graph. Remember, <strong><em>where</em> we choose to fail <em>does</em> matter.</strong></p>
+
+   </div> <!-- post-content -->
+</article>
+
+
+<div class="post-share-subscribe">
+   <div class="row">
+      <div class="col-md-6 col-sm-6 col-xs-12 center">
+         <div class="btn-group btn-group-justified" role="group">
+
+            <div class="btn-group dropup" role="group">
+               <button class="btn btn-default dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                  Share &nbsp;<i class="fa fa-share-alt" aria-hidden="true"></i>
+               </button>
+               <ul class="dropdown-menu">
+                  <li>
+                     <a href="https://twitter.com/intent/tweet?text=Failable%20initializers,%20revisited%20http://localhost:4000/blog/swift-failable-initializers-revisited/%20via%20@anver_bogatov" title="Tweet" target="_blank">
+                     Twitter &nbsp;<i class="fa fa-twitter" aria-hidden="true"></i>
+                     </a>
+                  </li>
+                  <li>
+                     <a href="https://www.facebook.com/sharer.php?u=http://localhost:4000/blog/swift-failable-initializers-revisited/" title="Post" target="_blank">
+                     Facebook &nbsp;<i class="fa fa-facebook" aria-hidden="true"></i>
+                     </a>
+                  </li>
+                  <li>
+                     <a href="https://plus.google.com/share?url=http://localhost:4000/blog/swift-failable-initializers-revisited/" title="Share" target="_blank">
+                     Google &nbsp;<i class="fa fa-google-plus" aria-hidden="true"></i>
+                     </a>
+                  </li>
+               </ul>
+            </div> <!-- share dropup -->
+
+            <div class="btn-group dropup" role="group">
+               <button class="btn btn-default dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                  Subscribe &nbsp;<i class="fa fa-rss" aria-hidden="true"></i>
+               </button>
+               <ul class="dropdown-menu">
+                  <li><a href="/feed.xml" title="Subscribe via RSS/atom">RSS/Atom &nbsp;<i class="fa fa-rss" aria-hidden="true"></i></a></li>
+                  <li><a href="" title="Add to Apple News">Apple News &nbsp;<i class="fa fa-apple" aria-hidden="true"></i></a></li>
+               </ul>
+            </div> <!-- subscribe drop-up -->
+
+            <div class="btn-group dropup" role="group">
+               <button class="btn btn-default dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                  Support &nbsp;<i class="fa fa-star" aria-hidden="true"></i>
+               </button>
+               <ul class="dropdown-menu">
+                  <li><a href="" title="Donate via PayPal" target="_blank">Donate via PayPal &nbsp;<i class="fa fa-paypal" aria-hidden="true"></i></a></li>
+                  <li><a href="" title="Donate via Square Cash" target="_blank">Donate via Square &nbsp;<i class="fa fa-dollar" aria-hidden="true"></i></a></li>
+                  <li><a href="" title="Donate Bitcoin" target="_blank">Donate Bitcoin &nbsp;<i class="fa fa-btc" aria-hidden="true"></i></a></li>
+               </ul>
+            </div> <!-- donate drop-up -->
+
+         </div> <!-- btn-group -->
+      </div> <!-- col -->
+   </div> <!-- row -->
+
+   <div class="row feedback">
+      <div class="col-md-6 col-sm-6 col-xs-12 center">
+         <p class="text-muted text-center"><small><b>Questions? Feedback? Corrections?</b></small></p>
+         <p class="text-muted text-center"><small>
+         Open an <a href="https://github.com/anverbogatov/anverbogatov.github.io/issues/new" target="_blank">issue</a> or
+         submit a <a href="https://github.com/anverbogatov/anverbogatov.github.io/compare" target="_blank">pull request</a>.
+         </small></p>
+      </div> <!-- col -->
+   </div> <!-- row -->
+
+</div> <!-- post-share-subscribe -->
+
+
+            </div> <!-- col -->
+         </div> <!-- row -->
+      </div> <!-- container -->
+
+      
+<footer class="container container-fluid">
+   <hr>
+
+   <div class="row contact">
+    <div class="col-sm-12 col-sm-offset-0 col-md-8 col-md-offset-2">
+        <ul class="inline center">
+            <li><a href="https://github.com/anverbogatov" title="Follow me on Github"><i class="fa fa-2x fa-github" aria-hidden="true"></i></a></li>
+            <li><a href="https://twitter.com/anver_bogatov" title="Follow me on Twitter"><i class="fa fa-2x fa-twitter" aria-hidden="true"></i></a></li>
+            <li><a href="https://www.linkedin.com/in/anver-bogatov-64b32661/" title="Connect with me on LinkedIn"><i class="fa fa-2x fa-linkedin" aria-hidden="true"></i></a></li>
+            <li><a href="/feed.xml" title="Subscribe via RSS/atom"><i class="fa fa-2x fa-rss-square" aria-hidden="true"></i></a></li>
+            <li><a href="" title="Add to Apple News"><i class="fa fa-2x fa-apple" aria-hidden="true"></i></a></li>
+        </ul>
+    </div> <!-- col -->
+</div> <!-- row -->
+
+
+   <p class="text-muted text-center"><small>
+   &copy; 2017 Anver Bogatov.
+   This site is <a href="https://github.com/anverbogatov/anverbogatov.github.io">open source</a>.
+   </small></p>
+</footer>
+
+      
+<script src="/bower_components/jquery/dist/jquery.min.js"></script>
+<script src="/bower_components/bootstrap/dist/js/bootstrap.min.js"></script>
+
+   </body>
+</html>

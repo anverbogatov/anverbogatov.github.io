@@ -1,0 +1,344 @@
+<!DOCTYPE html>
+<html lang="en">
+   <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta http-equiv="Cache-control" content="public">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <meta name="keywords" content="hexed bits, apps, iOS, objective-c, swift, cocoa, apple, xcode, app store, software, programming, engineering, design patterns">
+    <meta name="description" content="Бесконечность - не предел.">
+    <meta name="author" content="Anver Bogatov">
+
+    <title>
+        
+            Refactoring singleton usage in Swift &middot; Anver Bogatov
+        
+    </title>
+
+    <!-- Begin Jekyll SEO tag v2.2.3 -->
+<meta property="og:title" content="Refactoring singleton usage in Swift" />
+<meta name="author" content="Anver Bogatov" />
+<meta property="og:locale" content="en_US" />
+<meta name="description" content="In software development, singletons are widely discouraged and frowned upon — but with good reason. They are difficult or impossible to test, and they entangle your codebase when used implicitly in other classes, making code reuse difficult. Most of the time, a singleton amounts to nothing more than a disguise for global, mutable state. Everyone knows at least knows that is a terrible idea. However, singletons are occasionally an unavoidable and necessary evil. How can we incorporate them into our code in a clean, modular, and testable way?" />
+<meta property="og:description" content="In software development, singletons are widely discouraged and frowned upon — but with good reason. They are difficult or impossible to test, and they entangle your codebase when used implicitly in other classes, making code reuse difficult. Most of the time, a singleton amounts to nothing more than a disguise for global, mutable state. Everyone knows at least knows that is a terrible idea. However, singletons are occasionally an unavoidable and necessary evil. How can we incorporate them into our code in a clean, modular, and testable way?" />
+<link rel="canonical" href="http://localhost:4000/blog/refactoring-singletons-in-swift/" />
+<meta property="og:url" content="http://localhost:4000/blog/refactoring-singletons-in-swift/" />
+<meta property="og:site_name" content="Anver Bogatov" />
+<meta property="og:type" content="article" />
+<meta property="article:published_time" content="2017-02-10T00:00:00+00:00" />
+<meta name="twitter:card" content="summary" />
+<meta name="twitter:site" content="@anver_bogatov" />
+<meta name="twitter:creator" content="@anver_bogatov" />
+<script type="application/ld+json">
+{"@context":"http://schema.org","@type":"BlogPosting","headline":"Refactoring singleton usage in Swift","author":{"@type":"Person","name":"Anver Bogatov"},"datePublished":"2017-02-10T00:00:00+00:00","dateModified":"2017-02-10T00:00:00+00:00","description":"In software development, singletons are widely discouraged and frowned upon — but with good reason. They are difficult or impossible to test, and they entangle your codebase when used implicitly in other classes, making code reuse difficult. Most of the time, a singleton amounts to nothing more than a disguise for global, mutable state. Everyone knows at least knows that is a terrible idea. However, singletons are occasionally an unavoidable and necessary evil. How can we incorporate them into our code in a clean, modular, and testable way?","publisher":{"@type":"Organization","logo":{"@type":"ImageObject","url":"http://localhost:4000/img/logo.png"},"name":"Anver Bogatov"},"mainEntityOfPage":{"@type":"WebPage","@id":"http://localhost:4000/blog/refactoring-singletons-in-swift/"},"url":"http://localhost:4000/blog/refactoring-singletons-in-swift/"}</script>
+<!-- End Jekyll SEO tag -->
+
+
+    <meta name="twitter:image" content="/img/logo.png" />
+    <meta property="og:image" content="/img/logo.png" />
+    <meta property="og:image:type" content="image/png" />
+    <meta property="og:image:width" content="512" />
+    <meta property="og:image:height" content="512" />
+
+    <link href="/bower_components/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="/bower_components/font-awesome/css/font-awesome.min.css" rel="stylesheet">
+    <link href="/bower_components/ubuntuMono/ubuntuMono.css" rel="stylesheet">
+    <link href="/css/syntax.css" rel="stylesheet">
+    <link href="/css/style.css" rel="stylesheet">
+
+    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+      <script src="/bower_components/html5shiv/dist/html5shiv.min.js"></script>
+      <script src="/bower_components/respond/dest/respond.min.js"></script>
+    <![endif]-->
+
+    <link rel="apple-touch-icon" sizes="76x76" href="/ico/icon76.png">
+    <link rel="apple-touch-icon" sizes="120x120" href="/ico/icon120.png">
+    <link rel="apple-touch-icon" sizes="152x152" href="/ico/icon152.png">
+    <link rel="apple-touch-icon" sizes="167x167" href="/ico/icon167.png">
+    <link rel="apple-touch-icon" sizes="180x180" href="/ico/icon180.png">
+
+    <link rel="shortcut icon" href="/favicon.ico">
+    <link type="application/atom+xml" rel="alternate" href="/feed.xml" title="Anver Bogatov" />
+
+    <script>
+         (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+         (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+         m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+         })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+         ga('create', 'UA-37319916-5', 'auto');
+         ga('send', 'pageview');
+    </script>
+</head>
+
+   <body>
+      
+<header class="container container-fluid">
+   <div class="row">
+      <div class="col-md-12 col-sm-12 col-xs-12">
+        <h1 class="text-center"><a href="/">Anver Bogatov</a></h1>
+        <div class="col-md-12 col-sm-12 col-xs-12">
+            <h2 class="tagline">&mdash; Turing complete with a stack of <code>0xdeadbeef</code>&mdash;</h2>
+         </div> <!-- col -->
+      </div> <!-- col -->
+   </div> <!-- row -->
+
+   <div class="row menu">
+      <div class="col-md-12 col-sm-12 col-xs-12">
+         <a class="btn btn-default" href="/">Blog</a>
+         <a class="btn btn-default" href="/speaking/">Speaking</a>
+         <a class="btn btn-default" href="/about/">About</a>
+      </div> <!-- col -->
+   </div> <!-- row -->
+   <hr>
+</header>
+
+
+      <div class="container container-fluid">
+         <div class="row">
+            <div class="col-sm-12 col-sm-offset-0 col-md-10 col-md-offset-1">
+               <article>
+   <h1 class="post-title"><a href="">Refactoring singleton usage in Swift</a></h1>
+   <h2 class="post-subtitle">Tips for a cleaner, modular, and testable codebase <small class="post-date">10 Feb 2017</small></h2>
+   
+
+   <div class="post-content">
+      <p>In software development, <a href="https://en.wikipedia.org/wiki/Singleton_pattern">singletons</a> are widely <a href="https://www.objc.io/issues/13-architecture/singletons/">discouraged</a> and <a href="http://coliveira.net/software/day-19-avoid-singletons/">frowned upon</a> — but with good reason. They are difficult or impossible to test, and they entangle your codebase when used implicitly in other classes, making code reuse difficult. Most of the time, a singleton amounts to nothing more than a disguise for global, mutable state. Everyone knows at least knows <em>that</em> is a terrible idea. However, singletons are occasionally an unavoidable and necessary evil. How can we incorporate them into our code in a clean, modular, and testable way?</p>
+
+<!--excerpt-->
+
+<h3 id="singletons-everywhere">Singletons everywhere</h3>
+
+<p>On Apple platforms, singletons are everywhere in the Cocoa and Cocoa Touch frameworks. There’s <code class="highlighter-rouge">UIApplication.shared</code>, <code class="highlighter-rouge">FileManager.default</code>, <code class="highlighter-rouge">NotificationCenter.default</code>, <code class="highlighter-rouge">UserDefaults.standard</code>, <code class="highlighter-rouge">URLSession.shared</code>, and others. The design pattern even has its own section in the <a href="https://developer.apple.com/library/content/documentation/General/Conceptual/DevPedia-CocoaCore/Singleton.html#//apple_ref/doc/uid/TP40008195-CH49-SW1"><em>Cocoa Core Competencies</em></a> guide.</p>
+
+<p>When you implicitly reference these — and your own — singletons, it increases the amount of effort it takes to change your code. It also makes it difficult or impossible to test your code, because there’s no way to change or mock those singletons from outside of the classes in which they are used. Here’s what you typically see in an iOS app:</p>
+
+<figure class="highlight"><pre><code class="language-swift" data-lang="swift"><span class="kd">class</span> <span class="kt">MyViewController</span><span class="p">:</span> <span class="kt">UIViewController</span> <span class="p">{</span>
+
+    <span class="k">override</span> <span class="kd">func</span> <span class="nf">viewDidLoad</span><span class="p">()</span> <span class="p">{</span>
+        <span class="k">super</span><span class="o">.</span><span class="nf">viewDidLoad</span><span class="p">()</span>
+
+        <span class="k">let</span> <span class="nv">currentUser</span> <span class="o">=</span> <span class="kt">CurrentUserManager</span><span class="o">.</span><span class="n">shared</span><span class="o">.</span><span class="n">user</span>
+        <span class="k">if</span> <span class="n">currentUser</span> <span class="o">!=</span> <span class="kc">nil</span> <span class="p">{</span>
+            <span class="c1">// do something with current user</span>
+        <span class="p">}</span>
+
+        <span class="k">let</span> <span class="nv">mySetting</span> <span class="o">=</span> <span class="kt">UserDefaults</span><span class="o">.</span><span class="n">standard</span><span class="o">.</span><span class="nf">bool</span><span class="p">(</span><span class="nv">forKey</span><span class="p">:</span> <span class="s">"mySetting"</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">mySetting</span> <span class="p">{</span>
+            <span class="c1">// do something with setting</span>
+        <span class="p">}</span>
+
+        <span class="kt">URLSession</span><span class="o">.</span><span class="n">shared</span><span class="o">.</span><span class="nf">dataTask</span><span class="p">(</span><span class="nv">with</span><span class="p">:</span> <span class="kt">URL</span><span class="p">(</span><span class="nv">string</span><span class="p">:</span> <span class="s">"http://someResource"</span><span class="p">)</span><span class="o">!</span><span class="p">)</span> <span class="p">{</span> <span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="n">response</span><span class="p">,</span> <span class="n">error</span><span class="p">)</span> <span class="k">in</span>
+            <span class="c1">// handle response</span>
+        <span class="p">}</span>
+    <span class="p">}</span>
+<span class="p">}</span></code></pre></figure>
+
+<p>This is what I mean by <em>implicit references</em> — you simply use the singleton directly in your class. We can do better. There is a lightweight, easy, and low impact way to improve this in Swift. Swift makes it elegant, too.</p>
+
+<h3 id="dependency-injection">Dependency injection</h3>
+
+<p>In short, the answer is <a href="https://en.wikipedia.org/wiki/Dependency_injection">dependency injection</a>. This principle says that you should design your classes and functions such that all inputs are explicit. If you refactor the snippet above to use dependency injection, it would look like this:</p>
+
+<figure class="highlight"><pre><code class="language-swift" data-lang="swift"><span class="kd">class</span> <span class="kt">MyViewController</span><span class="p">:</span> <span class="kt">UIViewController</span> <span class="p">{</span>
+
+    <span class="k">let</span> <span class="nv">userManager</span><span class="p">:</span> <span class="kt">CurrentUserManager</span>
+    <span class="k">let</span> <span class="nv">defaults</span><span class="p">:</span> <span class="kt">UserDefaults</span>
+    <span class="k">let</span> <span class="nv">urlSession</span><span class="p">:</span> <span class="kt">URLSession</span>
+
+    <span class="nf">init</span><span class="p">(</span><span class="nv">userManager</span><span class="p">:</span> <span class="kt">CurrentUserManager</span><span class="p">,</span> <span class="n">defaults</span><span class="p">:</span> <span class="kt">UserDefaults</span><span class="p">,</span> <span class="nv">urlSession</span><span class="p">:</span> <span class="kt">URLSession</span><span class="p">)</span> <span class="p">{</span>
+        <span class="k">self</span><span class="o">.</span><span class="n">userManager</span> <span class="o">=</span> <span class="n">userManager</span>
+        <span class="k">self</span><span class="o">.</span><span class="n">defaults</span> <span class="o">=</span> <span class="n">defaults</span>
+        <span class="k">self</span><span class="o">.</span><span class="n">urlSession</span> <span class="o">=</span> <span class="n">urlSession</span>
+        <span class="k">super</span><span class="o">.</span><span class="nf">init</span><span class="p">(</span><span class="nv">nibName</span><span class="p">:</span> <span class="kc">nil</span><span class="p">,</span> <span class="nv">bundle</span><span class="p">:</span> <span class="kc">nil</span><span class="p">)</span>
+    <span class="p">}</span>
+
+    <span class="k">override</span> <span class="kd">func</span> <span class="nf">viewDidLoad</span><span class="p">()</span> <span class="p">{</span>
+        <span class="k">super</span><span class="o">.</span><span class="nf">viewDidLoad</span><span class="p">()</span>
+
+        <span class="k">let</span> <span class="nv">currentUser</span> <span class="o">=</span> <span class="n">userManager</span><span class="o">.</span><span class="n">user</span>
+        <span class="k">if</span> <span class="n">currentUser</span> <span class="o">!=</span> <span class="kc">nil</span> <span class="p">{</span>
+            <span class="c1">// do something with current user</span>
+        <span class="p">}</span>
+
+        <span class="k">let</span> <span class="nv">mySetting</span> <span class="o">=</span> <span class="n">defaults</span><span class="o">.</span><span class="nf">bool</span><span class="p">(</span><span class="nv">forKey</span><span class="p">:</span> <span class="s">"mySetting"</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">mySetting</span> <span class="p">{</span>
+            <span class="c1">// do something with setting</span>
+        <span class="p">}</span>
+
+        <span class="n">urlSession</span><span class="o">.</span><span class="nf">dataTask</span><span class="p">(</span><span class="nv">with</span><span class="p">:</span> <span class="kt">URL</span><span class="p">(</span><span class="nv">string</span><span class="p">:</span> <span class="s">"http://someResource"</span><span class="p">)</span><span class="o">!</span><span class="p">)</span> <span class="p">{</span> <span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="n">response</span><span class="p">,</span> <span class="n">error</span><span class="p">)</span> <span class="k">in</span>
+            <span class="c1">// handle response</span>
+        <span class="p">}</span>
+    <span class="p">}</span>
+<span class="p">}</span></code></pre></figure>
+
+<p>This class no longer implicitly (or explicitly) depends on any singletons. It explicitly depends on a <code class="highlighter-rouge">CurrentUserManager</code>, <code class="highlighter-rouge">UserDefaults</code>, and <code class="highlighter-rouge">URLSession</code> — but nothing about these dependencies indicates that they are singletons. This detail no longer matters, but the functionality remains unchanged. The view controller merely knows that instances of these objects exist. At the call site you can pass in the singletons. Again, this detail is irrelevant from the class’s perspective.</p>
+
+<figure class="highlight"><pre><code class="language-swift" data-lang="swift"><span class="k">let</span> <span class="nv">controller</span> <span class="o">=</span> <span class="kt">MyViewController</span><span class="p">(</span><span class="nv">userManager</span><span class="p">:</span> <span class="o">.</span><span class="n">shared</span><span class="p">,</span> <span class="n">defaults</span><span class="p">:</span> <span class="o">.</span><span class="n">standard</span><span class="p">,</span> <span class="nv">urlSession</span><span class="p">:</span> <span class="o">.</span><span class="n">shared</span><span class="p">)</span>
+
+<span class="nf">present</span><span class="p">(</span><span class="n">controller</span><span class="p">,</span> <span class="nv">animated</span><span class="p">:</span> <span class="kc">true</span><span class="p">,</span> <span class="nv">completion</span><span class="p">:</span> <span class="kc">nil</span><span class="p">)</span></code></pre></figure>
+
+<p><span class="text-muted"><b>Pro tip: Swift type inference works here. Instead of writing <code class="highlighter-rouge">URLSession.shared</code>, you can simply write <code class="highlighter-rouge">.shared</code>.</b></span></p>
+
+<p>If you ever need to provide a <em>different</em> <code class="highlighter-rouge">userDefaults</code> — for example, if you need to <a href="https://developer.apple.com/library/content/documentation/General/Conceptual/ExtensibilityPG/ExtensionScenarios.html#//apple_ref/doc/uid/TP40014214-CH21-SW6">share data with App Groups</a> — then it’s easy to change. In fact, you <em>do not</em> have to change any code in this class. Instead of passing in <code class="highlighter-rouge">UserDefaults.standard</code>, you pass in <code class="highlighter-rouge">UserDefaults(suiteName: "com.myApp")</code>.</p>
+
+<p>Furthermore, in unit tests you can now pass in fakes or mocks of these classes. Real mocking isn’t possible in Swift, but there are <a href="/testing-without-ocmock/">workarounds</a>. It depends on how you want to structure your code. You could use a protocol for <code class="highlighter-rouge">CurrentUserManager</code>, which you could then “mock” in a test. You could provide a fake suite for <code class="highlighter-rouge">UserDefaults</code> for testing. You could make <code class="highlighter-rouge">URLSession</code> optional and pass <code class="highlighter-rouge">nil</code> in your tests.</p>
+
+<h3 id="refactoring-hell">Refactoring hell</h3>
+
+<p>You are sold on this idea and now you want to disentangle and liberate your debt-stricken codebase. While dependency injection is ideal and gives you a more pure object model, it is often a struggle to achieve. Even more, code is rarely designed to accommodate this when it is first written.</p>
+
+<p>What we refactored above is now more modular and testable — but there is a real problem. The initializer for <code class="highlighter-rouge">MyViewController</code> used to be empty (<code class="highlighter-rouge">init()</code>), but now it takes three parameters. Every single call site has to change. The clean and proper way to structure this would be to pass instances from the top down, or from the previous view controller to this one. This would require passing data from the root of your object graph to all the children. In iOS in particular, this can cause quite the headache as you pass data from view controller to view controller. Legacy codebases in particular will struggle to implement such a large change immediately.</p>
+
+<p>The initializer for most classes (and especially view controllers) will need to change. Such a change becomes insurmountable as you realize that you literally have to refactor the entire app. Either everything will be broken, or only some classes will be updated for dependency injection while others will continue to reference singletons implicitly. This inconsistency could cause problems in the future.</p>
+
+<p>Thus, a refactoring like this simply may not be feasible in a complex, large, legacy codebase — at least not at once, and not without regressions. Because of this, you could argue that you simply should not refactor and live with the debt. Then a few months or years down the road, you have to support multiple users — and now that <code class="highlighter-rouge">CurrentUserManager</code> is not going to work when you implement switching accounts. How do you cope with this?</p>
+
+<p>There is a way forward, and a way to design your classes from the beginning to accommodate these kinds of changes for next time.</p>
+
+<h3 id="default-parameter-values">Default parameter values</h3>
+
+<p>One of my favorite features of Swift is default parameter values. They are incredibly valuable and bring tons of flexibility to your code. With default parameters, you can address the issues mentioned above <strong>without</strong> going down the dependency injection rabbit hole and <strong>without</strong> introducing too much complexity in your codebase. Maybe your app really will only have a single user, so implementing all of this dependency injection nonsense is unnecessary overhead.</p>
+
+<p>You can use the singletons as default parameters:</p>
+
+<figure class="highlight"><pre><code class="language-swift" data-lang="swift"><span class="kd">class</span> <span class="kt">MyViewController</span><span class="p">:</span> <span class="kt">UIViewController</span> <span class="p">{</span>
+
+    <span class="nf">init</span><span class="p">(</span><span class="nv">userManager</span><span class="p">:</span> <span class="kt">CurrentUserManager</span> <span class="o">=</span> <span class="o">.</span><span class="n">shared</span><span class="p">,</span> <span class="n">defaults</span><span class="p">:</span> <span class="kt">UserDefaults</span> <span class="o">=</span> <span class="o">.</span><span class="n">standard</span><span class="p">,</span> <span class="nv">urlSession</span><span class="p">:</span> <span class="kt">URLSession</span> <span class="o">=</span> <span class="o">.</span><span class="n">shared</span><span class="p">)</span> <span class="p">{</span>
+        <span class="k">self</span><span class="o">.</span><span class="n">userManager</span> <span class="o">=</span> <span class="n">userManager</span>
+        <span class="k">self</span><span class="o">.</span><span class="n">defaults</span> <span class="o">=</span> <span class="n">defaults</span>
+        <span class="k">self</span><span class="o">.</span><span class="n">urlSession</span> <span class="o">=</span> <span class="n">urlSession</span>
+        <span class="k">super</span><span class="o">.</span><span class="nf">init</span><span class="p">(</span><span class="nv">nibName</span><span class="p">:</span> <span class="kc">nil</span><span class="p">,</span> <span class="nv">bundle</span><span class="p">:</span> <span class="kc">nil</span><span class="p">)</span>
+    <span class="p">}</span>
+<span class="p">}</span></code></pre></figure>
+
+<p>Now, the initializer has not changed from the perspective of the call site. But there is a world of difference in the class itself, which is now using dependency injection and no longer referencing singletons.</p>
+
+<figure class="highlight"><pre><code class="language-swift" data-lang="swift"><span class="k">let</span> <span class="nv">controller</span> <span class="o">=</span> <span class="kt">MyViewController</span><span class="p">()</span>
+
+<span class="nf">present</span><span class="p">(</span><span class="n">controller</span><span class="p">,</span> <span class="nv">animated</span><span class="p">:</span> <span class="kc">true</span><span class="p">,</span> <span class="nv">completion</span><span class="p">:</span> <span class="kc">nil</span><span class="p">)</span></code></pre></figure>
+
+<p>What have you gained with this change? You can refactor every class to use this pattern without updating any call sites. Nothing has changed semantically, nor functionally. Yet, your classes are using dependency injection. They are merely using instances internally. You can test them as described above and maintain a flexible, modular API — all while the public interface remains unchanged. Essentially, you can continue working in your codebase as if nothing ever changed.</p>
+
+<p>If and when the time comes to pass in custom, non-singleton parameters you can do that without changing any class. You only need to update the call sites. Furthermore, if you decide to implement full-fledged dependency injection and pass in every single dependency from the top downward, then you simply remove the default parameters and pass in the dependencies from above.</p>
+
+<p>If needed, you can even opt-in or opt-out of any of the default values. In the following example, we provide custom <code class="highlighter-rouge">UserDefaults</code> but keep the default parameters for <code class="highlighter-rouge">CurrentUserManager</code> and <code class="highlighter-rouge">URLSession</code>.</p>
+
+<figure class="highlight"><pre><code class="language-swift" data-lang="swift"><span class="k">let</span> <span class="nv">appGroupDefaults</span> <span class="o">=</span> <span class="kt">UserDefaults</span><span class="p">(</span><span class="nv">suiteName</span><span class="p">:</span> <span class="s">"com.myApp"</span><span class="p">)</span><span class="o">!</span>
+
+<span class="k">let</span> <span class="nv">controller</span> <span class="o">=</span> <span class="kt">MyViewController</span><span class="p">(</span><span class="n">defaults</span><span class="p">:</span> <span class="n">appGroupDefaults</span><span class="p">)</span>
+
+<span class="nf">present</span><span class="p">(</span><span class="n">controller</span><span class="p">,</span> <span class="nv">animated</span><span class="p">:</span> <span class="kc">true</span><span class="p">,</span> <span class="nv">completion</span><span class="p">:</span> <span class="kc">nil</span><span class="p">)</span></code></pre></figure>
+
+<h3 id="conclusion">Conclusion</h3>
+
+<p>Swift makes this kind of “partial” dependency injection so effortless. By adding a new property and an initializer parameter with a default value to your class, you can make your code immensely more modular and testable — without having to refactor the world, nor completely buy in to full-fledged dependency injection. If you design your classes like this <em>from the beginning</em> then you will find yourself coded into a corner much less frequently — and when you <em>are</em> backed into a corner, it will be easier to escape.</p>
+
+<p>You can apply these concepts and designs to all areas of your code beyond the simple examples here — classes, structs, enums, functions. Every function in Swift can take default parameter values. By taking the time to think ahead about what might change in the future, we can create types and functions that can effortlessly adapt to change.</p>
+
+<p>Building and designing good software means writing code that is <strong>easy to change, but difficult to break</strong>. That’s the motivation behind dependency injection, and Swift’s default parameters can help you achieve this quickly, easily, and elegantly.</p>
+
+   </div> <!-- post-content -->
+</article>
+
+
+<div class="post-share-subscribe">
+   <div class="row">
+      <div class="col-md-6 col-sm-6 col-xs-12 center">
+         <div class="btn-group btn-group-justified" role="group">
+
+            <div class="btn-group dropup" role="group">
+               <button class="btn btn-default dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                  Share &nbsp;<i class="fa fa-share-alt" aria-hidden="true"></i>
+               </button>
+               <ul class="dropdown-menu">
+                  <li>
+                     <a href="https://twitter.com/intent/tweet?text=Refactoring%20singleton%20usage%20in%20Swift%20http://localhost:4000/blog/refactoring-singletons-in-swift/%20via%20@anver_bogatov" title="Tweet" target="_blank">
+                     Twitter &nbsp;<i class="fa fa-twitter" aria-hidden="true"></i>
+                     </a>
+                  </li>
+                  <li>
+                     <a href="https://www.facebook.com/sharer.php?u=http://localhost:4000/blog/refactoring-singletons-in-swift/" title="Post" target="_blank">
+                     Facebook &nbsp;<i class="fa fa-facebook" aria-hidden="true"></i>
+                     </a>
+                  </li>
+                  <li>
+                     <a href="https://plus.google.com/share?url=http://localhost:4000/blog/refactoring-singletons-in-swift/" title="Share" target="_blank">
+                     Google &nbsp;<i class="fa fa-google-plus" aria-hidden="true"></i>
+                     </a>
+                  </li>
+               </ul>
+            </div> <!-- share dropup -->
+
+            <div class="btn-group dropup" role="group">
+               <button class="btn btn-default dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                  Subscribe &nbsp;<i class="fa fa-rss" aria-hidden="true"></i>
+               </button>
+               <ul class="dropdown-menu">
+                  <li><a href="/feed.xml" title="Subscribe via RSS/atom">RSS/Atom &nbsp;<i class="fa fa-rss" aria-hidden="true"></i></a></li>
+                  <li><a href="" title="Add to Apple News">Apple News &nbsp;<i class="fa fa-apple" aria-hidden="true"></i></a></li>
+               </ul>
+            </div> <!-- subscribe drop-up -->
+
+            <div class="btn-group dropup" role="group">
+               <button class="btn btn-default dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                  Support &nbsp;<i class="fa fa-star" aria-hidden="true"></i>
+               </button>
+               <ul class="dropdown-menu">
+                  <li><a href="" title="Donate via PayPal" target="_blank">Donate via PayPal &nbsp;<i class="fa fa-paypal" aria-hidden="true"></i></a></li>
+                  <li><a href="" title="Donate via Square Cash" target="_blank">Donate via Square &nbsp;<i class="fa fa-dollar" aria-hidden="true"></i></a></li>
+                  <li><a href="" title="Donate Bitcoin" target="_blank">Donate Bitcoin &nbsp;<i class="fa fa-btc" aria-hidden="true"></i></a></li>
+               </ul>
+            </div> <!-- donate drop-up -->
+
+         </div> <!-- btn-group -->
+      </div> <!-- col -->
+   </div> <!-- row -->
+
+   <div class="row feedback">
+      <div class="col-md-6 col-sm-6 col-xs-12 center">
+         <p class="text-muted text-center"><small><b>Questions? Feedback? Corrections?</b></small></p>
+         <p class="text-muted text-center"><small>
+         Open an <a href="https://github.com/anverbogatov/anverbogatov.github.io/issues/new" target="_blank">issue</a> or
+         submit a <a href="https://github.com/anverbogatov/anverbogatov.github.io/compare" target="_blank">pull request</a>.
+         </small></p>
+      </div> <!-- col -->
+   </div> <!-- row -->
+
+</div> <!-- post-share-subscribe -->
+
+
+            </div> <!-- col -->
+         </div> <!-- row -->
+      </div> <!-- container -->
+
+      
+<footer class="container container-fluid">
+   <hr>
+
+   <div class="row contact">
+    <div class="col-sm-12 col-sm-offset-0 col-md-8 col-md-offset-2">
+        <ul class="inline center">
+            <li><a href="https://github.com/anverbogatov" title="Follow me on Github"><i class="fa fa-2x fa-github" aria-hidden="true"></i></a></li>
+            <li><a href="https://twitter.com/anver_bogatov" title="Follow me on Twitter"><i class="fa fa-2x fa-twitter" aria-hidden="true"></i></a></li>
+            <li><a href="https://www.linkedin.com/in/anver-bogatov-64b32661/" title="Connect with me on LinkedIn"><i class="fa fa-2x fa-linkedin" aria-hidden="true"></i></a></li>
+            <li><a href="/feed.xml" title="Subscribe via RSS/atom"><i class="fa fa-2x fa-rss-square" aria-hidden="true"></i></a></li>
+            <li><a href="" title="Add to Apple News"><i class="fa fa-2x fa-apple" aria-hidden="true"></i></a></li>
+        </ul>
+    </div> <!-- col -->
+</div> <!-- row -->
+
+
+   <p class="text-muted text-center"><small>
+   &copy; 2017 Anver Bogatov.
+   This site is <a href="https://github.com/anverbogatov/anverbogatov.github.io">open source</a>.
+   </small></p>
+</footer>
+
+      
+<script src="/bower_components/jquery/dist/jquery.min.js"></script>
+<script src="/bower_components/bootstrap/dist/js/bootstrap.min.js"></script>
+
+   </body>
+</html>
