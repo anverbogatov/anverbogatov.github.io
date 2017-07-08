@@ -1,20 +1,11 @@
-<!-- Footer Start -->
 
-<footer>
+<footer class="container container-fluid">
+   <hr>
 
-    {% include social-buttons.html %}
+   {% include contact_follow.html %}
 
-    <p><br><br></p>
-
-    <div class="container text-center">
-        <p>Copyright &copy; {{ site.author }} {{ site.time | date: "%Y" }}</p>
-        {% if site.keybase-in-footer %}
-        <p style="font-size: 16px;"><a href="https://keybase.io/{{site.keybase-username}}" target="_blank"><i
-                class="fa fa-key"></i> {{site.keybase-username}} on Keybase</a></p>
-        {% endif %}
-    </div>
+   <p class="text-muted text-center"><small>
+   &copy; {{ site.time | date: '%Y' }} {{ site.author.name }}.
+   This site is <a href="{{ site.links.github }}">open source</a>.
+   </small></p>
 </footer>
-
-<p><br><br><br><br><br><br></p>
-
-<!-- Footer End -->

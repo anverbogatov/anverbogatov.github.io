@@ -1,0 +1,286 @@
+<!DOCTYPE html>
+<html lang="en">
+   <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta http-equiv="Cache-control" content="public">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <meta name="keywords" content="hexed bits, apps, iOS, objective-c, swift, cocoa, apple, xcode, app store, software, programming, engineering, design patterns">
+    <meta name="description" content="Бесконечность - не предел.">
+    <meta name="author" content="Anver Bogatov">
+
+    <title>
+        
+            Introducing JSQMessagesVC 6.0 &middot; Anver Bogatov
+        
+    </title>
+
+    <!-- Begin Jekyll SEO tag v2.2.3 -->
+<meta property="og:title" content="Introducing JSQMessagesVC 6.0" />
+<meta name="author" content="Anver Bogatov" />
+<meta property="og:locale" content="en_US" />
+<meta name="description" content="A few weeks ago I published the sixth major release of my our messages UI library for iOS. This release closes the door on a major milestone for this project, so I wanted to take the time to highlight its significance, discuss its new features, and examine its design. Of course, this would not have been possible without our amazing open-source community and the contributors to this project." />
+<meta property="og:description" content="A few weeks ago I published the sixth major release of my our messages UI library for iOS. This release closes the door on a major milestone for this project, so I wanted to take the time to highlight its significance, discuss its new features, and examine its design. Of course, this would not have been possible without our amazing open-source community and the contributors to this project." />
+<link rel="canonical" href="http://localhost:4000/blog/introducing-jsqmessagesvc-6-0/" />
+<meta property="og:url" content="http://localhost:4000/blog/introducing-jsqmessagesvc-6-0/" />
+<meta property="og:site_name" content="Anver Bogatov" />
+<meta property="og:type" content="article" />
+<meta property="article:published_time" content="2014-12-08T00:00:00+00:00" />
+<meta name="twitter:card" content="summary" />
+<meta name="twitter:site" content="@anver_bogatov" />
+<meta name="twitter:creator" content="@anver_bogatov" />
+<script type="application/ld+json">
+{"@context":"http://schema.org","@type":"BlogPosting","headline":"Introducing JSQMessagesVC 6.0","author":{"@type":"Person","name":"Anver Bogatov"},"datePublished":"2014-12-08T00:00:00+00:00","dateModified":"2014-12-08T00:00:00+00:00","description":"A few weeks ago I published the sixth major release of my our messages UI library for iOS. This release closes the door on a major milestone for this project, so I wanted to take the time to highlight its significance, discuss its new features, and examine its design. Of course, this would not have been possible without our amazing open-source community and the contributors to this project.","publisher":{"@type":"Organization","logo":{"@type":"ImageObject","url":"http://localhost:4000/img/logo.png"},"name":"Anver Bogatov"},"mainEntityOfPage":{"@type":"WebPage","@id":"http://localhost:4000/blog/introducing-jsqmessagesvc-6-0/"},"url":"http://localhost:4000/blog/introducing-jsqmessagesvc-6-0/"}</script>
+<!-- End Jekyll SEO tag -->
+
+
+    <meta name="twitter:image" content="/img/logo.png" />
+    <meta property="og:image" content="/img/logo.png" />
+    <meta property="og:image:type" content="image/png" />
+    <meta property="og:image:width" content="512" />
+    <meta property="og:image:height" content="512" />
+
+    <link href="/bower_components/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="/bower_components/font-awesome/css/font-awesome.min.css" rel="stylesheet">
+    <link href="/bower_components/ubuntuMono/ubuntuMono.css" rel="stylesheet">
+    <link href="/css/syntax.css" rel="stylesheet">
+    <link href="/css/style.css" rel="stylesheet">
+
+    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+      <script src="/bower_components/html5shiv/dist/html5shiv.min.js"></script>
+      <script src="/bower_components/respond/dest/respond.min.js"></script>
+    <![endif]-->
+
+    <link rel="apple-touch-icon" sizes="76x76" href="/ico/icon76.png">
+    <link rel="apple-touch-icon" sizes="120x120" href="/ico/icon120.png">
+    <link rel="apple-touch-icon" sizes="152x152" href="/ico/icon152.png">
+    <link rel="apple-touch-icon" sizes="167x167" href="/ico/icon167.png">
+    <link rel="apple-touch-icon" sizes="180x180" href="/ico/icon180.png">
+
+    <link rel="shortcut icon" href="/favicon.ico">
+    <link type="application/atom+xml" rel="alternate" href="/feed.xml" title="Anver Bogatov" />
+
+    <script>
+         (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+         (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+         m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+         })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+         ga('create', 'UA-37319916-5', 'auto');
+         ga('send', 'pageview');
+    </script>
+</head>
+
+   <body>
+      
+<header class="container container-fluid">
+   <div class="row">
+      <div class="col-md-12 col-sm-12 col-xs-12">
+        <h1 class="text-center"><a href="/">Anver Bogatov</a></h1>
+        <div class="col-md-12 col-sm-12 col-xs-12">
+            <h2 class="tagline">&mdash; Turing complete with a stack of <code>0xdeadbeef</code>&mdash;</h2>
+         </div> <!-- col -->
+      </div> <!-- col -->
+   </div> <!-- row -->
+
+   <div class="row menu">
+      <div class="col-md-12 col-sm-12 col-xs-12">
+         <a class="btn btn-default" href="/">Blog</a>
+         <a class="btn btn-default" href="/speaking/">Speaking</a>
+         <a class="btn btn-default" href="/about/">About</a>
+      </div> <!-- col -->
+   </div> <!-- row -->
+   <hr>
+</header>
+
+
+      <div class="container container-fluid">
+         <div class="row">
+            <div class="col-sm-12 col-sm-offset-0 col-md-10 col-md-offset-1">
+               <article>
+   <h1 class="post-title"><a href="">Introducing JSQMessagesVC 6.0</a></h1>
+   <h2 class="post-subtitle">A brief history and celebration of the popular messages UI library for iOS <small class="post-date">08 Dec 2014</small></h2>
+   
+
+   <div class="post-content">
+      <p>A few weeks ago I published the <a href="https://github.com/jessesquires/JSQMessagesViewController/releases/tag/6.0.0">sixth major release</a> of <del>my</del> <em>our</em> <a href="http://www.jessesquires.com/JSQMessagesViewController/">messages UI library</a> for iOS. This release closes the door on a major milestone for this project, so I wanted to take the time to highlight its significance, discuss its new features, and examine its design. Of course, this would not have been possible without our amazing open-source <a href="https://github.com">community</a> and the <a href="https://github.com/jessesquires/JSQMessagesViewController/graphs/contributors">contributors</a> to this project.</p>
+
+<!--excerpt-->
+
+<p><img class="img-thumbnail img-responsive center" src="/img/jsqmessages6.png" title="JSQMessagesViewController 6.0" alt="JSQMessagesViewController 6.0" />
+<small class="text-muted center">JSQMessagesViewController: An elegant messages UI library for iOS</small></p>
+
+<h3 id="a-brief-history">A brief history</h3>
+
+<p>It all began with <a href="http://bit.ly/hemoglobeapp">Hemoglobe</a>, an app for the bleeding disorder community. I built this app with <a href="http://michaelschultz.com">Michael Schultz</a> almost two years ago, and one of the main features was… <em>private user messages</em>. I searched on <a href="https://github.com">GitHub</a> and <a href="https://www.cocoacontrols.com">CocoaControls</a> for an existing open-source framework. What I found was a lot of <a href="https://www.cocoacontrols.com/search?utf8=✓&amp;q=messages">great attempts</a> and partially completed projects. However, one <a href="https://github.com/samsoffes/ssmessagesviewcontroller">abandoned project</a> stuck out and gave me some great ideas to get started.</p>
+
+<p><a href="http://cocoapods.org">CocoaPods</a> was just entering its third year back then and was not very mainstream. I knew very little about it until <a href="https://github.com/jessesquires/JSQMessagesViewController/issues/3">an issue</a> was opened that requested CocoaPod support and I received my <a href="https://github.com/jessesquires/JSQMessagesViewController/pull/4">first pull-request</a> to add a <a href="http://guides.cocoapods.org/syntax/podspec.html">podspec</a>.</p>
+
+<p>After the app launched, I extracted the messages UI into a separate component and published <a href="https://github.com/jessesquires/JSQMessagesViewController/releases/tag/1.0.0">version 1.0</a> on GitHub. I figured this was the least I could do, given how much the abandoned projects had helped me even though they were only partially completed. I figured there were probably other developers out there searching for a “finished” messages UI framework I like was before.</p>
+
+<p>The component was originally implemented with a <code class="highlighter-rouge">UITableView</code>, until <a href="https://github.com/jessesquires/JSQMessagesViewController/releases/tag/5.0.0">version 5.0</a> which saw a complete rewrite of the library that opted for the more flexible <code class="highlighter-rouge">UICollectionView</code> instead. And here we are today, <a href="https://github.com/jessesquires/JSQMessagesViewController/tags">49 releases</a> later at version <a href="https://github.com/jessesquires/JSQMessagesViewController/releases/tag/6.1.0">6.1.0</a>, with over <a href="https://github.com/jessesquires/JSQMessagesViewController#apps-using-this-library">20 apps</a> using this library and <a href="https://github.com/jessesquires/JSQMessagesViewController/stargazers">3,000</a> stars on GitHub. I <strong>never</strong> thought that this library would get so much attention. It’s been such a pleasure developing this component out in the open and collaborating with each of the <a href="https://github.com/jessesquires/JSQMessagesViewController/graphs/contributors">contributors</a>.</p>
+
+<h3 id="the-anatomy-of-a-cell">The anatomy of a cell</h3>
+
+<p>The flagship feature of 6.0 is the <em>most requested</em> feature to date — media messages. In order to display anything other than text in the message bubbles, some major changes were required in the core library. With these new changes it is now possible to display <strong>any arbitrary</strong> <code class="highlighter-rouge">UIView</code> in a message bubble. The messages view (picture above) is backed by subclasses of <code class="highlighter-rouge">UICollectionViewCell</code>, <code class="highlighter-rouge">UICollectionView</code>, and <code class="highlighter-rouge">UICollectionViewFlowLayout</code>. Each message is represented as a cell in the collection view and has a number of customizable subviews and properties, which are outlined in the following diagram. The labels for the subviews in the diagram are the names of the actual subview properties for a cell. See the <a href="http://cocoadocs.org/docsets/JSQMessagesViewController/6.1.0/Classes/JSQMessagesCollectionViewCell.html">JSQMessagesCollectionViewCell</a> documentation for further details.</p>
+
+<p><img class="img-thumbnail img-responsive center" src="/img/jsqmessages_cell_anatomy.jpg" title="Anatomy of a cell" alt="Anatomy of a cell" />
+<small class="text-muted center">Anatomy of a cell</small></p>
+
+<p>There are two basic types of cells, incoming and outgoing. Each cell has three labels for message metadata — the sender, the date, and delivery status. Each of these labels is optional, and you can hide or show any combination of them. Next, there are two top-level container views, one for the message content and one for the avatar. The <code class="highlighter-rouge">messageBubbleContainerView</code> holds the <code class="highlighter-rouge">messageBubbleImageView</code> and either a <code class="highlighter-rouge">textView</code> or <code class="highlighter-rouge">mediaView</code>. The <code class="highlighter-rouge">avatarContainerView</code> holds the <code class="highlighter-rouge">avatarImageView</code>. Avatars are also optional. Finally, there’s a customizable margin (<code class="highlighter-rouge">messageBubbleLeftRightMargin</code>) on the side of the cell that is opposite the avatar. For outgoing messages, this is the left-side margin. For incoming messages, this is the right-side margin. You can modify this margin using <a href="http://cocoadocs.org/docsets/JSQMessagesViewController/6.1.0/Classes/JSQMessagesCollectionViewFlowLayout.html#//api/name/messageBubbleLeftRightMargin">the property</a> on the flow layout object. Each of these subviews is customizable via the usual <a href="https://developer.apple.com/library/ios/documentation/UIKit/Reference/UIKit_Framework/">UIKit</a> APIs. Now that we understand the basics about the views, it’s time to examine the model behind them.</p>
+
+<h3 id="the-model-speaking-to-protocols">The model: speaking to protocols</h3>
+
+<p>One of the most challenging aspects of developing a framework is making assumptions — you should always try to make as few as possible. This is much easier said than done, and I’ve made plenty of <a href="https://github.com/jessesquires/JSQMessagesViewController/issues/389">embarassing mistakes</a>. Frameworks and libraries are constantly <a href="http://st-www.cs.illinois.edu/users/droberts/evolve.html">evolving</a> as new use cases and edge cases emerge. It is vitally important to be modular, flexible, and extensible.</p>
+
+<blockquote>
+	<p>Designing frameworks is difficult. In fact, I believe that they are so difficult, that they can only be designed by building examples and generalizing the example code into the framework code.</p>
+	<footer><a href="http://st-www.cs.illinois.edu/users/droberts/">Don Roberts</a></footer>
+</blockquote>
+
+<p>So how do we implement <em>the model</em> in <em>Model-View-Controller</em> when we have no idea what the model will be? <em>Every</em> developer that wants to use this library will have a <em>unique</em> model. Class names will be different, variable names will be different, the persistence layer (<a href="https://developer.apple.com/library/mac/documentation/Cocoa/Conceptual/CoreData/cdProgrammingGuide.html">Core Data</a> or otherwise) will be different. We unify these differences with <a href="https://developer.apple.com/library/ios/documentation/Cocoa/Conceptual/ProgrammingWithObjectiveC/WorkingwithProtocols/WorkingwithProtocols.html">Protocols</a> (or <a href="http://en.wikipedia.org/wiki/Interface_(Java)">Interfaces</a>). This is the <a href="http://en.wikipedia.org/wiki/Liskov_substitution_principle">L</a> in <a href="http://en.wikipedia.org/wiki/SOLID_(object-oriented_design)">SOLID</a>, and it is one of the most powerful design tools that you have.</p>
+
+<p>There are 4 data protocols for the model layer:</p>
+
+<ol>
+  <li><code class="highlighter-rouge">JSQMessageData</code>: defines methods for providing message data (text or media) and metadata (sender, date, etc.)</li>
+  <li><code class="highlighter-rouge">JSQMessageMediaData</code>: defines methods for representing media as a <code class="highlighter-rouge">UIView</code></li>
+  <li><code class="highlighter-rouge">JSQMessageAvatarImageDataSource</code>: defines methods for providing avatar images</li>
+  <li><code class="highlighter-rouge">JSQMessageBubbleImageDataSource</code>: defines methods for providing message bubble images</li>
+</ol>
+
+<p>Together, these protocols specify the comprehensive interface through which the <code class="highlighter-rouge">JSQMessagesViewController</code> framework communicates with your data. This means it does not matter how your data is structured or defined — you simply need to conform to the protocols by implementing their methods. This is very flexible and gives you the freedom to implement <em>your</em> model however <em>you</em> like.</p>
+
+<p>Finally, I want to mention that the library <em>does</em> provide concrete model classes for those who want to use them. This allows you to get started using this library more quickly, and also serves as an example for how to implement these protocols in your custom classes should you choose to do so.</p>
+
+<h3 id="media-messages-revealed">Media messages revealed</h3>
+
+<p>Earlier I mentioned that the new media message API allows you to display <strong>any arbitrary</strong> <code class="highlighter-rouge">UIView</code> in a message bubble. This means that your media message can be <em>anything</em> and you only need to implement the <code class="highlighter-rouge">JSQMessageMediaData</code> protocol that defines how to display your specific media. For example, media data could be a <a href="https://developer.apple.com/library/mac/documentation/CoreLocation/Reference/CLLocation_Class/index.html">CLLocation</a>, or a <a href="https://developer.apple.com/library/ios/documentation/UIKit/Reference/UIImage_Class/index.html">UIImage</a>, or an <a href="https://developer.apple.com/library/ios/documentation/AddressBook/Reference/ABRecordRef_iPhoneOS/index.html#//apple_ref/c/tdef/ABRecordRef">ABRecordRef</a>. The 6.0 release provides 3 concrete media types: <code class="highlighter-rouge">JSQLocationMediaItem</code>, <code class="highlighter-rouge">JSQPhotoMediaItem</code>, and <code class="highlighter-rouge">JSQVideoMediaItem</code>. I think these are the most common kind of media that users want to send and that developers want to support. They should cover about 80 percent of use cases.</p>
+
+<p><img class="img-thumbnail img-responsive center" src="/img/jsqmessages_media_type.jpg" title="JSQMessage Media Items" alt="JSQMessage Media Items" />
+<small class="text-muted center">Provided media message types</small></p>
+
+<p>The media message API was built with extensibility in mind. If the provided media items do not suit your needs, you can extend them to do so. And, with very little effort you can define <em>your own</em> <strong>custom</strong> media items.</p>
+
+<p>An alternative approach to this API would have been to define the different message or media types as an <a href="http://nshipster.com/ns_enum-ns_options/">Enum</a>. And a few contributors have suggested or asked about this. Hopefully, you can see how limiting this would have been, especially regarding the library-provided media types. Using an enum would litter the code base with <code class="highlighter-rouge">switch</code> statements — a <a href="http://en.wikipedia.org/wiki/Code_smell">code smell</a> — and require special handling for each kind of media. The only option for extensibilty would have been providing a “custom” enum case, such as <code class="highlighter-rouge">JSQMediaTypeCustom</code>, which would defer all the work to the consumer of the API. This special enum case further increases complexity. And more importantly, this solution <strong>cannot</strong> address the situation where a developer wants to add <strong>more than one</strong> custom media type. By using a protocol, we avoid these pitfalls and every single media type is handled in the exact same way by the library.</p>
+
+<h3 id="examples">Examples</h3>
+
+<p>Check out the <a href="https://github.com/jessesquires/JSQMessagesViewController#getting-started">Getting Started</a> section of the <code class="highlighter-rouge">README</code>. You can find additional details in the <a href="http://cocoadocs.org/docsets/JSQMessagesViewController">documentation</a> and <a href="https://github.com/jessesquires/JSQMessagesViewController/releases/tag/6.0.0">6.0 release notes</a>.</p>
+
+<h3 id="future-work">Future work</h3>
+
+<p>I think this library is in a very good state. It’s stable and extensbile, but there’s still plenty of work to do moving forward. There are plenty of <a href="https://github.com/jessesquires/JSQMessagesViewController/labels/feature%20request">feature requests</a> and some <a href="https://github.com/jessesquires/JSQMessagesViewController/labels/bug">bugs</a> to address. And as mentioned above, frameworks are constantly evolving. I can’t wait to see what this framework looks like in another year. I would love to rewrite it in <a href="https://developer.apple.com/swift/">Swift</a> eventually. We’ll see what happens.</p>
+
+<h3 id="thanks-for-contributing">Thanks for contributing</h3>
+
+<p>Needless to say, this project <strong>would not</strong> be where it is today without the enthusiasm and support of our <strong>awesome community</strong>. The initial release of this library was so limited, and I never expected that I would still be developing it <em>years</em> later. It is only because of the interest, <a href="https://github.com/jessesquires/JSQMessagesViewController/issues/172#issuecomment-41995394">kindness</a>, and <a href="https://github.com/jessesquires/JSQMessagesViewController/issues/608">encouragement</a> from the community that I’ve continued working on this. (Well, programming is also pretty fun for me too.)</p>
+
+<p>Developing this library, and doing it openly, has <strong>taught me so much</strong> and given me <strong>so many opportunities</strong>. I’ve improved my programming skills, I’ve met dozens of great developers, I discovered CocoaPods, I’ve learned how to effectively manage a large project with dozens of individual contributors, and the list continues. And I continue to learn. Open-source has given me all of these amazing things. I could not be more grateful for that. And I’m very excited to continue supporting and maintaining this library.</p>
+
+<p><strong>Thank you for this opportunity to learn, share, and collaborate.</strong></p>
+
+   </div> <!-- post-content -->
+</article>
+
+
+<div class="post-share-subscribe">
+   <div class="row">
+      <div class="col-md-6 col-sm-6 col-xs-12 center">
+         <div class="btn-group btn-group-justified" role="group">
+
+            <div class="btn-group dropup" role="group">
+               <button class="btn btn-default dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                  Share &nbsp;<i class="fa fa-share-alt" aria-hidden="true"></i>
+               </button>
+               <ul class="dropdown-menu">
+                  <li>
+                     <a href="https://twitter.com/intent/tweet?text=Introducing%20JSQMessagesVC%206.0%20http://localhost:4000/blog/introducing-jsqmessagesvc-6-0/%20via%20@anver_bogatov" title="Tweet" target="_blank">
+                     Twitter &nbsp;<i class="fa fa-twitter" aria-hidden="true"></i>
+                     </a>
+                  </li>
+                  <li>
+                     <a href="https://www.facebook.com/sharer.php?u=http://localhost:4000/blog/introducing-jsqmessagesvc-6-0/" title="Post" target="_blank">
+                     Facebook &nbsp;<i class="fa fa-facebook" aria-hidden="true"></i>
+                     </a>
+                  </li>
+                  <li>
+                     <a href="https://plus.google.com/share?url=http://localhost:4000/blog/introducing-jsqmessagesvc-6-0/" title="Share" target="_blank">
+                     Google &nbsp;<i class="fa fa-google-plus" aria-hidden="true"></i>
+                     </a>
+                  </li>
+               </ul>
+            </div> <!-- share dropup -->
+
+            <div class="btn-group dropup" role="group">
+               <button class="btn btn-default dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                  Subscribe &nbsp;<i class="fa fa-rss" aria-hidden="true"></i>
+               </button>
+               <ul class="dropdown-menu">
+                  <li><a href="/feed.xml" title="Subscribe via RSS/atom">RSS/Atom &nbsp;<i class="fa fa-rss" aria-hidden="true"></i></a></li>
+                  <li><a href="" title="Add to Apple News">Apple News &nbsp;<i class="fa fa-apple" aria-hidden="true"></i></a></li>
+               </ul>
+            </div> <!-- subscribe drop-up -->
+
+            <div class="btn-group dropup" role="group">
+               <button class="btn btn-default dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                  Support &nbsp;<i class="fa fa-star" aria-hidden="true"></i>
+               </button>
+               <ul class="dropdown-menu">
+                  <li><a href="" title="Donate via PayPal" target="_blank">Donate via PayPal &nbsp;<i class="fa fa-paypal" aria-hidden="true"></i></a></li>
+                  <li><a href="" title="Donate via Square Cash" target="_blank">Donate via Square &nbsp;<i class="fa fa-dollar" aria-hidden="true"></i></a></li>
+                  <li><a href="" title="Donate Bitcoin" target="_blank">Donate Bitcoin &nbsp;<i class="fa fa-btc" aria-hidden="true"></i></a></li>
+               </ul>
+            </div> <!-- donate drop-up -->
+
+         </div> <!-- btn-group -->
+      </div> <!-- col -->
+   </div> <!-- row -->
+
+   <div class="row feedback">
+      <div class="col-md-6 col-sm-6 col-xs-12 center">
+         <p class="text-muted text-center"><small><b>Questions? Feedback? Corrections?</b></small></p>
+         <p class="text-muted text-center"><small>
+         Open an <a href="https://github.com/anverbogatov/anverbogatov.github.io/issues/new" target="_blank">issue</a> or
+         submit a <a href="https://github.com/anverbogatov/anverbogatov.github.io/compare" target="_blank">pull request</a>.
+         </small></p>
+      </div> <!-- col -->
+   </div> <!-- row -->
+
+</div> <!-- post-share-subscribe -->
+
+
+            </div> <!-- col -->
+         </div> <!-- row -->
+      </div> <!-- container -->
+
+      
+<footer class="container container-fluid">
+   <hr>
+
+   <div class="row contact">
+    <div class="col-sm-12 col-sm-offset-0 col-md-8 col-md-offset-2">
+        <ul class="inline center">
+            <li><a href="https://github.com/anverbogatov" title="Follow me on Github"><i class="fa fa-2x fa-github" aria-hidden="true"></i></a></li>
+            <li><a href="https://twitter.com/anver_bogatov" title="Follow me on Twitter"><i class="fa fa-2x fa-twitter" aria-hidden="true"></i></a></li>
+            <li><a href="https://www.linkedin.com/in/anver-bogatov-64b32661/" title="Connect with me on LinkedIn"><i class="fa fa-2x fa-linkedin" aria-hidden="true"></i></a></li>
+            <li><a href="/feed.xml" title="Subscribe via RSS/atom"><i class="fa fa-2x fa-rss-square" aria-hidden="true"></i></a></li>
+            <li><a href="" title="Add to Apple News"><i class="fa fa-2x fa-apple" aria-hidden="true"></i></a></li>
+        </ul>
+    </div> <!-- col -->
+</div> <!-- row -->
+
+
+   <p class="text-muted text-center"><small>
+   &copy; 2017 Anver Bogatov.
+   This site is <a href="https://github.com/anverbogatov/anverbogatov.github.io">open source</a>.
+   </small></p>
+</footer>
+
+      
+<script src="/bower_components/jquery/dist/jquery.min.js"></script>
+<script src="/bower_components/bootstrap/dist/js/bootstrap.min.js"></script>
+
+   </body>
+</html>

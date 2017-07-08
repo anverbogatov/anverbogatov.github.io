@@ -1,0 +1,262 @@
+<!DOCTYPE html>
+<html lang="en">
+   <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta http-equiv="Cache-control" content="public">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <meta name="keywords" content="hexed bits, apps, iOS, objective-c, swift, cocoa, apple, xcode, app store, software, programming, engineering, design patterns">
+    <meta name="description" content="Бесконечность - не предел.">
+    <meta name="author" content="Anver Bogatov">
+
+    <title>
+        
+            Open source Swift&#58; weekly brief &middot; Anver Bogatov
+        
+    </title>
+
+    <!-- Begin Jekyll SEO tag v2.2.3 -->
+<meta property="og:title" content="Open source Swift: weekly brief" />
+<meta name="author" content="Anver Bogatov" />
+<meta property="og:locale" content="en_US" />
+<meta name="description" content="It looks many developers in the community enjoyed my previous post detailing my thoughts and observations on the activity around the Swift open source project. So, I’m going to try to do this weekly — every Thursday, since the open source announcement was on a Thursday. Each week I’ll provide a high-level summary of what’s been happening, updates on interesting statistics, and links to interesting content. If you have any suggestions, please let me know! And now, the weekly brief!" />
+<meta property="og:description" content="It looks many developers in the community enjoyed my previous post detailing my thoughts and observations on the activity around the Swift open source project. So, I’m going to try to do this weekly — every Thursday, since the open source announcement was on a Thursday. Each week I’ll provide a high-level summary of what’s been happening, updates on interesting statistics, and links to interesting content. If you have any suggestions, please let me know! And now, the weekly brief!" />
+<link rel="canonical" href="http://localhost:4000/blog/open-source-swift-weekly-1/" />
+<meta property="og:url" content="http://localhost:4000/blog/open-source-swift-weekly-1/" />
+<meta property="og:site_name" content="Anver Bogatov" />
+<meta property="og:type" content="article" />
+<meta property="article:published_time" content="2015-12-10T00:00:00+00:00" />
+<meta name="twitter:card" content="summary" />
+<meta name="twitter:site" content="@anver_bogatov" />
+<meta name="twitter:creator" content="@anver_bogatov" />
+<script type="application/ld+json">
+{"@context":"http://schema.org","@type":"BlogPosting","headline":"Open source Swift: weekly brief","author":{"@type":"Person","name":"Anver Bogatov"},"datePublished":"2015-12-10T00:00:00+00:00","dateModified":"2015-12-10T00:00:00+00:00","description":"It looks many developers in the community enjoyed my previous post detailing my thoughts and observations on the activity around the Swift open source project. So, I’m going to try to do this weekly — every Thursday, since the open source announcement was on a Thursday. Each week I’ll provide a high-level summary of what’s been happening, updates on interesting statistics, and links to interesting content. If you have any suggestions, please let me know! And now, the weekly brief!","publisher":{"@type":"Organization","logo":{"@type":"ImageObject","url":"http://localhost:4000/img/logo.png"},"name":"Anver Bogatov"},"mainEntityOfPage":{"@type":"WebPage","@id":"http://localhost:4000/blog/open-source-swift-weekly-1/"},"url":"http://localhost:4000/blog/open-source-swift-weekly-1/"}</script>
+<!-- End Jekyll SEO tag -->
+
+
+    <meta name="twitter:image" content="/img/logo.png" />
+    <meta property="og:image" content="/img/logo.png" />
+    <meta property="og:image:type" content="image/png" />
+    <meta property="og:image:width" content="512" />
+    <meta property="og:image:height" content="512" />
+
+    <link href="/bower_components/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="/bower_components/font-awesome/css/font-awesome.min.css" rel="stylesheet">
+    <link href="/bower_components/ubuntuMono/ubuntuMono.css" rel="stylesheet">
+    <link href="/css/syntax.css" rel="stylesheet">
+    <link href="/css/style.css" rel="stylesheet">
+
+    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+      <script src="/bower_components/html5shiv/dist/html5shiv.min.js"></script>
+      <script src="/bower_components/respond/dest/respond.min.js"></script>
+    <![endif]-->
+
+    <link rel="apple-touch-icon" sizes="76x76" href="/ico/icon76.png">
+    <link rel="apple-touch-icon" sizes="120x120" href="/ico/icon120.png">
+    <link rel="apple-touch-icon" sizes="152x152" href="/ico/icon152.png">
+    <link rel="apple-touch-icon" sizes="167x167" href="/ico/icon167.png">
+    <link rel="apple-touch-icon" sizes="180x180" href="/ico/icon180.png">
+
+    <link rel="shortcut icon" href="/favicon.ico">
+    <link type="application/atom+xml" rel="alternate" href="/feed.xml" title="Anver Bogatov" />
+
+    <script>
+         (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+         (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+         m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+         })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+         ga('create', 'UA-37319916-5', 'auto');
+         ga('send', 'pageview');
+    </script>
+</head>
+
+   <body>
+      
+<header class="container container-fluid">
+   <div class="row">
+      <div class="col-md-12 col-sm-12 col-xs-12">
+        <h1 class="text-center"><a href="/">Anver Bogatov</a></h1>
+        <div class="col-md-12 col-sm-12 col-xs-12">
+            <h2 class="tagline">&mdash; Turing complete with a stack of <code>0xdeadbeef</code>&mdash;</h2>
+         </div> <!-- col -->
+      </div> <!-- col -->
+   </div> <!-- row -->
+
+   <div class="row menu">
+      <div class="col-md-12 col-sm-12 col-xs-12">
+         <a class="btn btn-default" href="/">Blog</a>
+         <a class="btn btn-default" href="/speaking/">Speaking</a>
+         <a class="btn btn-default" href="/about/">About</a>
+      </div> <!-- col -->
+   </div> <!-- row -->
+   <hr>
+</header>
+
+
+      <div class="container container-fluid">
+         <div class="row">
+            <div class="col-sm-12 col-sm-offset-0 col-md-10 col-md-offset-1">
+               <article>
+   <h1 class="post-title"><a href="">Open source Swift&#58; weekly brief</a></h1>
+   <h2 class="post-subtitle">What's been happening during the first full week on Swift.org? <small class="post-date">10 Dec 2015</small></h2>
+   
+
+   <div class="post-content">
+      <p>It looks many developers in the community enjoyed my <a href="http://www.jessesquires.com/swift-open-source/">previous post</a> detailing my thoughts and observations on the activity around the <a href="https://swift.org">Swift open source project</a>. So, I’m going to try to do this weekly — every Thursday, since the open source announcement was on a Thursday. Each week I’ll provide a high-level summary of what’s been happening, updates on interesting statistics, and links to interesting content. If you have any suggestions, please <a href="https://twitter.com/jesse_squires">let me know</a>! And now, the weekly brief!</p>
+
+<!--excerpt-->
+
+<h3 id="this-week-on-swiftorg">This week on Swift.org</h3>
+
+<ul>
+  <li>
+    <p><a href="https://twitter.com/ManavGabhawala">Manav Gabhawala</a> submitted an <a href="https://github.com/apple/swift-evolution/pull/37">interesting proposal</a> to add implicit initializers to Swift. In particular, this would address the verbosity of converting between number types. However, as pointed out on the <a href="https://lists.swift.org/pipermail/swift-evolution/2015-December/000352.html">mailing list discussion</a> there are safety and precision concerns.</p>
+  </li>
+  <li>
+    <p><a href="https://twitter.com/1101_debian">Alex Denisov</a> submitted a <a href="https://github.com/apple/swift/pull/295">pull request</a> that fixes 323 crashes. 😲</p>
+  </li>
+  <li>
+    <p>Not very good at <a href="https://github.com/apple/swift-evolution/pull/39">using git</a>? Worry not! Lots of <a href="https://github.com/apple/swift-evolution/pull/34#issuecomment-162693826">cool people</a> aren’t that great at using it either. The message here: do not let this deter you from contributing!</p>
+  </li>
+  <li>
+    <p>Chris Lattner tends to <a href="https://github.com/apple/swift/commit/4ebb461d634964f0399d63b3264d4090451c77fd">fix</a> <a href="https://github.com/apple/swift/commit/5dded3f3523e9bd6ea45d0b6ffe5068a59d03a3f">radars</a> late at night.</p>
+  </li>
+  <li>
+    <p><a href="https://twitter.com/modocache">Brian Gesiak</a>, creator of <a href="https://github.com/Quick/Quick">Quick</a>, asks <a href="https://lists.swift.org/pipermail/swift-corelibs-dev/2015-December/000018.html"><em>who tests the tests?</em></a> after noticing that the <a href="https://github.com/apple/swift-corelibs-xctest">xctest</a> framework isn’t itself tested. Testing a testing framework sounds funny, but some important <a href="https://github.com/apple/swift-corelibs-xctest/commit/ce4c98bc58763d49db474703d005ba9c479cac3a">bugs</a> have already been found. <a href="https://github.com/apple/swift/blob/b53ff3b58053407f380d09770d2e2069e02d6ff5/utils/build-script-impl#L1957">FIXME</a>. 😳</p>
+  </li>
+  <li>
+    <p>In case you missed it, currying <a href="https://github.com/apple/swift-evolution/blob/master/proposals/0002-remove-currying.md">will be removed</a> from Swift 3.0. (<a href="https://robots.thoughtbot.com/introduction-to-function-currying-in-swift">What is currying</a>?)</p>
+  </li>
+  <li>
+    <p><a href="https://twitter.com/owensd">David Owens</a> submitted a <a href="https://github.com/apple/swift-evolution/pull/26">proposal</a> to add type annotations to <code class="highlighter-rouge">throws</code>. When Swift’s error-handling model was first announced, the lack of explicit error types was a common criticism. There’s a <a href="https://lists.swift.org/pipermail/swift-evolution/Week-of-Mon-20151207/001117.html">good discussion</a> on the mailing list. You can also read the original <a href="https://github.com/apple/swift/blob/master/docs/ErrorHandlingRationale.rst">Error Handling Rationale and Proposal</a>.</p>
+  </li>
+  <li>
+    <p>Swift now has almost 200 <a href="https://github.com/apple/swift/graphs/contributors">contributors</a> and over 230 pull requests have been <a href="https://github.com/apple/swift/pulls?utf8=✓&amp;q=is%3Apr+is%3Amerged+">merged</a>.</p>
+  </li>
+  <li>
+    <p>Last week I mentioned that <a href="https://github.com/apple/swift-corelibs-foundation">Foundation</a> was largely <a href="https://github.com/apple/swift-corelibs-foundation/search?utf8=✓&amp;q=NSUnimplemented">unimplemented</a>. There’s also some <em>really</em> surprising <a href="https://github.com/apple/swift-corelibs-foundation/pull/89/files">bugs</a>.</p>
+  </li>
+  <li>
+    <p><a href="https://github.com/argon">Andrew Naylor</a> ambitiously implements <a href="https://github.com/apple/swift-corelibs-foundation/pull/54">NSJSONSerialization</a>. 👏</p>
+  </li>
+  <li>
+    <p><a href="https://twitter.com/jtbandes">Jacob Bandes-Storch</a> submitted a <a href="https://github.com/apple/swift-evolution/pull/44">proposal</a> that aims to greatly improve the bridging of C APIs.</p>
+  </li>
+  <li>
+    <p>There’s an <a href="https://lists.swift.org/pipermail/swift-evolution/Week-of-Mon-20151207/000873.html">interesting discussion</a> on the mailing lists to make classes and methods <code class="highlighter-rouge">final</code> by default. Anything that discourages or prevents subclassing is <a href="https://twitter.com/jesse_squires/status/664588682997964800">fine by me</a>. 😊</p>
+  </li>
+  <li>
+    <p>The Swift Programming Language iBook (ePub) is available for <em>direct download</em> on Swift.org (instead of only the iBook Store) and is now under a <a href="https://swift.org/documentation/">Creative Commons Attribution 4.0 International (CC BY 4.0) License</a>! Translations <a href="https://twitter.com/clattner_llvm/status/674454905449373696">would be great</a>.</p>
+  </li>
+  <li>
+    <p>Programming is little more than a <a href="https://twitter.com/clattner_llvm/status/674254974629502976">“nights and weekends” hobby</a> for Chris Lattner. 😂</p>
+  </li>
+</ul>
+
+<p><strong>That’s it for this week!</strong> <a href="/feed.xml">Subscribe</a> or <a href="https://twitter.com/jesse_squires">follow me</a> to stay up-to-date!</p>
+
+   </div> <!-- post-content -->
+</article>
+
+
+<div class="post-share-subscribe">
+   <div class="row">
+      <div class="col-md-6 col-sm-6 col-xs-12 center">
+         <div class="btn-group btn-group-justified" role="group">
+
+            <div class="btn-group dropup" role="group">
+               <button class="btn btn-default dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                  Share &nbsp;<i class="fa fa-share-alt" aria-hidden="true"></i>
+               </button>
+               <ul class="dropdown-menu">
+                  <li>
+                     <a href="https://twitter.com/intent/tweet?text=Open%20source%20Swift&#58;%20weekly%20brief%20http://localhost:4000/blog/open-source-swift-weekly-1/%20via%20@anver_bogatov" title="Tweet" target="_blank">
+                     Twitter &nbsp;<i class="fa fa-twitter" aria-hidden="true"></i>
+                     </a>
+                  </li>
+                  <li>
+                     <a href="https://www.facebook.com/sharer.php?u=http://localhost:4000/blog/open-source-swift-weekly-1/" title="Post" target="_blank">
+                     Facebook &nbsp;<i class="fa fa-facebook" aria-hidden="true"></i>
+                     </a>
+                  </li>
+                  <li>
+                     <a href="https://plus.google.com/share?url=http://localhost:4000/blog/open-source-swift-weekly-1/" title="Share" target="_blank">
+                     Google &nbsp;<i class="fa fa-google-plus" aria-hidden="true"></i>
+                     </a>
+                  </li>
+               </ul>
+            </div> <!-- share dropup -->
+
+            <div class="btn-group dropup" role="group">
+               <button class="btn btn-default dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                  Subscribe &nbsp;<i class="fa fa-rss" aria-hidden="true"></i>
+               </button>
+               <ul class="dropdown-menu">
+                  <li><a href="/feed.xml" title="Subscribe via RSS/atom">RSS/Atom &nbsp;<i class="fa fa-rss" aria-hidden="true"></i></a></li>
+                  <li><a href="" title="Add to Apple News">Apple News &nbsp;<i class="fa fa-apple" aria-hidden="true"></i></a></li>
+               </ul>
+            </div> <!-- subscribe drop-up -->
+
+            <div class="btn-group dropup" role="group">
+               <button class="btn btn-default dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                  Support &nbsp;<i class="fa fa-star" aria-hidden="true"></i>
+               </button>
+               <ul class="dropdown-menu">
+                  <li><a href="" title="Donate via PayPal" target="_blank">Donate via PayPal &nbsp;<i class="fa fa-paypal" aria-hidden="true"></i></a></li>
+                  <li><a href="" title="Donate via Square Cash" target="_blank">Donate via Square &nbsp;<i class="fa fa-dollar" aria-hidden="true"></i></a></li>
+                  <li><a href="" title="Donate Bitcoin" target="_blank">Donate Bitcoin &nbsp;<i class="fa fa-btc" aria-hidden="true"></i></a></li>
+               </ul>
+            </div> <!-- donate drop-up -->
+
+         </div> <!-- btn-group -->
+      </div> <!-- col -->
+   </div> <!-- row -->
+
+   <div class="row feedback">
+      <div class="col-md-6 col-sm-6 col-xs-12 center">
+         <p class="text-muted text-center"><small><b>Questions? Feedback? Corrections?</b></small></p>
+         <p class="text-muted text-center"><small>
+         Open an <a href="https://github.com/anverbogatov/anverbogatov.github.io/issues/new" target="_blank">issue</a> or
+         submit a <a href="https://github.com/anverbogatov/anverbogatov.github.io/compare" target="_blank">pull request</a>.
+         </small></p>
+      </div> <!-- col -->
+   </div> <!-- row -->
+
+</div> <!-- post-share-subscribe -->
+
+
+            </div> <!-- col -->
+         </div> <!-- row -->
+      </div> <!-- container -->
+
+      
+<footer class="container container-fluid">
+   <hr>
+
+   <div class="row contact">
+    <div class="col-sm-12 col-sm-offset-0 col-md-8 col-md-offset-2">
+        <ul class="inline center">
+            <li><a href="https://github.com/anverbogatov" title="Follow me on Github"><i class="fa fa-2x fa-github" aria-hidden="true"></i></a></li>
+            <li><a href="https://twitter.com/anver_bogatov" title="Follow me on Twitter"><i class="fa fa-2x fa-twitter" aria-hidden="true"></i></a></li>
+            <li><a href="https://www.linkedin.com/in/anver-bogatov-64b32661/" title="Connect with me on LinkedIn"><i class="fa fa-2x fa-linkedin" aria-hidden="true"></i></a></li>
+            <li><a href="/feed.xml" title="Subscribe via RSS/atom"><i class="fa fa-2x fa-rss-square" aria-hidden="true"></i></a></li>
+            <li><a href="" title="Add to Apple News"><i class="fa fa-2x fa-apple" aria-hidden="true"></i></a></li>
+        </ul>
+    </div> <!-- col -->
+</div> <!-- row -->
+
+
+   <p class="text-muted text-center"><small>
+   &copy; 2017 Anver Bogatov.
+   This site is <a href="https://github.com/anverbogatov/anverbogatov.github.io">open source</a>.
+   </small></p>
+</footer>
+
+      
+<script src="/bower_components/jquery/dist/jquery.min.js"></script>
+<script src="/bower_components/bootstrap/dist/js/bootstrap.min.js"></script>
+
+   </body>
+</html>

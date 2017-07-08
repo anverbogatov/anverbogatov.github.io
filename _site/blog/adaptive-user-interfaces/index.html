@@ -1,0 +1,262 @@
+<!DOCTYPE html>
+<html lang="en">
+   <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta http-equiv="Cache-control" content="public">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <meta name="keywords" content="hexed bits, apps, iOS, objective-c, swift, cocoa, apple, xcode, app store, software, programming, engineering, design patterns">
+    <meta name="description" content="Бесконечность - не предел.">
+    <meta name="author" content="Anver Bogatov">
+
+    <title>
+        
+            Adaptive user interfaces &middot; Anver Bogatov
+        
+    </title>
+
+    <!-- Begin Jekyll SEO tag v2.2.3 -->
+<meta property="og:title" content="Adaptive user interfaces" />
+<meta name="author" content="Anver Bogatov" />
+<meta property="og:locale" content="en_US" />
+<meta name="description" content="When the App Store launched, there was one iPhone with one screen size and one pixel density. Designing your user interfaces was relatively simple and the technical debt of hard-coding them was cheap. Today, developers and designers face many challenges in creating apps that must work on dozens of different devices. Long gone are the days of 480x320. We can no longer depend on physical screen sizes and must always be prepared for the next generation of devices." />
+<meta property="og:description" content="When the App Store launched, there was one iPhone with one screen size and one pixel density. Designing your user interfaces was relatively simple and the technical debt of hard-coding them was cheap. Today, developers and designers face many challenges in creating apps that must work on dozens of different devices. Long gone are the days of 480x320. We can no longer depend on physical screen sizes and must always be prepared for the next generation of devices." />
+<link rel="canonical" href="http://localhost:4000/blog/adaptive-user-interfaces/" />
+<meta property="og:url" content="http://localhost:4000/blog/adaptive-user-interfaces/" />
+<meta property="og:site_name" content="Anver Bogatov" />
+<meta property="og:type" content="article" />
+<meta property="article:published_time" content="2014-10-01T00:00:00+00:00" />
+<meta name="twitter:card" content="summary" />
+<meta name="twitter:site" content="@anver_bogatov" />
+<meta name="twitter:creator" content="@anver_bogatov" />
+<script type="application/ld+json">
+{"@context":"http://schema.org","@type":"BlogPosting","headline":"Adaptive user interfaces","author":{"@type":"Person","name":"Anver Bogatov"},"datePublished":"2014-10-01T00:00:00+00:00","dateModified":"2014-10-01T00:00:00+00:00","description":"When the App Store launched, there was one iPhone with one screen size and one pixel density. Designing your user interfaces was relatively simple and the technical debt of hard-coding them was cheap. Today, developers and designers face many challenges in creating apps that must work on dozens of different devices. Long gone are the days of 480x320. We can no longer depend on physical screen sizes and must always be prepared for the next generation of devices.","publisher":{"@type":"Organization","logo":{"@type":"ImageObject","url":"http://localhost:4000/img/logo.png"},"name":"Anver Bogatov"},"mainEntityOfPage":{"@type":"WebPage","@id":"http://localhost:4000/blog/adaptive-user-interfaces/"},"url":"http://localhost:4000/blog/adaptive-user-interfaces/"}</script>
+<!-- End Jekyll SEO tag -->
+
+
+    <meta name="twitter:image" content="/img/logo.png" />
+    <meta property="og:image" content="/img/logo.png" />
+    <meta property="og:image:type" content="image/png" />
+    <meta property="og:image:width" content="512" />
+    <meta property="og:image:height" content="512" />
+
+    <link href="/bower_components/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="/bower_components/font-awesome/css/font-awesome.min.css" rel="stylesheet">
+    <link href="/bower_components/ubuntuMono/ubuntuMono.css" rel="stylesheet">
+    <link href="/css/syntax.css" rel="stylesheet">
+    <link href="/css/style.css" rel="stylesheet">
+
+    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+      <script src="/bower_components/html5shiv/dist/html5shiv.min.js"></script>
+      <script src="/bower_components/respond/dest/respond.min.js"></script>
+    <![endif]-->
+
+    <link rel="apple-touch-icon" sizes="76x76" href="/ico/icon76.png">
+    <link rel="apple-touch-icon" sizes="120x120" href="/ico/icon120.png">
+    <link rel="apple-touch-icon" sizes="152x152" href="/ico/icon152.png">
+    <link rel="apple-touch-icon" sizes="167x167" href="/ico/icon167.png">
+    <link rel="apple-touch-icon" sizes="180x180" href="/ico/icon180.png">
+
+    <link rel="shortcut icon" href="/favicon.ico">
+    <link type="application/atom+xml" rel="alternate" href="/feed.xml" title="Anver Bogatov" />
+
+    <script>
+         (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+         (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+         m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+         })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+         ga('create', 'UA-37319916-5', 'auto');
+         ga('send', 'pageview');
+    </script>
+</head>
+
+   <body>
+      
+<header class="container container-fluid">
+   <div class="row">
+      <div class="col-md-12 col-sm-12 col-xs-12">
+        <h1 class="text-center"><a href="/">Anver Bogatov</a></h1>
+        <div class="col-md-12 col-sm-12 col-xs-12">
+            <h2 class="tagline">&mdash; Turing complete with a stack of <code>0xdeadbeef</code>&mdash;</h2>
+         </div> <!-- col -->
+      </div> <!-- col -->
+   </div> <!-- row -->
+
+   <div class="row menu">
+      <div class="col-md-12 col-sm-12 col-xs-12">
+         <a class="btn btn-default" href="/">Blog</a>
+         <a class="btn btn-default" href="/speaking/">Speaking</a>
+         <a class="btn btn-default" href="/about/">About</a>
+      </div> <!-- col -->
+   </div> <!-- row -->
+   <hr>
+</header>
+
+
+      <div class="container container-fluid">
+         <div class="row">
+            <div class="col-sm-12 col-sm-offset-0 col-md-10 col-md-offset-1">
+               <article>
+   <h1 class="post-title"><a href="">Adaptive user interfaces</a></h1>
+   <h2 class="post-subtitle">Exploring iOS size classes and trait collections <small class="post-date">01 Oct 2014</small></h2>
+   
+
+   <div class="post-content">
+      <p>When the App Store launched, there was one iPhone with one screen size and one pixel density. Designing your user interfaces was relatively simple and the <a href="http://martinfowler.com/bliki/TechnicalDebt.html">technical debt</a> of hard-coding them was cheap. Today, developers and designers face many challenges in creating apps that must work on dozens of different devices. <a href="https://www.apple.com/iphone/compare/">Long gone</a> are the days of 480x320. We can no longer depend on physical screen sizes and must always be prepared for the next generation of devices.</p>
+
+<!--excerpt-->
+
+<h4 id="devices-have-traits">Devices have traits</h4>
+
+<p>In <a href="https://developer.apple.com/library/ios/releasenotes/General/WhatsNewIniOS/Articles/iOS8.html">iOS 8</a>, Apple introduced a new level of abstraction in the <a href="https://developer.apple.com/library/ios/documentation/UIKit/Reference/UIKit_Framework/index.html#//apple_ref/doc/uid/TP40006955">UIKit</a> framework — <a href="https://developer.apple.com/library/ios/documentation/UIKit/Reference/UITraitSet_ClassReference/index.html#//apple_ref/occ/cl/UITraitCollection">UITraitCollection</a>, an addition to iOS that has as far-reaching implications for developers as it does for <strong>designers</strong>, <em>if not more</em>.</p>
+
+<p>A <code class="highlighter-rouge">UITraitCollection</code> object describes the properties, or <em>traits</em>, of a user interface (UI) element. These traits define a display scale (a <a href="http://en.wikipedia.org/wiki/Retina_Display">Retina</a> or non-Retina display), the user interface idiom (an iPhone or iPad), and most importantly a vertical and a horizontal size class. When combined with <a href="https://developer.apple.com/library/IOs/documentation/UserExperience/Conceptual/AutolayoutPG/Introduction/Introduction.html">Auto-Layout</a>, these new APIs empower developers and designers to redefine the ways in which they conceptualize their user interfaces. Trait collections complete our repertoire for designing <a href="https://developer.apple.com/LIBRARY/IOS/documentation/UserExperience/Conceptual/MobileHIG/LayoutandAppearance.html#//apple_ref/doc/uid/TP40006556-CH54-SW1">adaptive UI</a>.</p>
+
+<p>Just as the iPhone 6 <a href="https://www.apple.com/iphone-6/display/">Retina HD display</a> further reinforces the mandate for us to think about layouts in terms of abstract <a href="http://www.paintcodeapp.com/news/iphone-6-screens-demystified">points</a> rather than pixels, trait collections guide us into thinking about layouts in an entirely new manner. With trait collections, we can reason about device screen dimensions, orientations, and user interfaces in a generalized way.</p>
+
+<h4 id="size-classes">Size classes</h4>
+
+<p>A size class identifies a relative amount of display space for a UI element. There are two primary size classes in iOS 8, compact and regular. Every screen or view defines a size class for both its horizontal and vertical dimensions — that is, its width and height. Describing each dimension with a size class results in a total of four options: compact width, regular width, compact height, regular height. The size classes for all iOS devices are defined in the following diagram.</p>
+
+<p><img class="img-thumbnail img-responsive center" src="/img/size_classes.png" title="iOS 8 Size Classes" alt="iOS 8 Size Classes" />
+<small class="text-muted center">iOS 8 size classes by device. Device images taken from <a href="https://developer.apple.com/library/ios/releasenotes/General/WhatsNewIniOS/Articles/iOS8.html">What’s New in iOS 8</a>.</small></p>
+
+<p>There’s a lot of information in this diagram. Let’s break down the most important details:</p>
+
+<ol>
+  <li>
+    <p>We no longer have dozens of physical devices. We have four abstract devices: Regular-Compact, Regular-Regular, Compact-Compact, Compact-Regular.</p>
+  </li>
+  <li>
+    <p><strong>All iPhones</strong> (top left) in the portrait orientation have a <strong>regular height</strong> and a <strong>compact width</strong>. This means that your UI should behave and appear nearly the same on an iPhone 4S as it does on an iPhone 6 Plus.</p>
+  </li>
+  <li>
+    <p><strong>All iPads</strong> (top right) in <strong>any</strong> orientation have a <strong>regular</strong> size class for both dimensions.</p>
+  </li>
+  <li>
+    <p>In the landscape orientation, iPhone 4/S, iPhone 5/S, and iPhone 6 (bottom left) have a <strong>compact</strong> size class for both dimensions. This is incredibly important as it highlights that <em>physical device dimensions and size classes <strong>do not</strong> correspond one-to-one</em>. For example, consider the iPhone 5. When in the portrait orientation it has a <strong>regular height</strong> and a <strong>compact width</strong>. Knowing this, your intuition may lead you to believe that when the device rotates, the size classes also “rotate” to yield a <strong>compact height</strong> and a <strong>regular width</strong>. However, this is not the case. When in the landscape orientation, the iPhone 5 has a <strong>compact width</strong>.</p>
+  </li>
+  <li>
+    <p>The iPhone 6 Plus in the landscape orientation is unique (bottom right). It is currently the only device that adopts a <strong>compact height</strong> and a <strong>regular width</strong>. In iOS 8, we find that this means when the iPhone 6 Plus is in the landscape orientation, its UI behaves similarly to the iPad. For example, Mail displays as a <a href="https://developer.apple.com/library/ios/documentation/userexperience/conceptual/mobilehig/Art/split_view_2x.png">split view</a> with the list of emails on the left and the currently selected email content on the right.</p>
+  </li>
+</ol>
+
+<p>It is also possible for views, subviews, and view controllers to have size classes that differ from the “device” size classes above. There could even be multiple views or view controllers displaying on screen simultaneously, each with unique size classes. For example, a <a href="https://developer.apple.com/LIBRARY/IOS/documentation/UserExperience/Conceptual/MobileHIG/Art/popover_2x.png">popover</a> on iPad could be Regular-Compact, which means it would display full-screen on an iPhone. However, this is a minor detail. The code that you write should only be concerned with doing the right thing for the appropriate size classes.</p>
+
+<p>Finally, I should note that iOS 8 also provides an <a href="https://developer.apple.com/library/ios/documentation/UIKit/Reference/UIKitDataTypesReference/index.html#//apple_ref/swift/enum/UIUserInterfaceSizeClass"><em>unspecified</em></a> size class, which essentially means <em>any</em> size class. In other words, an unspecified size class means that a view should always display and behave the same way, regardless of other UI elements or the current device.</p>
+
+<h4 id="working-in-a-new-dimension">Working in a new dimension</h4>
+
+<p>What do these changes mean? Developers and designers should abandon thinking in terms of pixels and devices in favor of thinking in terms of size classes and adaptive layouts. Creating pixel-perfect mockups is no longer feasible. Don’t ask how a UI layout should look on an iPhone. Instead, ask how it should appear for a regular height and a compact width. How should the content change for a regular width? For a compact height? Should certain UI elements move to new locations? Should certain UI elements hide or appear? Should any UI elements change size? These are the kinds of questions that we need to be asking and answering.</p>
+
+<p>Implementing <a href="https://developer.apple.com/LIBRARY/IOS/documentation/UserExperience/Conceptual/MobileHIG/LayoutandAppearance.html#//apple_ref/doc/uid/TP40006556-CH54-SW1">adaptive UI</a> successfully requires thinking about the attributes of devices, not devices themselves. For designers, investigating the built-in apps in iOS 8 on different devices is a great place to see examples and start understanding these new paradigms. Developers, see the <a href="https://developer.apple.com/library/ios/recipes/xcode_help-IB_adaptive_sizes/_index.html#//apple_ref/doc/uid/TP40014436">Size Classes Design Help</a> developer guide.</p>
+
+<h4 id="adapting-to-future-devices">Adapting to future devices</h4>
+
+<p>With iOS 8, Apple has provided developers and designers with the tools they need to prepare for the future. Which size classes will the next iPhone have? The next iPad? Will there be new size classes? I’m looking at you, <a href="http://www.apple.com/watch/">Apple Watch</a>.</p>
+
+   </div> <!-- post-content -->
+</article>
+
+
+<div class="post-share-subscribe">
+   <div class="row">
+      <div class="col-md-6 col-sm-6 col-xs-12 center">
+         <div class="btn-group btn-group-justified" role="group">
+
+            <div class="btn-group dropup" role="group">
+               <button class="btn btn-default dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                  Share &nbsp;<i class="fa fa-share-alt" aria-hidden="true"></i>
+               </button>
+               <ul class="dropdown-menu">
+                  <li>
+                     <a href="https://twitter.com/intent/tweet?text=Adaptive%20user%20interfaces%20http://localhost:4000/blog/adaptive-user-interfaces/%20via%20@anver_bogatov" title="Tweet" target="_blank">
+                     Twitter &nbsp;<i class="fa fa-twitter" aria-hidden="true"></i>
+                     </a>
+                  </li>
+                  <li>
+                     <a href="https://www.facebook.com/sharer.php?u=http://localhost:4000/blog/adaptive-user-interfaces/" title="Post" target="_blank">
+                     Facebook &nbsp;<i class="fa fa-facebook" aria-hidden="true"></i>
+                     </a>
+                  </li>
+                  <li>
+                     <a href="https://plus.google.com/share?url=http://localhost:4000/blog/adaptive-user-interfaces/" title="Share" target="_blank">
+                     Google &nbsp;<i class="fa fa-google-plus" aria-hidden="true"></i>
+                     </a>
+                  </li>
+               </ul>
+            </div> <!-- share dropup -->
+
+            <div class="btn-group dropup" role="group">
+               <button class="btn btn-default dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                  Subscribe &nbsp;<i class="fa fa-rss" aria-hidden="true"></i>
+               </button>
+               <ul class="dropdown-menu">
+                  <li><a href="/feed.xml" title="Subscribe via RSS/atom">RSS/Atom &nbsp;<i class="fa fa-rss" aria-hidden="true"></i></a></li>
+                  <li><a href="" title="Add to Apple News">Apple News &nbsp;<i class="fa fa-apple" aria-hidden="true"></i></a></li>
+               </ul>
+            </div> <!-- subscribe drop-up -->
+
+            <div class="btn-group dropup" role="group">
+               <button class="btn btn-default dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                  Support &nbsp;<i class="fa fa-star" aria-hidden="true"></i>
+               </button>
+               <ul class="dropdown-menu">
+                  <li><a href="" title="Donate via PayPal" target="_blank">Donate via PayPal &nbsp;<i class="fa fa-paypal" aria-hidden="true"></i></a></li>
+                  <li><a href="" title="Donate via Square Cash" target="_blank">Donate via Square &nbsp;<i class="fa fa-dollar" aria-hidden="true"></i></a></li>
+                  <li><a href="" title="Donate Bitcoin" target="_blank">Donate Bitcoin &nbsp;<i class="fa fa-btc" aria-hidden="true"></i></a></li>
+               </ul>
+            </div> <!-- donate drop-up -->
+
+         </div> <!-- btn-group -->
+      </div> <!-- col -->
+   </div> <!-- row -->
+
+   <div class="row feedback">
+      <div class="col-md-6 col-sm-6 col-xs-12 center">
+         <p class="text-muted text-center"><small><b>Questions? Feedback? Corrections?</b></small></p>
+         <p class="text-muted text-center"><small>
+         Open an <a href="https://github.com/anverbogatov/anverbogatov.github.io/issues/new" target="_blank">issue</a> or
+         submit a <a href="https://github.com/anverbogatov/anverbogatov.github.io/compare" target="_blank">pull request</a>.
+         </small></p>
+      </div> <!-- col -->
+   </div> <!-- row -->
+
+</div> <!-- post-share-subscribe -->
+
+
+            </div> <!-- col -->
+         </div> <!-- row -->
+      </div> <!-- container -->
+
+      
+<footer class="container container-fluid">
+   <hr>
+
+   <div class="row contact">
+    <div class="col-sm-12 col-sm-offset-0 col-md-8 col-md-offset-2">
+        <ul class="inline center">
+            <li><a href="https://github.com/anverbogatov" title="Follow me on Github"><i class="fa fa-2x fa-github" aria-hidden="true"></i></a></li>
+            <li><a href="https://twitter.com/anver_bogatov" title="Follow me on Twitter"><i class="fa fa-2x fa-twitter" aria-hidden="true"></i></a></li>
+            <li><a href="https://www.linkedin.com/in/anver-bogatov-64b32661/" title="Connect with me on LinkedIn"><i class="fa fa-2x fa-linkedin" aria-hidden="true"></i></a></li>
+            <li><a href="/feed.xml" title="Subscribe via RSS/atom"><i class="fa fa-2x fa-rss-square" aria-hidden="true"></i></a></li>
+            <li><a href="" title="Add to Apple News"><i class="fa fa-2x fa-apple" aria-hidden="true"></i></a></li>
+        </ul>
+    </div> <!-- col -->
+</div> <!-- row -->
+
+
+   <p class="text-muted text-center"><small>
+   &copy; 2017 Anver Bogatov.
+   This site is <a href="https://github.com/anverbogatov/anverbogatov.github.io">open source</a>.
+   </small></p>
+</footer>
+
+      
+<script src="/bower_components/jquery/dist/jquery.min.js"></script>
+<script src="/bower_components/bootstrap/dist/js/bootstrap.min.js"></script>
+
+   </body>
+</html>

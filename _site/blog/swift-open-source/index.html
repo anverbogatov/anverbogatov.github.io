@@ -1,0 +1,278 @@
+<!DOCTYPE html>
+<html lang="en">
+   <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta http-equiv="Cache-control" content="public">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <meta name="keywords" content="hexed bits, apps, iOS, objective-c, swift, cocoa, apple, xcode, app store, software, programming, engineering, design patterns">
+    <meta name="description" content="Бесконечность - не предел.">
+    <meta name="author" content="Anver Bogatov">
+
+    <title>
+        
+            Swift open source &middot; Anver Bogatov
+        
+    </title>
+
+    <!-- Begin Jekyll SEO tag v2.2.3 -->
+<meta property="og:title" content="Swift open source" />
+<meta name="author" content="Anver Bogatov" />
+<meta property="og:locale" content="en_US" />
+<meta name="description" content="It has only been a few days since the announcement of Swift going open source and the activity around the project has been incredible. When Apple revealed that Swift would be open source at WWDC earlier this year, I do not think anyone anticipated a release like this." />
+<meta property="og:description" content="It has only been a few days since the announcement of Swift going open source and the activity around the project has been incredible. When Apple revealed that Swift would be open source at WWDC earlier this year, I do not think anyone anticipated a release like this." />
+<link rel="canonical" href="http://localhost:4000/blog/swift-open-source/" />
+<meta property="og:url" content="http://localhost:4000/blog/swift-open-source/" />
+<meta property="og:site_name" content="Anver Bogatov" />
+<meta property="og:type" content="article" />
+<meta property="article:published_time" content="2015-12-06T00:00:00+00:00" />
+<meta name="twitter:card" content="summary" />
+<meta name="twitter:site" content="@anver_bogatov" />
+<meta name="twitter:creator" content="@anver_bogatov" />
+<script type="application/ld+json">
+{"@context":"http://schema.org","@type":"BlogPosting","headline":"Swift open source","author":{"@type":"Person","name":"Anver Bogatov"},"datePublished":"2015-12-06T00:00:00+00:00","dateModified":"2015-12-06T00:00:00+00:00","description":"It has only been a few days since the announcement of Swift going open source and the activity around the project has been incredible. When Apple revealed that Swift would be open source at WWDC earlier this year, I do not think anyone anticipated a release like this.","publisher":{"@type":"Organization","logo":{"@type":"ImageObject","url":"http://localhost:4000/img/logo.png"},"name":"Anver Bogatov"},"mainEntityOfPage":{"@type":"WebPage","@id":"http://localhost:4000/blog/swift-open-source/"},"url":"http://localhost:4000/blog/swift-open-source/"}</script>
+<!-- End Jekyll SEO tag -->
+
+
+    <meta name="twitter:image" content="/img/logo.png" />
+    <meta property="og:image" content="/img/logo.png" />
+    <meta property="og:image:type" content="image/png" />
+    <meta property="og:image:width" content="512" />
+    <meta property="og:image:height" content="512" />
+
+    <link href="/bower_components/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="/bower_components/font-awesome/css/font-awesome.min.css" rel="stylesheet">
+    <link href="/bower_components/ubuntuMono/ubuntuMono.css" rel="stylesheet">
+    <link href="/css/syntax.css" rel="stylesheet">
+    <link href="/css/style.css" rel="stylesheet">
+
+    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+      <script src="/bower_components/html5shiv/dist/html5shiv.min.js"></script>
+      <script src="/bower_components/respond/dest/respond.min.js"></script>
+    <![endif]-->
+
+    <link rel="apple-touch-icon" sizes="76x76" href="/ico/icon76.png">
+    <link rel="apple-touch-icon" sizes="120x120" href="/ico/icon120.png">
+    <link rel="apple-touch-icon" sizes="152x152" href="/ico/icon152.png">
+    <link rel="apple-touch-icon" sizes="167x167" href="/ico/icon167.png">
+    <link rel="apple-touch-icon" sizes="180x180" href="/ico/icon180.png">
+
+    <link rel="shortcut icon" href="/favicon.ico">
+    <link type="application/atom+xml" rel="alternate" href="/feed.xml" title="Anver Bogatov" />
+
+    <script>
+         (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+         (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+         m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+         })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+         ga('create', 'UA-37319916-5', 'auto');
+         ga('send', 'pageview');
+    </script>
+</head>
+
+   <body>
+      
+<header class="container container-fluid">
+   <div class="row">
+      <div class="col-md-12 col-sm-12 col-xs-12">
+        <h1 class="text-center"><a href="/">Anver Bogatov</a></h1>
+        <div class="col-md-12 col-sm-12 col-xs-12">
+            <h2 class="tagline">&mdash; Turing complete with a stack of <code>0xdeadbeef</code>&mdash;</h2>
+         </div> <!-- col -->
+      </div> <!-- col -->
+   </div> <!-- row -->
+
+   <div class="row menu">
+      <div class="col-md-12 col-sm-12 col-xs-12">
+         <a class="btn btn-default" href="/">Blog</a>
+         <a class="btn btn-default" href="/speaking/">Speaking</a>
+         <a class="btn btn-default" href="/about/">About</a>
+      </div> <!-- col -->
+   </div> <!-- row -->
+   <hr>
+</header>
+
+
+      <div class="container container-fluid">
+         <div class="row">
+            <div class="col-sm-12 col-sm-offset-0 col-md-10 col-md-offset-1">
+               <article>
+   <h1 class="post-title"><a href="">Swift open source</a></h1>
+   <h2 class="post-subtitle">Let the revolution begin <small class="post-date">06 Dec 2015</small></h2>
+   
+
+   <div class="post-content">
+      <p>It has only been a few days since the announcement of <a href="https://developer.apple.com/swift/blog/?id=34">Swift going open source</a> and the activity around the project has been incredible. When Apple revealed that Swift would be open source at <a href="https://developer.apple.com/wwdc/">WWDC</a> earlier this year, I do not think anyone anticipated a release like this.</p>
+
+<!--excerpt-->
+
+<p><img class="img-thumbnail img-responsive center" src="/img/swift-logo.png" title="Swift" alt="Swift" /></p>
+
+<h3 id="expectations">Expectations</h3>
+
+<p>No one really knew what to expect. Was Swift going to be dumped on <a href="http://www.opensource.apple.com">opensource.apple.com</a> and grow stale with the other projects? Would it be put on GitHub like <a href="https://github.com/ResearchKit">ResearchKit</a>? Not only is Swift on <a href="https://github.com/apple/">GitHub</a>, but the Swift team will be <a href="http://arstechnica.com/apple/2015/12/craig-federighi-talks-open-source-swift-and-whats-coming-in-version-3-0/">working completely in the open</a>. Apple did a spectacular job with the release. Not only do we have the source code, but we have the <a href="https://github.com/apple/swift/commits/master">entire commit history</a> for each project, a very detailed view into the Swift team’s development process, and access to the <a href="https://github.com/apple/swift-evolution">Swift evolution process</a>. Everything you need to know is on <a href="http://swift.org">Swift.org</a>.</p>
+
+<h3 id="swift-in-the-open">Swift in the open</h3>
+
+<p>For the past few days I have been watching the repositories on <a href="https://github.com/apple/">GitHub</a> and the Swift <a href="https://swift.org/community/#mailing-lists">mailing lists</a>. It is fascinating. The question is, what will Swift development look like moving forward? Here are some of the interesting things I have seen so far.</p>
+
+<ul>
+  <li>
+    <p>Chris Lattner’s <a href="https://github.com/apple/swift/commit/18844bc65229786b96b89a9fc7739c0fc897905e">first commit</a> was on July 17, 2010.</p>
+  </li>
+  <li>
+    <p>The main <a href="https://github.com/apple/swift">Swift repo</a> surpassed 10,000 stars in the first 24 hours. It now has more than 19,000 stars along with over 2,000 forks. As of this writing, it is still in the #1 spot on GitHub’s <a href="https://github.com/trending">trending</a> page.</p>
+  </li>
+  <li>
+    <p>There has been close to ~400 pull requests across all of the repos. Many of them accepted and merged.</p>
+  </li>
+  <li>
+    <p>After the initial Swift announcement at <a href="https://developer.apple.com/videos/play/wwdc2014-402/">WWDC 2014</a>, I think we all noticed how active the Swift team was on twitter, answering questions and more — <a href="https://twitter.com/clattner_llvm">Chris Lattner</a>, <a href="https://twitter.com/jckarter">Joe Groff</a>, and <a href="https://twitter.com/UINT_MIN">Jordan Rose</a> to name a few. Turns out some tweets <a href="https://github.com/apple/swift/commit/666646fee95bc75ca81e1dc5131989d56bfb0742">resulted</a> in <em>immediate</em> bug fixes! 😄</p>
+  </li>
+  <li>
+    <p>Remember that <a href="https://www.apple.com/pr/library/2014/07/15Apple-and-IBM-Forge-Global-Partnership-to-Transform-Enterprise-Mobility.html">partnership</a> with <a href="http://www.apple.com/business/mobile-enterprise-apps/">Apple and IBM</a>? Then it should not be a surprise that IBM seems to be <a href="https://developer.ibm.com/swift/2015/12/03/introducing-the-ibm-swift-sandbox/">very invested</a> in server-side Swift. It looks like there is growing momentum behind using Swift on the server.</p>
+  </li>
+  <li>
+    <p>Chris Lattner is <a href="https://github.com/apple/swift/pull/166">merging pull requests</a> at 10pm on Saturday. 😆</p>
+  </li>
+  <li>
+    <p>We know exactly <a href="https://github.com/apple/swift-evolution">what to expect</a> for Swift 3.0! No more keynote surprises.</p>
+  </li>
+  <li>
+    <p>The <a href="https://github.com/apple/swift-evolution/blob/master/proposals/0004-remove-pre-post-inc-decrement.md">++ and – operators will be removed</a> from Swift 3.0. And thanks to <a href="https://twitter.com/ericasadun">Erica Sadun</a>, so will <a href="https://github.com/apple/swift-evolution/blob/master/proposals/0007-remove-c-style-for-loops.md">C-style for-loops</a>. She submitted this proposal on day two! 👏</p>
+  </li>
+  <li>
+    <p>Chris Lattner <a href="https://github.com/apple/swift/commit/22c3aa0588d2df1a207dcbad85946bab7976894c">commits</a> <em>“Pull some ancient history off an internal wiki page for possible historical interest.”</em> What?! Yes please! Nerd alert.</p>
+  </li>
+  <li>
+    <p>The collection of <a href="https://github.com/practicalswift/swift-compiler-crashes">swift-compiler-crashes</a> from <a href="https://twitter.com/practicalswift">@practicalswift</a> has been <a href="https://github.com/apple/swift/commit/e5ca8be1a090335d401cd1d7dfcf9b2104674d5b">part of the repo</a> since September 2014.</p>
+  </li>
+  <li>
+    <p>It looks like there’s a <a href="https://github.com/apple/swift-evolution/pull/33/files">good chance</a> that <code class="highlighter-rouge">typealias</code> will be replaced with <code class="highlighter-rouge">associated</code> for associated type declarations.</p>
+  </li>
+  <li>
+    <p><a href="https://twitter.com/jtbandes">Jacob Bandes-Storch</a> has <a href="https://github.com/apple/swift/pull/253">submitted</a> <a href="https://github.com/apple/swift/pull/272">two</a> pull requests that fix a total of over 400 crashes. 😲</p>
+  </li>
+  <li>
+    <p>The Swift team seems <a href="https://twitter.com/clattner_llvm/status/673162286127714304">very keen</a> on getting the community involved. No contribution is too small!</p>
+  </li>
+  <li>
+    <p>Much of the <a href="https://github.com/apple/swift-corelibs-foundation">swift-corelibs-foundation</a> framework is currently <a href="https://github.com/apple/swift-corelibs-foundation/search?utf8=✓&amp;q=NSUnimplemented">unimplemented</a>. There seems to be a lot of low hanging fruit. I wonder if this is intentional to encourage contributions, or if it is the result of a tight deadline?</p>
+  </li>
+  <li>
+    <p>The <a href="https://github.com/apple/swift/commit/afc81c1855bf711315b8e5de02db138d3d487eeb">initial checkin</a> from 2010 was actually revision 4 and imported from an internal SVN repo. “Swift SVN r4”. You will notice the following in the header comments: <em>“This source file is part of the Swift.org open source project. Copyright (c) 2014 - 2015 Apple Inc.”</em> I have three theories:
+    1. Commit history was edited and cleaned up before being published on GitHub.
+    2. In 2010, the Swift team’s deadline was “2014-2015”, <em>no matter what</em>. This seems like a very Apple thing to do and explains Swift’s “rough around the edges” arrival.
+    3. Chris Lattner is a wizard.</p>
+  </li>
+</ul>
+
+<p>I think we’re definitely off to a good start. The community is strong and excited, and Swift is <em>already</em> greatly improved in <strong>only three days</strong>. As Lattner says, <em>the revolution will be Swift!</em></p>
+
+<p>That’s all I’ve got for now! If you enjoyed this article, <a href="https://twitter.com/jesse_squires">let me know</a>. Maybe I’ll keep creeping and sharing what I find.</p>
+
+   </div> <!-- post-content -->
+</article>
+
+
+<div class="post-share-subscribe">
+   <div class="row">
+      <div class="col-md-6 col-sm-6 col-xs-12 center">
+         <div class="btn-group btn-group-justified" role="group">
+
+            <div class="btn-group dropup" role="group">
+               <button class="btn btn-default dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                  Share &nbsp;<i class="fa fa-share-alt" aria-hidden="true"></i>
+               </button>
+               <ul class="dropdown-menu">
+                  <li>
+                     <a href="https://twitter.com/intent/tweet?text=Swift%20open%20source%20http://localhost:4000/blog/swift-open-source/%20via%20@anver_bogatov" title="Tweet" target="_blank">
+                     Twitter &nbsp;<i class="fa fa-twitter" aria-hidden="true"></i>
+                     </a>
+                  </li>
+                  <li>
+                     <a href="https://www.facebook.com/sharer.php?u=http://localhost:4000/blog/swift-open-source/" title="Post" target="_blank">
+                     Facebook &nbsp;<i class="fa fa-facebook" aria-hidden="true"></i>
+                     </a>
+                  </li>
+                  <li>
+                     <a href="https://plus.google.com/share?url=http://localhost:4000/blog/swift-open-source/" title="Share" target="_blank">
+                     Google &nbsp;<i class="fa fa-google-plus" aria-hidden="true"></i>
+                     </a>
+                  </li>
+               </ul>
+            </div> <!-- share dropup -->
+
+            <div class="btn-group dropup" role="group">
+               <button class="btn btn-default dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                  Subscribe &nbsp;<i class="fa fa-rss" aria-hidden="true"></i>
+               </button>
+               <ul class="dropdown-menu">
+                  <li><a href="/feed.xml" title="Subscribe via RSS/atom">RSS/Atom &nbsp;<i class="fa fa-rss" aria-hidden="true"></i></a></li>
+                  <li><a href="" title="Add to Apple News">Apple News &nbsp;<i class="fa fa-apple" aria-hidden="true"></i></a></li>
+               </ul>
+            </div> <!-- subscribe drop-up -->
+
+            <div class="btn-group dropup" role="group">
+               <button class="btn btn-default dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                  Support &nbsp;<i class="fa fa-star" aria-hidden="true"></i>
+               </button>
+               <ul class="dropdown-menu">
+                  <li><a href="" title="Donate via PayPal" target="_blank">Donate via PayPal &nbsp;<i class="fa fa-paypal" aria-hidden="true"></i></a></li>
+                  <li><a href="" title="Donate via Square Cash" target="_blank">Donate via Square &nbsp;<i class="fa fa-dollar" aria-hidden="true"></i></a></li>
+                  <li><a href="" title="Donate Bitcoin" target="_blank">Donate Bitcoin &nbsp;<i class="fa fa-btc" aria-hidden="true"></i></a></li>
+               </ul>
+            </div> <!-- donate drop-up -->
+
+         </div> <!-- btn-group -->
+      </div> <!-- col -->
+   </div> <!-- row -->
+
+   <div class="row feedback">
+      <div class="col-md-6 col-sm-6 col-xs-12 center">
+         <p class="text-muted text-center"><small><b>Questions? Feedback? Corrections?</b></small></p>
+         <p class="text-muted text-center"><small>
+         Open an <a href="https://github.com/anverbogatov/anverbogatov.github.io/issues/new" target="_blank">issue</a> or
+         submit a <a href="https://github.com/anverbogatov/anverbogatov.github.io/compare" target="_blank">pull request</a>.
+         </small></p>
+      </div> <!-- col -->
+   </div> <!-- row -->
+
+</div> <!-- post-share-subscribe -->
+
+
+            </div> <!-- col -->
+         </div> <!-- row -->
+      </div> <!-- container -->
+
+      
+<footer class="container container-fluid">
+   <hr>
+
+   <div class="row contact">
+    <div class="col-sm-12 col-sm-offset-0 col-md-8 col-md-offset-2">
+        <ul class="inline center">
+            <li><a href="https://github.com/anverbogatov" title="Follow me on Github"><i class="fa fa-2x fa-github" aria-hidden="true"></i></a></li>
+            <li><a href="https://twitter.com/anver_bogatov" title="Follow me on Twitter"><i class="fa fa-2x fa-twitter" aria-hidden="true"></i></a></li>
+            <li><a href="https://www.linkedin.com/in/anver-bogatov-64b32661/" title="Connect with me on LinkedIn"><i class="fa fa-2x fa-linkedin" aria-hidden="true"></i></a></li>
+            <li><a href="/feed.xml" title="Subscribe via RSS/atom"><i class="fa fa-2x fa-rss-square" aria-hidden="true"></i></a></li>
+            <li><a href="" title="Add to Apple News"><i class="fa fa-2x fa-apple" aria-hidden="true"></i></a></li>
+        </ul>
+    </div> <!-- col -->
+</div> <!-- row -->
+
+
+   <p class="text-muted text-center"><small>
+   &copy; 2017 Anver Bogatov.
+   This site is <a href="https://github.com/anverbogatov/anverbogatov.github.io">open source</a>.
+   </small></p>
+</footer>
+
+      
+<script src="/bower_components/jquery/dist/jquery.min.js"></script>
+<script src="/bower_components/bootstrap/dist/js/bootstrap.min.js"></script>
+
+   </body>
+</html>

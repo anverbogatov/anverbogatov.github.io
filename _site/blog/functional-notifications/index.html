@@ -1,0 +1,312 @@
+<!DOCTYPE html>
+<html lang="en">
+   <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta http-equiv="Cache-control" content="public">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <meta name="keywords" content="hexed bits, apps, iOS, objective-c, swift, cocoa, apple, xcode, app store, software, programming, engineering, design patterns">
+    <meta name="description" content="Бесконечность - не предел.">
+    <meta name="author" content="Anver Bogatov">
+
+    <title>
+        
+            Functional notifications &middot; Anver Bogatov
+        
+    </title>
+
+    <!-- Begin Jekyll SEO tag v2.2.3 -->
+<meta property="og:title" content="Functional notifications" />
+<meta name="author" content="Anver Bogatov" />
+<meta property="og:locale" content="en_US" />
+<meta name="description" content="The observer pattern is a powerful way to decouple the sending and handling of events between objects in a system. On iOS, one implementation of this pattern is via NSNotificationCenter. However, the NSNotificationCenter APIs are kind of cumbersome to use and require some boilerplate code. Luckily, Swift gives us the tools to improve NSNotificationCenter with very little code." />
+<meta property="og:description" content="The observer pattern is a powerful way to decouple the sending and handling of events between objects in a system. On iOS, one implementation of this pattern is via NSNotificationCenter. However, the NSNotificationCenter APIs are kind of cumbersome to use and require some boilerplate code. Luckily, Swift gives us the tools to improve NSNotificationCenter with very little code." />
+<link rel="canonical" href="http://localhost:4000/blog/functional-notifications/" />
+<meta property="og:url" content="http://localhost:4000/blog/functional-notifications/" />
+<meta property="og:site_name" content="Anver Bogatov" />
+<meta property="og:type" content="article" />
+<meta property="article:published_time" content="2015-03-31T00:00:00+00:00" />
+<meta name="twitter:card" content="summary" />
+<meta name="twitter:site" content="@anver_bogatov" />
+<meta name="twitter:creator" content="@anver_bogatov" />
+<script type="application/ld+json">
+{"@context":"http://schema.org","@type":"BlogPosting","headline":"Functional notifications","author":{"@type":"Person","name":"Anver Bogatov"},"datePublished":"2015-03-31T00:00:00+00:00","dateModified":"2015-03-31T00:00:00+00:00","description":"The observer pattern is a powerful way to decouple the sending and handling of events between objects in a system. On iOS, one implementation of this pattern is via NSNotificationCenter. However, the NSNotificationCenter APIs are kind of cumbersome to use and require some boilerplate code. Luckily, Swift gives us the tools to improve NSNotificationCenter with very little code.","publisher":{"@type":"Organization","logo":{"@type":"ImageObject","url":"http://localhost:4000/img/logo.png"},"name":"Anver Bogatov"},"mainEntityOfPage":{"@type":"WebPage","@id":"http://localhost:4000/blog/functional-notifications/"},"url":"http://localhost:4000/blog/functional-notifications/"}</script>
+<!-- End Jekyll SEO tag -->
+
+
+    <meta name="twitter:image" content="/img/logo.png" />
+    <meta property="og:image" content="/img/logo.png" />
+    <meta property="og:image:type" content="image/png" />
+    <meta property="og:image:width" content="512" />
+    <meta property="og:image:height" content="512" />
+
+    <link href="/bower_components/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="/bower_components/font-awesome/css/font-awesome.min.css" rel="stylesheet">
+    <link href="/bower_components/ubuntuMono/ubuntuMono.css" rel="stylesheet">
+    <link href="/css/syntax.css" rel="stylesheet">
+    <link href="/css/style.css" rel="stylesheet">
+
+    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+      <script src="/bower_components/html5shiv/dist/html5shiv.min.js"></script>
+      <script src="/bower_components/respond/dest/respond.min.js"></script>
+    <![endif]-->
+
+    <link rel="apple-touch-icon" sizes="76x76" href="/ico/icon76.png">
+    <link rel="apple-touch-icon" sizes="120x120" href="/ico/icon120.png">
+    <link rel="apple-touch-icon" sizes="152x152" href="/ico/icon152.png">
+    <link rel="apple-touch-icon" sizes="167x167" href="/ico/icon167.png">
+    <link rel="apple-touch-icon" sizes="180x180" href="/ico/icon180.png">
+
+    <link rel="shortcut icon" href="/favicon.ico">
+    <link type="application/atom+xml" rel="alternate" href="/feed.xml" title="Anver Bogatov" />
+
+    <script>
+         (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+         (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+         m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+         })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+         ga('create', 'UA-37319916-5', 'auto');
+         ga('send', 'pageview');
+    </script>
+</head>
+
+   <body>
+      
+<header class="container container-fluid">
+   <div class="row">
+      <div class="col-md-12 col-sm-12 col-xs-12">
+        <h1 class="text-center"><a href="/">Anver Bogatov</a></h1>
+        <div class="col-md-12 col-sm-12 col-xs-12">
+            <h2 class="tagline">&mdash; Turing complete with a stack of <code>0xdeadbeef</code>&mdash;</h2>
+         </div> <!-- col -->
+      </div> <!-- col -->
+   </div> <!-- row -->
+
+   <div class="row menu">
+      <div class="col-md-12 col-sm-12 col-xs-12">
+         <a class="btn btn-default" href="/">Blog</a>
+         <a class="btn btn-default" href="/speaking/">Speaking</a>
+         <a class="btn btn-default" href="/about/">About</a>
+      </div> <!-- col -->
+   </div> <!-- row -->
+   <hr>
+</header>
+
+
+      <div class="container container-fluid">
+         <div class="row">
+            <div class="col-sm-12 col-sm-offset-0 col-md-10 col-md-offset-1">
+               <article>
+   <h1 class="post-title"><a href="">Functional notifications</a></h1>
+   <h2 class="post-subtitle">Exploring the flexibility of Swift micro-libraries <small class="post-date">31 Mar 2015</small></h2>
+   
+
+   <div class="post-content">
+      <p>The <a href="http://en.wikipedia.org/wiki/Observer_pattern">observer pattern</a> is a powerful way to decouple the sending and handling of events between objects in a system. On iOS, one implementation of this pattern is via <a href="https://developer.apple.com/library/mac/documentation/Cocoa/Reference/Foundation/Classes/NSNotificationCenter_Class">NSNotificationCenter</a>. However, the <code class="highlighter-rouge">NSNotificationCenter</code> APIs are kind of cumbersome to use and require some boilerplate code. Luckily, Swift gives us the tools to improve <code class="highlighter-rouge">NSNotificationCenter</code> with very little code.</p>
+
+<!--excerpt-->
+
+<h3 id="out-with-the-old">Out with the old</h3>
+
+<p>A while back, <a href="http://www.objc.io">objc.io</a> posted functional <a href="http://www.objc.io/snippets/16.html">snippet 16</a>, on <em>Typed Notification Observers</em>. I had already been working on a generic, reusable way to observe notifications in iOS, but this snippet really pointed me in the right direction. One major motivation here is to remove the boilerplate of handling notifications. A typical example would be a view controller that registers to observe a notification and implements an instance method to be called when the notification is received.</p>
+
+<figure class="highlight"><pre><code class="language-objc" data-lang="objc"><span class="k">-</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="n">viewDidLoad</span> <span class="p">{</span>
+    <span class="p">[</span><span class="n">super</span> <span class="nf">viewDidLoad</span><span class="p">];</span>
+
+    <span class="p">[[</span><span class="n">NSNotificationCenter</span> <span class="nf">defaultCenter</span><span class="p">]</span> <span class="nf">addObserver</span><span class="p">:</span><span class="n">self</span>
+                                             <span class="nf">selector</span><span class="p">:</span><span class="k">@selector</span><span class="p">(</span><span class="n">handleNotification</span><span class="o">:</span><span class="p">)</span>
+                                                 <span class="n">name</span><span class="o">:</span><span class="n">UIApplicationDidReceiveMemoryWarningNotification</span>
+                                               <span class="n">object</span><span class="o">:</span><span class="nb">nil</span><span class="p">];</span>
+<span class="p">}</span>
+
+<span class="o">-</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="n">dealloc</span> <span class="p">{</span>
+    <span class="p">[[</span><span class="n">NSNotificationCenter</span> <span class="nf">defaultCenter</span><span class="p">]</span> <span class="nf">removeObserver</span><span class="p">:</span><span class="n">self</span><span class="p">];</span>
+<span class="p">}</span>
+
+<span class="c1">// ... a bunch of view controller code ...
+</span>
+<span class="o">-</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="n">handleNotification</span><span class="o">:</span><span class="p">(</span><span class="n">NSNotification</span> <span class="o">*</span><span class="p">)</span><span class="n">notification</span> <span class="p">{</span>
+    <span class="c1">// handle notification
+</span><span class="p">}</span></code></pre></figure>
+
+<p>This is problematic for a few reasons.</p>
+
+<ol>
+  <li>We need to remember to explicitly add and remove <code class="highlighter-rouge">self</code> as an observer. Forgetting to remove <code class="highlighter-rouge">self</code> in <code class="highlighter-rouge">dealloc</code> is a bug.</li>
+  <li>The code that actually handles the notification is in a totally different area (the <code class="highlighter-rouge">handleNotification:</code> method). As more code is added to this class, it becomes more difficult to see what is happening and when.</li>
+  <li>Because this is Objective-C, there is no type-safety. An <code class="highlighter-rouge">NSNotification</code> can have an <em>object</em> (<code class="highlighter-rouge">id</code>) property and <em>userInfo</em> (<code class="highlighter-rouge">NSDictionary</code>) property. If accessing the object, we must know how cast it. And if accessing the dictionary, we must know what it contains.</li>
+  <li>We must duplicate this pattern across all parts of our app, proliferating issues (1), (2), and (3).</li>
+</ol>
+
+<h3 id="a-new-micro-library">A new micro-library</h3>
+
+<p>Say hello to <a href="https://github.com/jessesquires/JSQNotificationObserverKit">JSQNotificationObserverKit</a>, a Swift framework based on <a href="http://www.objc.io/snippets/16.html">snippet 16</a>. This framework remedies the issues described above with a <em>tiny</em> API that is <em>extremely</em> flexible. As you’ll notice from the <a href="http://www.jessesquires.com/JSQNotificationObserverKit">documentation</a>, there is only 1 class, 1 struct, and 1 function. This is all we need, which is as awesome as it is surprising. Let’s see how it works.</p>
+
+<p>We begin by creating a <code class="highlighter-rouge">Notification</code>. This struct has two type parameters: a value <code class="highlighter-rouge">V</code> and sender <code class="highlighter-rouge">S</code>. The type of value <code class="highlighter-rouge">V</code> that the notification sends is a <a href="http://www.objc.io/snippets/13.html">phantom type</a>, while <code class="highlighter-rouge">S</code> is the type of sender associated with the notification. A <code class="highlighter-rouge">Notification</code> also has a <code class="highlighter-rouge">name</code> property and an optional <code class="highlighter-rouge">sender</code> property.</p>
+
+<figure class="highlight"><pre><code class="language-swift" data-lang="swift"><span class="c1">// 1. Suppose we have a UIView that posts a notification when its size changes</span>
+<span class="k">let</span> <span class="nv">myView</span> <span class="o">=</span> <span class="kt">UIView</span><span class="p">()</span>
+
+<span class="c1">// 2. This notification posts a CGSize value from a UIView sender</span>
+<span class="k">let</span> <span class="nv">notification</span> <span class="o">=</span> <span class="kt">Notification</span><span class="o">&lt;</span><span class="kt">CGSize</span><span class="p">,</span> <span class="kt">UIView</span><span class="o">&gt;</span><span class="p">(</span><span class="nv">name</span><span class="p">:</span> <span class="s">"NewViewSizeNotif"</span><span class="p">,</span> <span class="nv">sender</span><span class="p">:</span> <span class="n">myView</span><span class="p">)</span></code></pre></figure>
+
+<p>Next, we create our <code class="highlighter-rouge">NotificationObserver</code>, which is initialized with the notification described above and a closure to be called when the notification is received. Instantiating this observer automatically adds it to <code class="highlighter-rouge">NSNotificationCenter</code> for the notification <code class="highlighter-rouge">name</code> and <code class="highlighter-rouge">sender</code> specified by the <code class="highlighter-rouge">Notification</code> function parameter. Because <code class="highlighter-rouge">NotificationObserver</code> has the same type parameters as <code class="highlighter-rouge">Notification</code>, it can <em>only</em> observe that <em>specific</em> kind of notification.</p>
+
+<figure class="highlight"><pre><code class="language-swift" data-lang="swift"><span class="c1">// 3. This observer listens for the notification described above</span>
+<span class="k">var</span> <span class="nv">observer</span><span class="p">:</span> <span class="kt">NotificationObserver</span><span class="o">&lt;</span><span class="kt">CGSize</span><span class="p">,</span> <span class="kt">UIView</span><span class="o">&gt;</span><span class="p">?</span>
+
+<span class="c1">// 4. Register observer, start listening for the notification</span>
+<span class="n">observer</span> <span class="o">=</span> <span class="kt">NotificationObserver</span><span class="p">(</span><span class="nv">notification</span><span class="p">:</span> <span class="n">notification</span><span class="p">)</span> <span class="p">{</span> <span class="p">(</span><span class="nv">value</span><span class="p">:</span> <span class="kt">CGSize</span><span class="p">,</span> <span class="nv">sender</span><span class="p">:</span> <span class="kt">UIView</span><span class="p">?)</span> <span class="k">in</span>
+    <span class="c1">// handle notification</span>
+<span class="p">}</span></code></pre></figure>
+
+<p>Finally, we post the notification using the <code class="highlighter-rouge">postNotification(_:value:)</code> function. Again, this function has the same type parameters as <code class="highlighter-rouge">Notification</code>, which enforces sending a value of the type specified by the phantom type of <code class="highlighter-rouge">Notification</code>. In this example, we can <strong>only</strong> send a <code class="highlighter-rouge">CGSize</code> as the value. Anything else would result in a compiler error.</p>
+
+<figure class="highlight"><pre><code class="language-swift" data-lang="swift"><span class="c1">// 5. Post the notification with the updated CGSize value</span>
+<span class="nf">postNotification</span><span class="p">(</span><span class="n">notification</span><span class="p">,</span> <span class="nv">value</span><span class="p">:</span> <span class="kt">CGSizeMake</span><span class="p">(</span><span class="mi">200</span><span class="p">,</span> <span class="mi">200</span><span class="p">))</span></code></pre></figure>
+
+<p>When the observer is set to <code class="highlighter-rouge">nil</code> (when it is deallocated), then it is removed from <code class="highlighter-rouge">NSNotificationCenter</code>.</p>
+
+<figure class="highlight"><pre><code class="language-swift" data-lang="swift"><span class="c1">// 6. Unregister observer, stop listening for notifications</span>
+<span class="n">observer</span> <span class="o">=</span> <span class="kc">nil</span></code></pre></figure>
+
+<p>That’s all. Each of the aforementioned issues have been resolved. Registering and unregistering for a notification is now as simple as creating and destroying an observer object. The code for the registration and handling of the notification is all in one place. We have type-safety, and a reusable solution for the rest of our app.</p>
+
+<h3 id="tiny-but-flexible">Tiny, but flexible</h3>
+
+<p>So how flexible is this small API? The example above works for a notification with a sender and a value, but what about a notification that only has a value? Or a notification that only has a sender? Or a notification that has neither? What about supporting more typical Cocoa notifications that send a <em>userInfo</em> dictionary? We can do it all.</p>
+
+<p>A notification can be configured in 4 different ways:</p>
+
+<ol>
+  <li>It can have a specific sender and value (as in the example above)</li>
+  <li>It can have only a sender. For example, <code class="highlighter-rouge">UIApplicationDidReceiveMemoryWarningNotification</code> does not send any data in the <em>userInfo</em> dictionary.</li>
+  <li>It can only have a value. Sometimes observers do not care which object posted a given notification.</li>
+  <li>It can have neither a sender, nor a value. Sometimes a notification may be posted to notify of an event, and either there isn’t an associated sender, or the observer does not care.</li>
+</ol>
+
+<p>For notifications without a sender, or for which the observer does not care about the sender, we can specify a sender of type <code class="highlighter-rouge">AnyObject</code>. When we initialize a <code class="highlighter-rouge">Notification</code>, we can omit the <code class="highlighter-rouge">sender</code> parameter which defaults to <code class="highlighter-rouge">nil</code>. The semantics here are great. <em>Any object</em> can send this notification, it does not matter to the observer.</p>
+
+<figure class="highlight"><pre><code class="language-swift" data-lang="swift"><span class="k">let</span> <span class="nv">myValue</span> <span class="o">=</span> <span class="kt">MyValueType</span><span class="p">()</span>
+
+<span class="k">let</span> <span class="nv">notification</span> <span class="o">=</span> <span class="kt">Notification</span><span class="o">&lt;</span><span class="kt">MyValueType</span><span class="p">,</span> <span class="kt">AnyObject</span><span class="o">&gt;</span><span class="p">(</span><span class="nv">name</span><span class="p">:</span> <span class="s">"Notification"</span><span class="p">)</span>
+
+<span class="nf">postNotification</span><span class="p">(</span><span class="n">notification</span><span class="p">,</span> <span class="nv">value</span><span class="p">:</span> <span class="n">myValue</span><span class="p">)</span></code></pre></figure>
+
+<p>For notifications without a value, we simply specify a value type of <code class="highlighter-rouge">Void</code>. Then when the notification is posted we send the empty tuple, <code class="highlighter-rouge">()</code>. Remember, the empty tuple is equivalent to <code class="highlighter-rouge">Void</code>.</p>
+
+<figure class="highlight"><pre><code class="language-swift" data-lang="swift"><span class="k">let</span> <span class="nv">notification</span> <span class="o">=</span> <span class="kt">Notification</span><span class="o">&lt;</span><span class="kt">Void</span><span class="p">,</span> <span class="kt">MyObjectType</span><span class="o">&gt;</span><span class="p">(</span><span class="nv">name</span><span class="p">:</span> <span class="s">"Notification"</span><span class="p">,</span> <span class="nv">sender</span><span class="p">:</span> <span class="kt">MyObject</span><span class="p">)</span>
+
+<span class="nf">postNotification</span><span class="p">(</span><span class="n">notification</span><span class="p">,</span> <span class="nv">value</span><span class="p">:</span> <span class="p">())</span></code></pre></figure>
+
+<p>From here, it is easy to see how we can construct and post a notification with neither a value nor a sender. Furthermore, the value type could be a <code class="highlighter-rouge">Dictionary</code> which allows this API to conform to the existing patterns in Cocoa. For more examples on usage, see the unit tests included with <a href="https://github.com/jessesquires/JSQNotificationObserverKit">JSQNotificationObserverKit</a>.</p>
+
+<h3 id="less-is-more">Less is more</h3>
+
+<p>It really is incredible how much we can accomplish with so little — 1 class, 1 struct, and 1 function. An equivalent API in Objective-C would have been more than double the size and still not type-safe. I think the <a href="http://www.objc.io/snippets/">objc.io snippets</a> are absolutely great, but they are often deceptively simple. The power and flexibility of these functional patterns is not always obvious to a tenured Objective-C developer. If you want to learn even more about micro-libraries, check out Chris Eidhof’s talk on <a href="http://realm.io/news/chris-eidhof-micro-libraries-swift"><em>Tiny Networking</em></a>.</p>
+
+   </div> <!-- post-content -->
+</article>
+
+
+<div class="post-share-subscribe">
+   <div class="row">
+      <div class="col-md-6 col-sm-6 col-xs-12 center">
+         <div class="btn-group btn-group-justified" role="group">
+
+            <div class="btn-group dropup" role="group">
+               <button class="btn btn-default dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                  Share &nbsp;<i class="fa fa-share-alt" aria-hidden="true"></i>
+               </button>
+               <ul class="dropdown-menu">
+                  <li>
+                     <a href="https://twitter.com/intent/tweet?text=Functional%20notifications%20http://localhost:4000/blog/functional-notifications/%20via%20@anver_bogatov" title="Tweet" target="_blank">
+                     Twitter &nbsp;<i class="fa fa-twitter" aria-hidden="true"></i>
+                     </a>
+                  </li>
+                  <li>
+                     <a href="https://www.facebook.com/sharer.php?u=http://localhost:4000/blog/functional-notifications/" title="Post" target="_blank">
+                     Facebook &nbsp;<i class="fa fa-facebook" aria-hidden="true"></i>
+                     </a>
+                  </li>
+                  <li>
+                     <a href="https://plus.google.com/share?url=http://localhost:4000/blog/functional-notifications/" title="Share" target="_blank">
+                     Google &nbsp;<i class="fa fa-google-plus" aria-hidden="true"></i>
+                     </a>
+                  </li>
+               </ul>
+            </div> <!-- share dropup -->
+
+            <div class="btn-group dropup" role="group">
+               <button class="btn btn-default dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                  Subscribe &nbsp;<i class="fa fa-rss" aria-hidden="true"></i>
+               </button>
+               <ul class="dropdown-menu">
+                  <li><a href="/feed.xml" title="Subscribe via RSS/atom">RSS/Atom &nbsp;<i class="fa fa-rss" aria-hidden="true"></i></a></li>
+                  <li><a href="" title="Add to Apple News">Apple News &nbsp;<i class="fa fa-apple" aria-hidden="true"></i></a></li>
+               </ul>
+            </div> <!-- subscribe drop-up -->
+
+            <div class="btn-group dropup" role="group">
+               <button class="btn btn-default dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                  Support &nbsp;<i class="fa fa-star" aria-hidden="true"></i>
+               </button>
+               <ul class="dropdown-menu">
+                  <li><a href="" title="Donate via PayPal" target="_blank">Donate via PayPal &nbsp;<i class="fa fa-paypal" aria-hidden="true"></i></a></li>
+                  <li><a href="" title="Donate via Square Cash" target="_blank">Donate via Square &nbsp;<i class="fa fa-dollar" aria-hidden="true"></i></a></li>
+                  <li><a href="" title="Donate Bitcoin" target="_blank">Donate Bitcoin &nbsp;<i class="fa fa-btc" aria-hidden="true"></i></a></li>
+               </ul>
+            </div> <!-- donate drop-up -->
+
+         </div> <!-- btn-group -->
+      </div> <!-- col -->
+   </div> <!-- row -->
+
+   <div class="row feedback">
+      <div class="col-md-6 col-sm-6 col-xs-12 center">
+         <p class="text-muted text-center"><small><b>Questions? Feedback? Corrections?</b></small></p>
+         <p class="text-muted text-center"><small>
+         Open an <a href="https://github.com/anverbogatov/anverbogatov.github.io/issues/new" target="_blank">issue</a> or
+         submit a <a href="https://github.com/anverbogatov/anverbogatov.github.io/compare" target="_blank">pull request</a>.
+         </small></p>
+      </div> <!-- col -->
+   </div> <!-- row -->
+
+</div> <!-- post-share-subscribe -->
+
+
+            </div> <!-- col -->
+         </div> <!-- row -->
+      </div> <!-- container -->
+
+      
+<footer class="container container-fluid">
+   <hr>
+
+   <div class="row contact">
+    <div class="col-sm-12 col-sm-offset-0 col-md-8 col-md-offset-2">
+        <ul class="inline center">
+            <li><a href="https://github.com/anverbogatov" title="Follow me on Github"><i class="fa fa-2x fa-github" aria-hidden="true"></i></a></li>
+            <li><a href="https://twitter.com/anver_bogatov" title="Follow me on Twitter"><i class="fa fa-2x fa-twitter" aria-hidden="true"></i></a></li>
+            <li><a href="https://www.linkedin.com/in/anver-bogatov-64b32661/" title="Connect with me on LinkedIn"><i class="fa fa-2x fa-linkedin" aria-hidden="true"></i></a></li>
+            <li><a href="/feed.xml" title="Subscribe via RSS/atom"><i class="fa fa-2x fa-rss-square" aria-hidden="true"></i></a></li>
+            <li><a href="" title="Add to Apple News"><i class="fa fa-2x fa-apple" aria-hidden="true"></i></a></li>
+        </ul>
+    </div> <!-- col -->
+</div> <!-- row -->
+
+
+   <p class="text-muted text-center"><small>
+   &copy; 2017 Anver Bogatov.
+   This site is <a href="https://github.com/anverbogatov/anverbogatov.github.io">open source</a>.
+   </small></p>
+</footer>
+
+      
+<script src="/bower_components/jquery/dist/jquery.min.js"></script>
+<script src="/bower_components/bootstrap/dist/js/bootstrap.min.js"></script>
+
+   </body>
+</html>

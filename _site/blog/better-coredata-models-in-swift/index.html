@@ -1,0 +1,353 @@
+<!DOCTYPE html>
+<html lang="en">
+   <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta http-equiv="Cache-control" content="public">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <meta name="keywords" content="hexed bits, apps, iOS, objective-c, swift, cocoa, apple, xcode, app store, software, programming, engineering, design patterns">
+    <meta name="description" content="Бесконечность - не предел.">
+    <meta name="author" content="Anver Bogatov">
+
+    <title>
+        
+            Better Core Data models in Swift &middot; Anver Bogatov
+        
+    </title>
+
+    <!-- Begin Jekyll SEO tag v2.2.3 -->
+<meta property="og:title" content="Better Core Data models in Swift" />
+<meta name="author" content="Anver Bogatov" />
+<meta property="og:locale" content="en_US" />
+<meta name="description" content="As I continue my work with Core Data and Swift, I have been trying to find ways to make Core Data better. Among my goals are clarity and safety, specifically regarding types. Luckily, we can harness Swift’s optionals, enums, and other features to make managed objects more robust and more clear. But even with the improvements that Swift brings, there are still some drawbacks and limitations with Xcode’s current toolset." />
+<meta property="og:description" content="As I continue my work with Core Data and Swift, I have been trying to find ways to make Core Data better. Among my goals are clarity and safety, specifically regarding types. Luckily, we can harness Swift’s optionals, enums, and other features to make managed objects more robust and more clear. But even with the improvements that Swift brings, there are still some drawbacks and limitations with Xcode’s current toolset." />
+<link rel="canonical" href="http://localhost:4000/blog/better-coredata-models-in-swift/" />
+<meta property="og:url" content="http://localhost:4000/blog/better-coredata-models-in-swift/" />
+<meta property="og:site_name" content="Anver Bogatov" />
+<meta property="og:type" content="article" />
+<meta property="article:published_time" content="2015-02-17T00:00:00+00:00" />
+<meta name="twitter:card" content="summary" />
+<meta name="twitter:site" content="@anver_bogatov" />
+<meta name="twitter:creator" content="@anver_bogatov" />
+<script type="application/ld+json">
+{"@context":"http://schema.org","@type":"BlogPosting","headline":"Better Core Data models in Swift","author":{"@type":"Person","name":"Anver Bogatov"},"datePublished":"2015-02-17T00:00:00+00:00","dateModified":"2015-02-17T00:00:00+00:00","description":"As I continue my work with Core Data and Swift, I have been trying to find ways to make Core Data better. Among my goals are clarity and safety, specifically regarding types. Luckily, we can harness Swift’s optionals, enums, and other features to make managed objects more robust and more clear. But even with the improvements that Swift brings, there are still some drawbacks and limitations with Xcode’s current toolset.","publisher":{"@type":"Organization","logo":{"@type":"ImageObject","url":"http://localhost:4000/img/logo.png"},"name":"Anver Bogatov"},"mainEntityOfPage":{"@type":"WebPage","@id":"http://localhost:4000/blog/better-coredata-models-in-swift/"},"url":"http://localhost:4000/blog/better-coredata-models-in-swift/"}</script>
+<!-- End Jekyll SEO tag -->
+
+
+    <meta name="twitter:image" content="/img/logo.png" />
+    <meta property="og:image" content="/img/logo.png" />
+    <meta property="og:image:type" content="image/png" />
+    <meta property="og:image:width" content="512" />
+    <meta property="og:image:height" content="512" />
+
+    <link href="/bower_components/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="/bower_components/font-awesome/css/font-awesome.min.css" rel="stylesheet">
+    <link href="/bower_components/ubuntuMono/ubuntuMono.css" rel="stylesheet">
+    <link href="/css/syntax.css" rel="stylesheet">
+    <link href="/css/style.css" rel="stylesheet">
+
+    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+      <script src="/bower_components/html5shiv/dist/html5shiv.min.js"></script>
+      <script src="/bower_components/respond/dest/respond.min.js"></script>
+    <![endif]-->
+
+    <link rel="apple-touch-icon" sizes="76x76" href="/ico/icon76.png">
+    <link rel="apple-touch-icon" sizes="120x120" href="/ico/icon120.png">
+    <link rel="apple-touch-icon" sizes="152x152" href="/ico/icon152.png">
+    <link rel="apple-touch-icon" sizes="167x167" href="/ico/icon167.png">
+    <link rel="apple-touch-icon" sizes="180x180" href="/ico/icon180.png">
+
+    <link rel="shortcut icon" href="/favicon.ico">
+    <link type="application/atom+xml" rel="alternate" href="/feed.xml" title="Anver Bogatov" />
+
+    <script>
+         (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+         (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+         m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+         })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+         ga('create', 'UA-37319916-5', 'auto');
+         ga('send', 'pageview');
+    </script>
+</head>
+
+   <body>
+      
+<header class="container container-fluid">
+   <div class="row">
+      <div class="col-md-12 col-sm-12 col-xs-12">
+        <h1 class="text-center"><a href="/">Anver Bogatov</a></h1>
+        <div class="col-md-12 col-sm-12 col-xs-12">
+            <h2 class="tagline">&mdash; Turing complete with a stack of <code>0xdeadbeef</code>&mdash;</h2>
+         </div> <!-- col -->
+      </div> <!-- col -->
+   </div> <!-- row -->
+
+   <div class="row menu">
+      <div class="col-md-12 col-sm-12 col-xs-12">
+         <a class="btn btn-default" href="/">Blog</a>
+         <a class="btn btn-default" href="/speaking/">Speaking</a>
+         <a class="btn btn-default" href="/about/">About</a>
+      </div> <!-- col -->
+   </div> <!-- row -->
+   <hr>
+</header>
+
+
+      <div class="container container-fluid">
+         <div class="row">
+            <div class="col-sm-12 col-sm-offset-0 col-md-10 col-md-offset-1">
+               <article>
+   <h1 class="post-title"><a href="">Better Core Data models in Swift</a></h1>
+   <h2 class="post-subtitle">How Swift can bring clarity and safety to your managed objects <small class="post-date">17 Feb 2015</small></h2>
+   
+
+   <div class="post-content">
+      <p>As I continue my work with <a href="https://developer.apple.com/library/mac/documentation/Cocoa/Conceptual/CoreData/cdProgrammingGuide.html">Core Data</a> and <a href="http://www.apple.com/swift/">Swift</a>, I have been trying to find ways to make Core Data <strong>better</strong>. Among my goals are clarity and safety, specifically regarding types. Luckily, we can harness Swift’s optionals, enums, and other features to make managed objects more robust and more clear. But even with the improvements that Swift brings, there are still some drawbacks and limitations with Xcode’s current toolset.</p>
+
+<!--excerpt-->
+
+<h3 id="a-great-case-for-optionals">A great case for optionals</h3>
+
+<p>There’s been plenty of <a href="http://owensd.io/2014/10/18/optionals-beware.html">feedback</a> in the community about <a href="https://developer.apple.com/library/ios/documentation/Swift/Conceptual/Swift_Programming_Language/TheBasics.html#//apple_ref/doc/uid/TP40014097-CH5-ID330">optionals</a> and how they are often <a href="http://natashatherobot.com/unit-testing-optionals-in-swift-xctassertnotnil/">cumbersome</a> to use. However, this relatively simple construct brings a welcoming clarity to managed objects when working with Core Data. When defining entities in Core Data, it is possible to set some basic validation rules for an entity’s attributes in the Data Model Inspector.</p>
+
+<p><img class="img-thumbnail img-responsive center" src="/img/coredata_inspector.jpg" title="Core Data Model Inspector" alt="Core Data Model Inspector" />
+<small class="text-muted center">Data Model Inspector for Core Data managed objects.</small></p>
+
+<p>You can define minimum and maximum values, provide default values, mark attributes as optional, and more. This is nothing new. But in Objective-C, the optionality of a property on a managed object could only be discovered by opening the <code class="highlighter-rouge">.xcdatamodeld</code> file in Xcode, then selecting the entity, then selecting the attribute, and then opening the Data Model Inspector in the sidebar. Or, at runtime you find out that your <code class="highlighter-rouge">NSManagedObjectContext</code> fails to save because of <code class="highlighter-rouge">Cocoa error 1570</code>. Neither of these experiences are enjoyable.</p>
+
+<p>For example, imagine we have the following <code class="highlighter-rouge">Employee</code> class. What fields are required for a save to succeed?</p>
+
+<figure class="highlight"><pre><code class="language-objc" data-lang="objc"><span class="k">@interface</span> <span class="nc">Employee</span> <span class="p">:</span> <span class="nc">NSManagedObject</span>
+
+<span class="k">@property</span> <span class="p">(</span><span class="n">nonatomic</span><span class="p">,</span> <span class="n">retain</span><span class="p">)</span> <span class="n">NSString</span> <span class="o">*</span> <span class="n">address</span><span class="p">;</span>
+<span class="k">@property</span> <span class="p">(</span><span class="n">nonatomic</span><span class="p">,</span> <span class="n">retain</span><span class="p">)</span> <span class="n">NSDate</span> <span class="o">*</span> <span class="n">dateOfBirth</span><span class="p">;</span>
+<span class="k">@property</span> <span class="p">(</span><span class="n">nonatomic</span><span class="p">,</span> <span class="n">retain</span><span class="p">)</span> <span class="n">NSString</span> <span class="o">*</span> <span class="n">email</span><span class="p">;</span>
+
+<span class="k">@property</span> <span class="p">(</span><span class="n">nonatomic</span><span class="p">,</span> <span class="n">retain</span><span class="p">)</span> <span class="n">NSString</span> <span class="o">*</span> <span class="n">firstName</span><span class="p">;</span>
+<span class="k">@property</span> <span class="p">(</span><span class="n">nonatomic</span><span class="p">,</span> <span class="n">retain</span><span class="p">)</span> <span class="n">NSString</span> <span class="o">*</span> <span class="n">lastName</span><span class="p">;</span>
+<span class="k">@property</span> <span class="p">(</span><span class="n">nonatomic</span><span class="p">,</span> <span class="n">retain</span><span class="p">)</span> <span class="n">NSString</span> <span class="o">*</span> <span class="n">middleName</span><span class="p">;</span>
+
+<span class="k">@property</span> <span class="p">(</span><span class="n">nonatomic</span><span class="p">,</span> <span class="n">retain</span><span class="p">)</span> <span class="n">NSDecimalNumber</span> <span class="o">*</span> <span class="n">salary</span><span class="p">;</span>
+<span class="k">@property</span> <span class="p">(</span><span class="n">nonatomic</span><span class="p">,</span> <span class="n">retain</span><span class="p">)</span> <span class="n">NSNumber</span> <span class="o">*</span> <span class="n">status</span><span class="p">;</span>
+
+<span class="k">@end</span></code></pre></figure>
+
+<p>By contrast, when using Swift we immediately know what properties are optional simply by looking at the code.</p>
+
+<figure class="highlight"><pre><code class="language-swift" data-lang="swift"><span class="kd">class</span> <span class="kt">Employee</span><span class="p">:</span> <span class="kt">NSManagedObject</span> <span class="p">{</span>
+
+    <span class="kd">@NSManaged</span> <span class="k">var</span> <span class="nv">address</span><span class="p">:</span> <span class="kt">String</span><span class="p">?</span>
+    <span class="kd">@NSManaged</span> <span class="k">var</span> <span class="nv">dateOfBirth</span><span class="p">:</span> <span class="kt">NSDate</span>
+    <span class="kd">@NSManaged</span> <span class="k">var</span> <span class="nv">email</span><span class="p">:</span> <span class="kt">String</span><span class="p">?</span>
+
+    <span class="kd">@NSManaged</span> <span class="k">var</span> <span class="nv">firstName</span><span class="p">:</span> <span class="kt">String</span>
+    <span class="kd">@NSManaged</span> <span class="k">var</span> <span class="nv">lastName</span><span class="p">:</span> <span class="kt">String</span>
+    <span class="kd">@NSManaged</span> <span class="k">var</span> <span class="nv">middleName</span><span class="p">:</span> <span class="kt">String</span><span class="p">?</span>
+
+    <span class="kd">@NSManaged</span> <span class="k">var</span> <span class="nv">salary</span><span class="p">:</span> <span class="kt">NSDecimalNumber</span>
+    <span class="kd">@NSManaged</span> <span class="k">var</span> <span class="nv">status</span><span class="p">:</span> <span class="kt">Int32</span>
+<span class="p">}</span></code></pre></figure>
+
+<p><span class="text-muted"><strong>Note:</strong> Xcode does not generate Swift classes accurately when they have optional attributes. You must manually add the <code class="highlighter-rouge">?</code> for optional values. Further, though <em>The Swift Programming Language</em> guide <a href="https://developer.apple.com/library/ios/documentation/Swift/Conceptual/Swift_Programming_Language/TheBasics.html#//apple_ref/doc/uid/TP40014097-CH5-ID317">recommends</a> using <code class="highlighter-rouge">Int</code> for all integer variables, Core Data recommends using specific integer sizes and complains if you attempt to do otherwise, thus the use of <code class="highlighter-rouge">Int32</code> for the <code class="highlighter-rouge">status</code> property.</span></p>
+
+<p>This seems like a minor detail, but it’s a huge win — especially when you begin to work with your models throughout the rest of your app. As with optionals in general, you will need to explicitly handle <code class="highlighter-rouge">nil</code> (which I think is a positive side effect). But even with the <a href="http://www.scottlogic.com/blog/2014/12/08/swift-optional-pyramids-of-doom.html"><em>pyramid of doom</em></a> behind us, this may not be pleasant if you have a lot of optionals. If this is the case, hopefully it will encourage you to <em>reconsider your design</em>. Is this field <em>really</em> necessary? Could this property be derived from other data? Should this property be <em>required</em> instead? These are questions one should always be asking when designing model classes, but perhaps the leniency of Objective-C allowed them to be dismissed before. <strong>Optionals complicate your model</strong>, which is a great motivation to use as few as possible and keep things simple.</p>
+
+<p>Given this, let’s review our <code class="highlighter-rouge">Employee</code> class. Is <code class="highlighter-rouge">middleName</code> important? No, let’s remove it. Suppose that we know that all employees have an email address with the form: <code class="highlighter-rouge">&lt;firstName&gt;&lt;LastName&gt;@&lt;companyName&gt;.com</code>. Do we really need to store it? No, we can write a function or computed property to generate that. Finally, let’s assume that employees should be required to have an <code class="highlighter-rouge">address</code>. Ahh, this is looking much better now.</p>
+
+<figure class="highlight"><pre><code class="language-swift" data-lang="swift"><span class="kd">class</span> <span class="kt">Employee</span><span class="p">:</span> <span class="kt">NSManagedObject</span> <span class="p">{</span>
+
+    <span class="kd">@NSManaged</span> <span class="k">var</span> <span class="nv">address</span><span class="p">:</span> <span class="kt">String</span>
+    <span class="kd">@NSManaged</span> <span class="k">var</span> <span class="nv">dateOfBirth</span><span class="p">:</span> <span class="kt">NSDate</span>
+
+    <span class="kd">@NSManaged</span> <span class="k">var</span> <span class="nv">firstName</span><span class="p">:</span> <span class="kt">String</span>
+    <span class="kd">@NSManaged</span> <span class="k">var</span> <span class="nv">lastName</span><span class="p">:</span> <span class="kt">String</span>
+
+    <span class="kd">@NSManaged</span> <span class="k">var</span> <span class="nv">salary</span><span class="p">:</span> <span class="kt">NSDecimalNumber</span>
+    <span class="kd">@NSManaged</span> <span class="k">var</span> <span class="nv">status</span><span class="p">:</span> <span class="kt">Int32</span>
+<span class="p">}</span></code></pre></figure>
+
+<h3 id="taking-advantage-of-typealias">Taking advantage of <code class="highlighter-rouge">typealias</code></h3>
+
+<p>Another Swift feature we can use is a <a href="https://developer.apple.com/library/prerelease/ios/documentation/Swift/Conceptual/Swift_Programming_Language/Declarations.html#//apple_ref/doc/uid/TP40014097-CH34-ID361">type alias declaration</a>, which allows a new name to refer to an existing type. For an <code class="highlighter-rouge">Employee</code>, it could be very helpful to work with a <code class="highlighter-rouge">Salary</code> type instead of an <code class="highlighter-rouge">NSDecimalNumber</code> type. In the depths of the codebase, there may be operations on <code class="highlighter-rouge">NSDecimalNumber</code> values where it is not clear what those values represent. A <code class="highlighter-rouge">typealias</code> makes our model much more descriptive and allows us to operate on values of a much more expressive <code class="highlighter-rouge">Salary</code> type.</p>
+
+<figure class="highlight"><pre><code class="language-swift" data-lang="swift"><span class="kd">class</span> <span class="kt">Employee</span><span class="p">:</span> <span class="kt">NSManagedObject</span> <span class="p">{</span>
+    <span class="c1">// other properties...</span>
+
+    <span class="kd">typealias</span> <span class="kt">Salary</span> <span class="o">=</span> <span class="kt">NSDecimalNumber</span>
+
+    <span class="kd">@NSManaged</span> <span class="k">var</span> <span class="nv">salary</span><span class="p">:</span> <span class="kt">Salary</span>
+<span class="p">}</span></code></pre></figure>
+
+<p>We can then write functions that receive and return an <code class="highlighter-rouge">Employee.Salary</code> type. Such functions can retain their brevity, while maximizing their clarity.</p>
+
+<figure class="highlight"><pre><code class="language-swift" data-lang="swift"><span class="kd">func</span> <span class="nf">computeRaise</span><span class="p">(</span><span class="nv">salary</span><span class="p">:</span> <span class="kt">Employee</span><span class="o">.</span><span class="kt">Salary</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kt">Employee</span><span class="o">.</span><span class="kt">Salary</span></code></pre></figure>
+
+<p>As noted in <a href="http://www.objc.io">objc.io</a>, <em>we can take this one step further</em> by using a <a href="http://www.objc.io/snippets/8.html">wrapper type</a>. To do this with an <code class="highlighter-rouge">NSManagedObject</code> subclass, we’ll need to do some wrapping and unwrapping (no pun intended). First, the original property in Core Data should be marked as <code class="highlighter-rouge">private</code>. Then we can use a computed property for the new wrapper type that transforms the private property value to and from the wrapper value. This is a bit of work, but the clarity and safety we receive in return are well worth it.</p>
+
+<figure class="highlight"><pre><code class="language-swift" data-lang="swift"><span class="kd">struct</span> <span class="kt">Salary</span> <span class="p">{</span>
+    <span class="k">let</span> <span class="nv">amount</span><span class="p">:</span> <span class="kt">NSDecimalNumber</span>
+<span class="p">}</span>
+
+<span class="kd">class</span> <span class="kt">Employee</span><span class="p">:</span> <span class="kt">NSManagedObject</span> <span class="p">{</span>
+    <span class="c1">// other properties...</span>
+
+    <span class="kd">@NSManaged</span> <span class="kd">private</span> <span class="k">var</span> <span class="nv">salaryAmount</span><span class="p">:</span> <span class="kt">NSDecimalNumber</span>
+
+    <span class="k">var</span> <span class="nv">salary</span><span class="p">:</span> <span class="kt">Salary</span> <span class="p">{</span>
+        <span class="k">get</span> <span class="p">{</span>
+            <span class="k">return</span> <span class="kt">Salary</span><span class="p">(</span><span class="nv">amount</span><span class="p">:</span> <span class="k">self</span><span class="o">.</span><span class="n">salaryAmount</span><span class="p">)</span>
+        <span class="p">}</span>
+        <span class="k">set</span> <span class="p">{</span>
+            <span class="k">self</span><span class="o">.</span><span class="n">salaryAmount</span> <span class="o">=</span> <span class="n">newValue</span><span class="o">.</span><span class="n">amount</span>
+        <span class="p">}</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+
+<span class="c1">// Usage</span>
+<span class="n">employee</span><span class="o">.</span><span class="n">salary</span> <span class="o">=</span> <span class="kt">Salary</span><span class="p">(</span><span class="nv">amount</span><span class="p">:</span><span class="mf">10000.0</span><span class="p">)</span></code></pre></figure>
+
+<p>Unfortunately, for fetch requests you still need to use the underlying private property name, <code class="highlighter-rouge">salaryAmount</code>. This is because Core Data doesn’t know about the <code class="highlighter-rouge">salary</code> computed property, nor the <code class="highlighter-rouge">Salary</code> type. However, I think the naming conventions used here minimize confusion. That is, <code class="highlighter-rouge">salary.amount</code> corresponds to the private <code class="highlighter-rouge">salaryAmount</code>.</p>
+
+<h3 id="using-swift-enumerations">Using Swift enumerations</h3>
+
+<p>It is not uncommon for a model object to encode some type of state as an <code class="highlighter-rouge">enum</code>. With Objective-C, you could define an <code class="highlighter-rouge">NS_ENUM</code> and store an integer property in your managed object. But an <code class="highlighter-rouge">enum</code> in Objective-C is little more than a glorified integer. By adopting an approach similar to the wrapper type above, we can get all the power of a Swift <code class="highlighter-rouge">enum</code> directly in our managed object. This is incredibly useful.</p>
+
+<p>Let’s see what this would look like for the <code class="highlighter-rouge">status</code> property in the <code class="highlighter-rouge">Employee</code> class.</p>
+
+<figure class="highlight"><pre><code class="language-swift" data-lang="swift"><span class="kd">enum</span> <span class="kt">EmployeeStatus</span><span class="p">:</span> <span class="kt">Int32</span> <span class="p">{</span>
+    <span class="k">case</span> <span class="kt">ReadyForHire</span><span class="p">,</span> <span class="kt">Hired</span><span class="p">,</span> <span class="kt">Retired</span><span class="p">,</span> <span class="kt">Resigned</span><span class="p">,</span> <span class="kt">Fired</span><span class="p">,</span> <span class="kt">Deceased</span>
+<span class="p">}</span>
+
+<span class="kd">class</span> <span class="kt">Employee</span><span class="p">:</span> <span class="kt">NSManagedObject</span> <span class="p">{</span>
+    <span class="c1">// other properties...</span>
+
+    <span class="kd">@NSManaged</span> <span class="kd">private</span> <span class="k">var</span> <span class="nv">statusValue</span><span class="p">:</span> <span class="kt">Int32</span>
+
+    <span class="k">var</span> <span class="nv">status</span><span class="p">:</span> <span class="kt">EmployeeStatus</span> <span class="p">{</span>
+        <span class="k">get</span> <span class="p">{</span>
+            <span class="k">return</span> <span class="kt">EmployeeStatus</span><span class="p">(</span><span class="nv">rawValue</span><span class="p">:</span> <span class="k">self</span><span class="o">.</span><span class="n">statusValue</span><span class="p">)</span><span class="o">!</span>
+        <span class="p">}</span>
+        <span class="k">set</span> <span class="p">{</span>
+            <span class="k">self</span><span class="o">.</span><span class="n">statusValue</span> <span class="o">=</span> <span class="n">newValue</span><span class="o">.</span><span class="n">rawValue</span>
+        <span class="p">}</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+
+<span class="c1">// Usage</span>
+<span class="n">employee</span><span class="o">.</span><span class="n">status</span> <span class="o">=</span> <span class="o">.</span><span class="kt">Hired</span></code></pre></figure>
+
+<p><span class="text-muted"><strong>Note:</strong> Just as in the previous example, for fetch requests you would still need to use the private property name, <code class="highlighter-rouge">statusValue</code>.</span></p>
+
+<p>Furthermore, this is not limited to integers. You can apply this strategy with an enumeration of <strong>any</strong> type that Core Data supports. For example, for an <code class="highlighter-rouge">Employee</code> there could be fixed salary amounts that correspond to an employee’s role. With slightly more effort, you can even support an enumeration with <a href="https://developer.apple.com/library/prerelease/ios/documentation/Swift/Conceptual/Swift_Programming_Language/Enumerations.html#//apple_ref/doc/uid/TP40014097-CH12-ID148">associated values</a>. I’ll leave that as an exercise for the reader.</p>
+
+<h3 id="clarity-or-something-slightly-less-terrible">Clarity, or something slightly less terrible</h3>
+
+<p>Swift has a lot of potential to improve Core Data, but it does require more effort for developers and has some inconvenient workarounds and shortcomings. While I think it’s worth the time, the wrapping and unwrapping of values described above can be tedious to implement. And having to use the underlying private property names for fetch requests feels dirty. On the bright side, we get optionals and type aliases for free — a great step forward.</p>
+
+<p>In any case, I do think this is better than what we had before. Sometimes it seems like Swift is bringing out the worst in Cocoa and Objective-C. Here’s to hoping the toolset will improve — and when Cocoa finally <a href="http://nshipster.com/the-death-of-cocoa/">dies</a>, I’ll be cheering for a Swift re-implementation of Core Data.</p>
+
+   </div> <!-- post-content -->
+</article>
+
+
+<div class="post-share-subscribe">
+   <div class="row">
+      <div class="col-md-6 col-sm-6 col-xs-12 center">
+         <div class="btn-group btn-group-justified" role="group">
+
+            <div class="btn-group dropup" role="group">
+               <button class="btn btn-default dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                  Share &nbsp;<i class="fa fa-share-alt" aria-hidden="true"></i>
+               </button>
+               <ul class="dropdown-menu">
+                  <li>
+                     <a href="https://twitter.com/intent/tweet?text=Better%20Core%20Data%20models%20in%20Swift%20http://localhost:4000/blog/better-coredata-models-in-swift/%20via%20@anver_bogatov" title="Tweet" target="_blank">
+                     Twitter &nbsp;<i class="fa fa-twitter" aria-hidden="true"></i>
+                     </a>
+                  </li>
+                  <li>
+                     <a href="https://www.facebook.com/sharer.php?u=http://localhost:4000/blog/better-coredata-models-in-swift/" title="Post" target="_blank">
+                     Facebook &nbsp;<i class="fa fa-facebook" aria-hidden="true"></i>
+                     </a>
+                  </li>
+                  <li>
+                     <a href="https://plus.google.com/share?url=http://localhost:4000/blog/better-coredata-models-in-swift/" title="Share" target="_blank">
+                     Google &nbsp;<i class="fa fa-google-plus" aria-hidden="true"></i>
+                     </a>
+                  </li>
+               </ul>
+            </div> <!-- share dropup -->
+
+            <div class="btn-group dropup" role="group">
+               <button class="btn btn-default dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                  Subscribe &nbsp;<i class="fa fa-rss" aria-hidden="true"></i>
+               </button>
+               <ul class="dropdown-menu">
+                  <li><a href="/feed.xml" title="Subscribe via RSS/atom">RSS/Atom &nbsp;<i class="fa fa-rss" aria-hidden="true"></i></a></li>
+                  <li><a href="" title="Add to Apple News">Apple News &nbsp;<i class="fa fa-apple" aria-hidden="true"></i></a></li>
+               </ul>
+            </div> <!-- subscribe drop-up -->
+
+            <div class="btn-group dropup" role="group">
+               <button class="btn btn-default dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                  Support &nbsp;<i class="fa fa-star" aria-hidden="true"></i>
+               </button>
+               <ul class="dropdown-menu">
+                  <li><a href="" title="Donate via PayPal" target="_blank">Donate via PayPal &nbsp;<i class="fa fa-paypal" aria-hidden="true"></i></a></li>
+                  <li><a href="" title="Donate via Square Cash" target="_blank">Donate via Square &nbsp;<i class="fa fa-dollar" aria-hidden="true"></i></a></li>
+                  <li><a href="" title="Donate Bitcoin" target="_blank">Donate Bitcoin &nbsp;<i class="fa fa-btc" aria-hidden="true"></i></a></li>
+               </ul>
+            </div> <!-- donate drop-up -->
+
+         </div> <!-- btn-group -->
+      </div> <!-- col -->
+   </div> <!-- row -->
+
+   <div class="row feedback">
+      <div class="col-md-6 col-sm-6 col-xs-12 center">
+         <p class="text-muted text-center"><small><b>Questions? Feedback? Corrections?</b></small></p>
+         <p class="text-muted text-center"><small>
+         Open an <a href="https://github.com/anverbogatov/anverbogatov.github.io/issues/new" target="_blank">issue</a> or
+         submit a <a href="https://github.com/anverbogatov/anverbogatov.github.io/compare" target="_blank">pull request</a>.
+         </small></p>
+      </div> <!-- col -->
+   </div> <!-- row -->
+
+</div> <!-- post-share-subscribe -->
+
+
+            </div> <!-- col -->
+         </div> <!-- row -->
+      </div> <!-- container -->
+
+      
+<footer class="container container-fluid">
+   <hr>
+
+   <div class="row contact">
+    <div class="col-sm-12 col-sm-offset-0 col-md-8 col-md-offset-2">
+        <ul class="inline center">
+            <li><a href="https://github.com/anverbogatov" title="Follow me on Github"><i class="fa fa-2x fa-github" aria-hidden="true"></i></a></li>
+            <li><a href="https://twitter.com/anver_bogatov" title="Follow me on Twitter"><i class="fa fa-2x fa-twitter" aria-hidden="true"></i></a></li>
+            <li><a href="https://www.linkedin.com/in/anver-bogatov-64b32661/" title="Connect with me on LinkedIn"><i class="fa fa-2x fa-linkedin" aria-hidden="true"></i></a></li>
+            <li><a href="/feed.xml" title="Subscribe via RSS/atom"><i class="fa fa-2x fa-rss-square" aria-hidden="true"></i></a></li>
+            <li><a href="" title="Add to Apple News"><i class="fa fa-2x fa-apple" aria-hidden="true"></i></a></li>
+        </ul>
+    </div> <!-- col -->
+</div> <!-- row -->
+
+
+   <p class="text-muted text-center"><small>
+   &copy; 2017 Anver Bogatov.
+   This site is <a href="https://github.com/anverbogatov/anverbogatov.github.io">open source</a>.
+   </small></p>
+</footer>
+
+      
+<script src="/bower_components/jquery/dist/jquery.min.js"></script>
+<script src="/bower_components/bootstrap/dist/js/bootstrap.min.js"></script>
+
+   </body>
+</html>
