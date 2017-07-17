@@ -24,7 +24,6 @@
 <link rel="canonical" href="http://localhost:4000/" />
 <meta property="og:url" content="http://localhost:4000/" />
 <meta property="og:site_name" content="Anver Bogatov" />
-<link rel="next" href="http://localhost:4000/page2">
 <meta name="twitter:card" content="summary" />
 <meta name="twitter:site" content="@anver_bogatov" />
 <meta name="twitter:creator" content="@anver_bogatov" />
@@ -99,54 +98,6 @@
             <div class="col-sm-12 col-sm-offset-0 col-md-10 col-md-offset-1">
                <div class="post-list">
 	
-		<article class="post">
-			<h1 class="post-title"><a href="/blog/protocol-composition-in-swift-and-objc/">Protocol composition in Swift and Objective-C</a></h1>
-			<h2 class="post-subtitle">Designing optional semantics without optional methods <small class="post-date">05 Jun 2017</small></h2>
-			
-			<div class="post-excerpt">
-				<p><a href="https://developer.apple.com/library/content/documentation/General/Conceptual/DevPedia-CocoaCore/Protocol.html">Protocols</a> in Swift and Objective-C are a powerful tool to decouple your code. They allow you to specify a contract between classes that consume them, but defer a concrete implementation to conformers. They allow you to <a href="https://en.wikipedia.org/wiki/Interface_segregation_principle">segregate interfaces</a> and <a href="https://en.wikipedia.org/wiki/Dependency_inversion_principle">invert control</a>. One interesting aspect of protocols in Swift and Objective-C is that protocol members can be <em>optional</em> (<code class="highlighter-rouge">optional</code> in Swift or <code class="highlighter-rouge">@optional</code> in Objective-C). Unfortunately, this comes with a number of disadvantages and diminishes the robustness of your code, so it is often avoided. However, having optional members is sometimes the right conceptual model for your design. How can you design your protocols to provide optional semantics without specifying them as <code class="highlighter-rouge">optional</code> or <code class="highlighter-rouge">@optional</code>?</p>
-
-
-				<a href="/blog/protocol-composition-in-swift-and-objc/" class="post-continue">Читать дальше&hellip; <i class="fa fa-chevron-right"></i></a>
-			</div>
-		</article>
-	
-		<article class="post">
-			<h1 class="post-title"><a href="/blog/writing-better-singletons-in-swift/">Writing better singletons in Swift</a></h1>
-			<h2 class="post-subtitle">Avoiding common pitfalls <small class="post-date">04 Jun 2017</small></h2>
-			
-			<div class="post-excerpt">
-				<p>In a <a href="/blog/refactoring-singletons-in-swift/">previous post</a> I discussed strategies for using singletons in a cleaner, more modular way. <a href="https://en.wikipedia.org/wiki/Singleton_pattern">Singletons</a> are a fact of software development, especially in iOS. <em>Sometimes</em> the design pattern actually <em>is</em> the right tool for the job. In those situations, how we can improve the way we write our own singleton classes?</p>
-
-
-				<a href="/blog/writing-better-singletons-in-swift/" class="post-continue">Читать дальше&hellip; <i class="fa fa-chevron-right"></i></a>
-			</div>
-		</article>
-	
-		<article class="post">
-			<h1 class="post-title"><a href="/blog/a-fair-hotel/">A Fair Hotel</a></h1>
-			<h2 class="post-subtitle">Choosing a place to stay for your next conference <small class="post-date">28 May 2017</small></h2>
-			
-			<div class="post-excerpt">
-				<p>Earlier this week, the <a href="https://techworkerscoalition.org">Tech Workers Coalition</a> and <a href="http://unitehere.org">UNITE HERE!</a> in San Francisco hosted a <a href="https://www.meetup.com/Tech-Workers-Coalition/events/240112005/">panel discussion</a> on how we can use our power as consumers to support hotel workers in the Bay Area and across the United States. The tech industry is full of remote workers, as well as conference organizers that host thousands of conferences each year — meaning thousands of programmers, designers, product managers, and others <strong>travel all the time</strong> to attend these conferences or attend their own company’s events. By choosing to stay at <a href="http://www.fairhotel.org">a fair hotel</a>, you can make a significant impact on an industry where workers are struggling to negotiate fair wages and benefits.</p>
-
-
-				<a href="/blog/a-fair-hotel/" class="post-continue">Читать дальше&hellip; <i class="fa fa-chevron-right"></i></a>
-			</div>
-		</article>
-	
-		<article class="post">
-			<h1 class="post-title"><a href="/blog/thoughts-on-swift-access-control/">Thoughts on Swift access control</a></h1>
-			<h2 class="post-subtitle">And the opportunity costs of Swift evolution <small class="post-date">05 Apr 2017</small></h2>
-			
-			<div class="post-excerpt">
-				<p>There has been a ton of debate on the <a href="https://lists.swift.org/mailman/listinfo/swift-evolution">swift-evolution mailing lists</a> about <a href="https://twitter.com/swiftlybrief/status/846938309666492417">access control</a> in Swift. A couple of days ago, the proposal <a href="https://github.com/apple/swift-evolution/blob/master/proposals/0159-fix-private-access-levels.md">SE-0159</a>: <em>Fix Private Access Levels</em> was <a href="https://lists.swift.org/pipermail/swift-evolution-announce/2017-April/000337.html">rejected</a>. I want to share my thoughts on this, as well as thoughts on the larger story for access control in general. But first, let’s begin with a brief history of access control in Swift.</p>
-
-
-				<a href="/blog/thoughts-on-swift-access-control/" class="post-continue">Читать дальше&hellip; <i class="fa fa-chevron-right"></i></a>
-			</div>
-		</article>
-	
 </div> <!-- post-list -->
 
 <div class="pagination">
@@ -154,7 +105,7 @@
 		<nav>
 			<ul class="pager">
 				<li>
-					<a href="/page2" class="btn btn-default ">
+					<a href="/page" class="btn btn-default disabled">
 					<i class="fa fa-chevron-left"></i> Старые
 					</a>
 				</li>
