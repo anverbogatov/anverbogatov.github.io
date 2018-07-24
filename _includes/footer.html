@@ -1,11 +1,13 @@
-
-<footer class="container container-fluid">
-   <hr>
-
-   {% include contact_follow.html %}
-
-   <p class="text-muted text-center"><small>
-   &copy; {{ site.time | date: '%Y' }} {{ site.author.name }}.
-   Это сайт с <a href="{{ site.links.github }}">открытым исходным кодом</a>.
-   </small></p>
-</footer>
+<!-- Footer -->
+<div id="footer">
+  
+  <!-- Copyright -->
+  <ul class="copyright">
+    {% if site.title or site.author %}
+      <li>&copy; {{- site.title | default: site.author -}}. All rights reserved.</li>
+    {% endif %}
+    <li>Design: <a href="http://html5up.net">HTML5 UP</a></li>
+    <li>Jekyll integration: <a href="https://chrisbobbe.github.io/">Chris Bobbe</a></li>
+  </ul>
+  
+</div>

@@ -1,20 +1,15 @@
+{%- comment -%}
+  Include vars:
+  scrolly_nav
+{%- endcomment -%}
 
-<header class="container container-fluid">
-   <div class="row">
-      <div class="col-md-12 col-sm-12 col-xs-12">
-        <h1 class="text-center"><a href="/">{{ site.title }}</a></h1>
-        <div class="col-md-12 col-sm-12 col-xs-12">
-            <h2 class="tagline">&mdash; Бесконечность - не предел. &mdash;</h2>
-         </div> <!-- col -->
-      </div> <!-- col -->
-   </div> <!-- row -->
-
-   <div class="row menu">
-      <div class="col-md-12 col-sm-12 col-xs-12">
-         <a class="btn btn-default" href="/">Блог</a>
-         <!-- <a class="btn btn-default" href="/speaking/">Speaking</a> -->
-         <a class="btn btn-default" href="/about/">Обо мне</a>
-      </div> <!-- col -->
-   </div> <!-- row -->
-   <hr>
-</header>
+<!-- Header -->
+<div id="header">
+  <div class="top">
+    {%- include logo.html -%}
+    {%- include nav.html section_items=include.scrolly_nav -%}
+  </div>
+  <div class="bottom">
+    {%- include social_icons.html -%}
+  </div>
+</div>
