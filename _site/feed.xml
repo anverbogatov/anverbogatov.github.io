@@ -1,0 +1,124 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<feed xmlns="http://www.w3.org/2005/Atom" >
+  <generator uri="https://jekyllrb.com/" version="3.8.3">Jekyll</generator>
+  <link href="http://localhost:4000/feed.xml" rel="self" type="application/atom+xml" />
+  <link href="http://localhost:4000/" rel="alternate" type="text/html" />
+  <updated>2020-12-02T07:31:27+04:00</updated>
+  <id>http://localhost:4000/</id>
+
+  
+    <title type="html">Anver Bogatov</title>
+  
+
+  
+    <subtitle>Write an awesome description for your new site here. You can edit this line in _config.yml. It will appear in your document head meta (for Google search results) and in your feed.xml site description.</subtitle>
+  
+
+  
+
+  
+  
+    <entry>
+      <title type="html">Project 1</title>
+      <link href="http://localhost:4000/music/2014/07/18/project-1/" rel="alternate" type="text/html" title="Project 1" />
+      <published>2014-07-18T00:00:00+04:00</published>
+      <updated>2014-07-18T00:00:00+04:00</updated>
+      <id>http://localhost:4000/music/2014/07/18/project-1</id>
+      <content type="html" xml:base="http://localhost:4000/music/2014/07/18/project-1/"></content>
+
+      
+      
+      
+      
+      
+
+      <author>
+          <name></name>
+        
+        
+      </author>
+
+      
+        <category term="Music" />
+      
+
+      
+
+      
+        <summary type="html"></summary>
+      
+
+      
+      
+    </entry>
+  
+    <entry>
+      <title type="html">Project 2</title>
+      <link href="http://localhost:4000/%D0%BF%D1%80%D0%BE%D0%B3%D1%80%D0%B0%D0%BC%D0%BC%D0%B8%D1%80%D0%BE%D0%B2%D0%B0%D0%BD%D0%B8%D0%B5/2014/07/17/project-2/" rel="alternate" type="text/html" title="Project 2" />
+      <published>2014-07-17T00:00:00+04:00</published>
+      <updated>2014-07-17T00:00:00+04:00</updated>
+      <id>http://localhost:4000/%D0%BF%D1%80%D0%BE%D0%B3%D1%80%D0%B0%D0%BC%D0%BC%D0%B8%D1%80%D0%BE%D0%B2%D0%B0%D0%BD%D0%B8%D0%B5/2014/07/17/project-2</id>
+      <content type="html" xml:base="http://localhost:4000/%D0%BF%D1%80%D0%BE%D0%B3%D1%80%D0%B0%D0%BC%D0%BC%D0%B8%D1%80%D0%BE%D0%B2%D0%B0%D0%BD%D0%B8%D0%B5/2014/07/17/project-2/"></content>
+
+      
+      
+      
+      
+      
+
+      <author>
+          <name></name>
+        
+        
+      </author>
+
+      
+        <category term="Программирование" />
+      
+
+      
+
+      
+        <summary type="html"></summary>
+      
+
+      
+      
+    </entry>
+  
+    <entry>
+      <title type="html">Project 3</title>
+      <link href="http://localhost:4000/%D0%BF%D1%80%D0%BE%D0%B3%D1%80%D0%B0%D0%BC%D0%BC%D0%B8%D1%80%D0%BE%D0%B2%D0%B0%D0%BD%D0%B8%D0%B5/2014/07/16/project-3/" rel="alternate" type="text/html" title="Project 3" />
+      <published>2014-07-16T00:00:00+04:00</published>
+      <updated>2014-07-16T00:00:00+04:00</updated>
+      <id>http://localhost:4000/%D0%BF%D1%80%D0%BE%D0%B3%D1%80%D0%B0%D0%BC%D0%BC%D0%B8%D1%80%D0%BE%D0%B2%D0%B0%D0%BD%D0%B8%D0%B5/2014/07/16/project-3</id>
+      <content type="html" xml:base="http://localhost:4000/%D0%BF%D1%80%D0%BE%D0%B3%D1%80%D0%B0%D0%BC%D0%BC%D0%B8%D1%80%D0%BE%D0%B2%D0%B0%D0%BD%D0%B8%D0%B5/2014/07/16/project-3/"></content>
+
+      
+      
+      
+      
+      
+
+      <author>
+          <name></name>
+        
+        
+      </author>
+
+      
+        <category term="Программирование" />
+      
+
+      
+
+      
+        <summary type="html"></summary>
+      
+
+      
+      
+    </entry>
+  
+</feed>
