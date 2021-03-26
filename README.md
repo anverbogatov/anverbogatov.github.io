@@ -1,32 +1,9 @@
-Freelancer Jekyll theme  [![Build Status](https://api.travis-ci.org/jeromelachaud/freelancer-theme.svg?branch=master)](https://travis-ci.org/jeromelachaud/freelancer-theme/) 
+![alt text](./resources/images/computer@0.5x.png "Title") Personal Site 
 =========================
 
-Jekyll theme based on [Freelancer bootstrap theme ](http://startbootstrap.com/template-overviews/freelancer/)
+## Disclaimer
+Hi there!
 
-## How to use
- - Place a image in `/img/portfolio/`
- - Replace `your-email@domain.com` in `_config.yml` with your email address. Refer to [formspree](http://formspree.io/) for more information.
- - Create posts to display your projects. Use the follow as an example:
-```txt
----
-layout: default
-modal-id: 1
-date: 2014-07-18
-img: cabin.png
-alt: image-alt
-project-date: July 2014
-client: The Client
-category: Web Development
-description: The description of the project
+If you are wondering, why-in-hell somebody uses plain html-css for web-site creation, then I must say that I am aware about existence of dozens of different tools on the market, and I do not use them cautiously.
 
----
-```
-
-## Demo
-View this jekyll theme in action [here](https://jeromelachaud.github.io/freelancer-theme)
-
-## Screenshot
-![screenshot](https://raw.githubusercontent.com/jeromelachaud/freelancer-theme/master/screenshot.png)
-
----------
-For more details, read the [documentation](http://jekyllrb.com/)
+I am a back-end engineer, and I want to use simple web technologies (instead of monstrous node.js, static generators or web site constructor services) for building my own place on the Internet.
