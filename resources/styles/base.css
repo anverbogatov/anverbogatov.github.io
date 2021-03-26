@@ -1,0 +1,16 @@
+@font-face {
+    font-family: PixelGeorgia;
+    src: url('./resources/fonts/pixel_georgia.ttf');
+}
+
+a {
+    color: black;
+}
+
+a.pixel-text {
+    font-family: PixelGeorgia
+}
+
+a.main-title {
+    font-family: Krungthep;
+}
