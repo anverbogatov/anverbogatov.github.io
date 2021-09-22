@@ -1,0 +1,43 @@
+baseurl: /
+languageCode: en-us
+theme: terminal
+paginate: 5
+params:
+  contentTypeName: posts
+  themeColor: orange
+  showMenuItems: 2
+  showLanguageSelector: false
+  fullWidthTheme: false
+  centerTheme: false
+  showLastUpdated: false
+  twitter:
+    creator: ''
+    site: ''
+languages:
+  en:
+    languageName: English
+    title: Terminal
+    subtitle: 'A simple, retro theme for Hugo'
+    owner: ''
+    keywords: ''
+    copyright: ''
+    menuMore: Show more
+    readMore: Read more
+    readOtherPosts: Read other posts
+    newerPosts: Newer posts
+    olderPosts: Older posts
+    missingContentMessage: Page not found...
+    missingBackButtonLabel: Back to home page
+    params:
+      logo:
+        logoText: Terminal
+        logoHomeLink: /
+    menu:
+      main:
+        - identifier: about
+          name: About
+          url: /about
+        - identifier: showcase
+          name: Showcase
+          url: /showcase
+
