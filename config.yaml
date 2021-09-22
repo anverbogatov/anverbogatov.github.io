@@ -2,6 +2,7 @@ baseurl: /
 languageCode: en-us
 theme: terminal
 paginate: 5
+
 params:
   contentTypeName: posts
   themeColor: orange
@@ -13,6 +14,7 @@ params:
   twitter:
     creator: ''
     site: ''
+
 languages:
   en:
     languageName: English
