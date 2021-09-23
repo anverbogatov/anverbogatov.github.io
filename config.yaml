@@ -1,45 +1,46 @@
 baseurl: /
-languageCode: en-us
+languageCode: ru-RU
+defaultContentLanguage: ru
 theme: terminal
 paginate: 5
 
 params:
   contentTypeName: posts
-  themeColor: orange
+  themeColor: green
   showMenuItems: 2
   showLanguageSelector: false
-  fullWidthTheme: false
-  centerTheme: false
+  fullWidthTheme: true
+  centerTheme: true
   showLastUpdated: false
   twitter:
     creator: ''
     site: ''
 
 languages:
-  en:
-    languageName: English
-    title: Terminal
-    subtitle: 'A simple, retro theme for Hugo'
+  ru:
+    languageName: Russian
+    title: Anver Bogatov
+    subtitle: 'Мой личный островок в океане Интернета'
     owner: ''
     keywords: ''
     copyright: ''
-    menuMore: Show more
-    readMore: Read more
-    readOtherPosts: Read other posts
-    newerPosts: Newer posts
-    olderPosts: Older posts
-    missingContentMessage: Page not found...
-    missingBackButtonLabel: Back to home page
+    menuMore: Показать ещё
+    readMore: Читать дальше
+    readOtherPosts: Другие статьи
+    newerPosts: Новые статьи
+    olderPosts: Старые статьи
+    missingContentMessage: Страница не найдена...
+    missingBackButtonLabel: Назад на главную страницу
     params:
       logo:
-        logoText: Terminal
+        logoText: Anver Bogatov
         logoHomeLink: /
     menu:
       main:
         - identifier: about
-          name: About
+          name: Обо мне
           url: /about
         - identifier: showcase
-          name: Showcase
+          name: Статьи
           url: /showcase
 
