@@ -3,6 +3,7 @@ languageCode: ru-RU
 defaultContentLanguage: ru
 theme: terminal
 paginate: 5
+googleAnalytics: 'G-QX8WGB4JN0'
 
 params:
   contentTypeName: posts
