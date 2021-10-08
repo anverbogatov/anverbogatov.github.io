@@ -3,7 +3,7 @@ title = "STAR Technique"
 date = "2021-10-08T07:30:41+04:00"
 author = "Анвер Богатов"
 authorTwitter = "" #do not include @
-cover = ""
+cover = "https://images.unsplash.com/photo-1577563908411-5077b6dc7624?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=2340&q=80"
 tags = ["softskills", "skills"]
 keywords = ["skill", "softskill", "star", "situation-task-action-result", "объяснение", "софтскилл"]
 description = "На собеседованиях часто просят рассказать о ситуациях в которых соискатель проявил себя каким-то образом. Как именно стоит выстроить ответ на подобный вопрос - ответ ищи в этой статье."
