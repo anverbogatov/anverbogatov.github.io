@@ -10,7 +10,7 @@ params:
   themeColor: green
   showMenuItems: 2
   showLanguageSelector: false
-  fullWidthTheme: true
+  fullWidthTheme: false
   centerTheme: true
   showLastUpdated: false
   twitter:
