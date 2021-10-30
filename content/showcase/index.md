@@ -3,6 +3,7 @@ keywords: ["articles", "read", "design", "modeling", "soft-skill", "softskill", 
 ---
 
 # 🗺 Моделирование
+* [⚠️ Идентификация рисков - Risk Storming](/posts/risk-storming)
 * [🗾 Карты Пользовательских Историй или User Story Mapping](/posts/user-story-mapping)
 * [📶 Уровни детализации Use Case'ов](/posts/use-case-goal-levels)
 
