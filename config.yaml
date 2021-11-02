@@ -8,7 +8,7 @@ googleAnalytics: 'G-QX8WGB4JN0'
 params:
   contentTypeName: posts
   themeColor: green
-  showMenuItems: 2
+  showMenuItems: 3
   showLanguageSelector: false
   fullWidthTheme: false
   centerTheme: true
@@ -38,10 +38,12 @@ languages:
         logoHomeLink: /
     menu:
       main:
+        - identifier: support
+          name: 💰
+          url: /support
         - identifier: about
           name: Обо мне
           url: /about
         - identifier: showcase
           name: Статьи
           url: /showcase
-
