@@ -1,6 +1,8 @@
 ---
-keywords: ["articles", "read", "design", "modeling", "soft-skill", "softskill", "development", "coding", "restapi"]
+keywords: ["articles", "read", "design", "modeling", "soft-skill", "softskill", "development", "coding", "restapi", "ddd", "domain-driven-design"]
 ---
+# Цикл статей о Domain Driven Design
+* [1️⃣ DDD 101: Заметки о Domain Driven Design #1](/posts/ddd-intro)
 
 # 🗺 Моделирование
 * [⚠️ Идентификация рисков - Risk Storming](/posts/risk-storming)
