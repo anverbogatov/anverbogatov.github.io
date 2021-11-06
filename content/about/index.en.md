@@ -11,20 +11,20 @@ description: "Hey there 👋! My name is Anver. I am an author of this web site 
 
 I am really happy to see you on my own small island in a huge ocean of Internet.
 
-I have been software engineer for all of my professional life and I have been developing different kind of applications using Java programming language:
+I have been software engineer for all of my professional life, and I have been developing different kind of applications using Java programming language:
 * from small terminal utilities up to huge enterprise software
 * from small and lightweight microservices up to gigantic monoliths
 
-В своё время моей страстью была и мобильная разработка, где Я успел написать несколько приложений как на заказ, так и для себя, под iOS & Android, на Swift и Java, соответсвенно. 
+Some time I was even passionate about mobile development in which I have wrote a few applications on a freelance and a couple for myself for iOS & Android using Swift & Java. 
 
-Занимаюсь Я этим довольно давно и поэтому в последние пару лет назрело острое желание вернуть долг индустрии, которая научила меня многому, и помочь будущим поколениям сделать "быстрый старт" в их карьере.
+I have been doing software engineering for last 12 years and I feel like I finally want to pay my debt to the industry, which taught me everything and I want to help future generations to do a "Quick Start" in their own career.
 
-На моём сайте ты сможешь найти материалы на такие темы как:
-* архитектура и проектирование программного обеспечения
-* навыки современного разработчика, нацеленного на рост
-* тонкости использования различных технологий
+You can find materials on following topics on my web site:
+* software architecture and software design
+* skills of modern developers aimed to quick growth
+* specificity of different technologies
 
-и многие другие, которые помогут тебе взглянуть шире на карьеру разработчика.
+and many many more. All of these materials will help you to look wider onto career of software engineer.
 
 # Contacts
 
