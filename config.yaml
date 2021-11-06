@@ -78,3 +78,32 @@ languages:
           name: Posts
           url: /showcase
           weight: 1
+  en:
+    languageName: 🇬🇧 English
+    title: Anver Bogatov
+    subtitle: 'My personal island in a huge ocean of the Internet'
+    owner: ''
+    keywords: ''
+    copyright: ''
+    menuMore: Show more
+    readMore: Read more
+    readOtherPosts: Other posts
+    newerPosts: New posts
+    olderPosts: Old posts
+    missingContentMessage: Page not found...
+    missingBackButtonLabel: Back to Home page
+    params:
+      logo:
+        logoText: Anver Bogatov
+        logoHomeLink: /en
+    menu:
+      main:
+        - identifier: support
+          name: 💰
+          url: /en/support
+        - identifier: about
+          name: About me
+          url: /en/about
+        - identifier: showcase
+          name: Posts
+          url: /en/showcase
