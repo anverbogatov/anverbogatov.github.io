@@ -1,5 +1,4 @@
 baseurl: /
-languageCode: ru-RU
 defaultContentLanguage: ru
 theme: terminal
 paginate: 5
@@ -9,7 +8,7 @@ params:
   contentTypeName: posts
   themeColor: green
   showMenuItems: 3
-  showLanguageSelector: false
+  showLanguageSelector: true
   fullWidthTheme: false
   centerTheme: true
   showLastUpdated: false
@@ -19,7 +18,7 @@ params:
 
 languages:
   ru:
-    languageName: Russian
+    languageName: 🇷🇺 Русский
     title: Anver Bogatov
     subtitle: 'Мой личный островок в океане Интернета'
     owner: ''
@@ -47,3 +46,32 @@ languages:
         - identifier: showcase
           name: Статьи
           url: /showcase
+  en:
+    languageName: 🇬🇧 English
+    title: Anver Bogatov
+    subtitle: 'My personal island in a huge ocean of the Internet'
+    owner: ''
+    keywords: ''
+    copyright: ''
+    menuMore: Show more
+    readMore: Read more
+    readOtherPosts: Other posts
+    newerPosts: New posts
+    olderPosts: Old posts
+    missingContentMessage: Page not found...
+    missingBackButtonLabel: Back to Home page
+    params:
+      logo:
+        logoText: Anver Bogatov
+        logoHomeLink: /en
+    menu:
+      main:
+        - identifier: support
+          name: 💰
+          url: /en/support
+        - identifier: about
+          name: About me
+          url: /en/about
+        - identifier: showcase
+          name: Posts
+          url: /en/showcase
