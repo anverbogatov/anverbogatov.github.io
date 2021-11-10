@@ -1,5 +1,5 @@
 baseurl: /
-defaultContentLanguage: ru
+defaultContentLanguage: en
 theme: terminal
 paginate: 5
 googleAnalytics: 'G-QX8WGB4JN0'
