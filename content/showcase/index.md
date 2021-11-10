@@ -15,3 +15,6 @@ keywords: ["articles", "read", "design", "modeling", "soft-skill", "softskill", 
 # 🧸 Софт-скиллы
 * [😎 Навык решения проблем или Problem Solving Skill](/posts/problem-solving-skill)
 * [⭐️ Техника построения речи S.T.A.R.](/posts/star-technique)
+
+# Hibernate framework
+* [Hibernate N+1 Проблема](/posts/hibernate-n1-problem)
