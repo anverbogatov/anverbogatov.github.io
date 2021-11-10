@@ -34,18 +34,18 @@ languages:
     params:
       logo:
         logoText: Anver Bogatov
-        logoHomeLink: /
+        logoHomeLink: /ru
     menu:
       main:
         - identifier: support
           name: 💰
-          url: /support
+          url: /ru/support
         - identifier: about
           name: Обо мне
-          url: /about
+          url: /ru/about
         - identifier: showcase
           name: Статьи
-          url: /showcase
+          url: /ru/showcase
   en:
     languageName: 🇬🇧 English
     title: Anver Bogatov
@@ -63,15 +63,15 @@ languages:
     params:
       logo:
         logoText: Anver Bogatov
-        logoHomeLink: /en
+        logoHomeLink: /
     menu:
       main:
         - identifier: support
           name: 💰
-          url: /en/support
+          url: /support
         - identifier: about
           name: About me
-          url: /en/about
+          url: /about
         - identifier: showcase
           name: Posts
-          url: /en/showcase
+          url: /showcase
