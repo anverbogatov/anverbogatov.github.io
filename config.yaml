@@ -68,15 +68,15 @@ languages:
       main:
         - identifier: support
           name: 💰
-          url: /support
+          url: /ru/support
           weight: 3
         - identifier: about
           name: About me
-          url: /about
+          url: /ru/about
           weight: 2
         - identifier: showcase
           name: Posts
-          url: /showcase
+          url: /ru/showcase
           weight: 1
   en:
     languageName: 🇬🇧 English
@@ -95,15 +95,15 @@ languages:
     params:
       logo:
         logoText: Anver Bogatov
-        logoHomeLink: /en
+        logoHomeLink: /
     menu:
       main:
         - identifier: support
           name: 💰
-          url: /en/support
+          url: /support
         - identifier: about
           name: About me
-          url: /en/about
+          url: /about
         - identifier: showcase
           name: Posts
-          url: /en/showcase
+          url: /showcase
