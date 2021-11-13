@@ -40,44 +40,15 @@ languages:
         - identifier: support
           name: 💰
           url: /ru/support
-        - identifier: about
-          name: Обо мне
-          url: /ru/about
-        - identifier: showcase
-          name: Статьи
-          url: /ru/showcase
-  en:
-    languageName: 🇬🇧 English
-    title: Anver Bogatov
-    subtitle: 'My personal island in a huge ocean of the Internet'
-    owner: ''
-    keywords: ''
-    copyright: ''
-    menuMore: Show more
-    readMore: Read more
-    readOtherPosts: Other posts
-    newerPosts: New posts
-    olderPosts: Old posts
-    missingContentMessage: Page not found...
-    missingBackButtonLabel: Back to Home page
-    params:
-      logo:
-        logoText: Anver Bogatov
-        logoHomeLink: /
-    menu:
-      main:
-        - identifier: support
-          name: 💰
-          url: /ru/support
           weight: 3
 
         - identifier: about
-          name: About me
+          name: Обо мне
           url: /ru/about
           weight: 2
 
         - identifier: showcase
-          name: Posts
+          name: Статьи
           url: /ru/showcase
           weight: 1
 
