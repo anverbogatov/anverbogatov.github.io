@@ -41,9 +41,12 @@ languages:
         - identifier: support
           name: 💰
           url: /support
+          weight: 3
         - identifier: about
           name: Обо мне
           url: /about
+          weight: 2
         - identifier: showcase
           name: Статьи
           url: /showcase
+          weight: 1
