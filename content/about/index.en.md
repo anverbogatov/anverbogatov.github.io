@@ -34,7 +34,7 @@ You can find me here:
 
 # Other projects
 
-* YouTube-канал [#NOT.a.musician](https://www.youtube.com/channel/UCYcClck5kXPmHskLrHaihBQ)
-* YouTube-канал [noProgrammer](https://www.youtube.com/channel/UC2oyEaWybm66PdP0g4hKLKA)
+* YouTube-channel [#NOT.a.musician](https://www.youtube.com/channel/UCYcClck5kXPmHskLrHaihBQ)
+* YouTube-channel [noProgrammer](https://www.youtube.com/channel/UC2oyEaWybm66PdP0g4hKLKA)
 
 ![Me and my youngest daughter](/images/about/photo.jpg)
