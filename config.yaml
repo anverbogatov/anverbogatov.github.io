@@ -7,7 +7,7 @@ googleAnalytics: 'G-QX8WGB4JN0'
 params:
   contentTypeName: posts
   themeColor: green
-  showMenuItems: 3
+  showMenuItems: 5
   showLanguageSelector: true
   fullWidthTheme: false
   centerTheme: true
@@ -75,7 +75,7 @@ languages:
         - identifier: support
           name: 💰
           url: /support
-          weight: 3
+          weight: 4
 
         - identifier: about
           name: About me
@@ -86,3 +86,8 @@ languages:
           name: Posts
           url: /showcase
           weight: 1
+
+        - identifier: reviews
+          name: Отзывы
+          url: /reviews
+          weight: 3
