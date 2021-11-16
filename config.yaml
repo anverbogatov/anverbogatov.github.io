@@ -40,7 +40,7 @@ languages:
         - identifier: support
           name: 💰
           url: /ru/support
-          weight: 3
+          weight: 4
 
         - identifier: about
           name: Обо мне
@@ -51,6 +51,11 @@ languages:
           name: Статьи
           url: /ru/showcase
           weight: 1
+
+        - identifier: reviews
+          name: Отзывы
+          url: /reviews
+          weight: 3
 
   en:
     languageName: 🇬🇧 English
@@ -88,6 +93,6 @@ languages:
           weight: 1
 
         - identifier: reviews
-          name: Отзывы
+          name: Reviews
           url: /reviews
           weight: 3
