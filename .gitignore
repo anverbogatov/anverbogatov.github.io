@@ -170,4 +170,5 @@ tags
 [._]*.un~
 
 .DS_Store
+.hugo_build.lock
 # End of https://www.toptal.com/developers/gitignore/api/macos,intellij,vim,hugo
