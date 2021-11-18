@@ -38,4 +38,7 @@ description: "Давайте знакомится, меня зовут Анве�
 * YouTube-канал [#НЕмузыкант](https://www.youtube.com/channel/UCYcClck5kXPmHskLrHaihBQ)
 * YouTube-канал [noПрограммист](https://www.youtube.com/channel/UC2oyEaWybm66PdP0g4hKLKA)
 
+* Моя музыка на [Spotify](https://open.spotify.com/artist/5bTYJ41CZNNhAakENxaGuu?si=eiPWRjwnR22fHv1Uf4GDtw)
+* Моя музыка на [Apple Music](https://music.apple.com/ru/artist/anver-bogatov/1553726448)
+
 ![Я, вместе с моей дочерью](/images/about/photo.jpg)
