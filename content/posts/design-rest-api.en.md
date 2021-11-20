@@ -2,7 +2,7 @@
 
 title = "How to design a REST API?"
 
-date = "2021-10-03T18:55:34+04:00"
+date = "2021-11-20T18:55:34+04:00"
 
 author = "Anver Bogatov"
 
