@@ -1,87 +1,179 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>restapi on Anver Bogatov</title><link>/tags/restapi/</link><description>Recent content in restapi on Anver Bogatov</description><generator>Hugo -- gohugo.io</generator><language>ru-RU</language><lastBuildDate>Sun, 03 Oct 2021 18:55:34 +0400</lastBuildDate><atom:link href="/tags/restapi/index.xml" rel="self" type="application/rss+xml"/><item><title>Как проектировать REST API?</title><link>/posts/design-rest-api/</link><pubDate>Sun, 03 Oct 2021 18:55:34 +0400</pubDate><guid>/posts/design-rest-api/</guid><description>Изначально, это статью Я написал для своего блога на Medium [1]. Сюда переношу её почти без изменений. Что такое API? API или Application Programming Interface — это описание способа взаимодействия программ. Если быть точнее, это набор классов, интерфейсов, структур данных, которые объявлены программой. С помощью них можно заставить программу выполнять действия. Какие именно действия — описано как раз таки в API.
-API’ев существует огромное множество. Например, сама Java даёт разработчику доступ к десяткам API — Core API, Concurrency API, Collection API и много много других.</description><content>&lt;pre>&lt;code>Изначально, это статью Я написал для своего блога на Medium [1].
-Сюда переношу её почти без изменений.
-&lt;/code>&lt;/pre>&lt;h1 id="что-такое-api">Что такое API?&lt;/h1>
-&lt;p>&lt;strong>API или Application Programming Interface&lt;/strong> — это описание способа взаимодействия программ. Если быть точнее, это набор классов, интерфейсов, структур данных, которые объявлены программой. С помощью них можно заставить программу выполнять действия. Какие именно действия — описано как раз таки в API.&lt;/p>
-&lt;p>&lt;strong>API’ев существует огромное множество&lt;/strong>. Например, сама Java даёт разработчику доступ к десяткам API — Core API, Concurrency API, Collection API и много много других. Сторонние фреймворки тоже предоставляют свои API — Hibernate API, JPA (Java Persistence API), RestEasy и другие.&lt;/p>
-&lt;p>&lt;strong>У каждого API есть своя цель&lt;/strong>. API’и не делают просто так. Каждый API сродни пульту управления от телевизора. Он даёт возможность управлять программой. Например, программа для анализа использования дискового пространства может содержать API, который позволит получить статистику о файлах и занятом ими пространнстве; укажет на самый тяжёлый файл на диске и так далее. При этом каждое API не позволяет делать произвольные вещи. Все возможности API согласованы с его целью.&lt;/p>
-&lt;p>&lt;strong>API’и не привязаны к конкретной технологии&lt;/strong>. Если программа написана на Java это не означает, что API ограничен этим языком программирования. Приложение может предоставлять API, не привязанное к конкретной технологии, на которой оно построено. Пример — REST API.&lt;/p>
-&lt;h1 id="что-такое-rest-api">Что такое REST API?&lt;/h1>
-&lt;p>REST или Representational State Transfer («передача состояния представления») это архитектурный подход, основанный на протоколе HTTP.&lt;/p>
-&lt;h1 id="зачем-проектировать-rest-api">Зачем проектировать REST API?&lt;/h1>
-&lt;p>&lt;strong>Построение программ — это игра в конструктор без жёстких правил&lt;/strong>. Победить в этой игре могут все. Но настоящее искусство программиста это написание таких программ, которые будут работать быстро, безотказно и легко расширяться. Поэтому, как и при стройке дома, важно знать заранее что и как будет построено, ибо цена ошибки на этапе проектирование ниже, чем цена ошибки в момент, когда дом уже готов.&lt;/p>
-&lt;h1 id="предметно-ориентированное-проектирование-rest-api">Предметно-ориентированное проектирование REST API&lt;/h1>
-&lt;p>&lt;strong>Техника, которой я сегодня поделюсь&lt;/strong> хорошо описана в книге издательства Manning — “The Design of Web APIs&amp;quot; [2]. Ссылку на книгу можно найти в конце статьи.&lt;/p>
-&lt;p>&lt;strong>Небольшая вводная&lt;/strong>, прежде чем мы приступим к рассмотрению методики. Все идеи и советы ниже крайне ориентированы на практику. Это не теоретические знания, это живой метод проектирования REST API, поэтому и разбирать мы его будем на живом примере. Представьте, что Нам нужно спроектировать REST API для блог-сервиса. Конкретно, Мы отвечаем за работу с постами и их комментариями. На примере этого требования мы и разберёмся с методом.&lt;/p>
-&lt;p>&lt;strong>Какие цели могут быть у такого API?&lt;/strong> Пожалуй их будет несколько:&lt;/p>
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>restapi on Anver Bogatov</title><link>/tags/restapi/</link><description>Recent content in restapi on Anver Bogatov</description><generator>Hugo -- gohugo.io</generator><lastBuildDate>Sat, 20 Nov 2021 18:55:34 +0400</lastBuildDate><atom:link href="/tags/restapi/index.xml" rel="self" type="application/rss+xml"/><item><title>How to design a REST API?</title><link>/posts/design-rest-api/</link><pubDate>Sat, 20 Nov 2021 18:55:34 +0400</pubDate><guid>/posts/design-rest-api/</guid><description>What is API? API or Application Programming Interface — is a description of communication between two programs.
+To be even more precise, an API is a set of classes, interfaces, or data structures that are defined by the program that owns the API.
+With the API, you can make a program do something. What exactly - defined by the API.
+There are many APIs exist.
+For example, Java itself gives access to dozens of APIs to developers: Core API, Concurrency API, Collection API and many more.</description><content>&lt;h1 id="what-is-api">What is API?&lt;/h1>
+&lt;p>&lt;strong>API or Application Programming Interface&lt;/strong> — is a description of communication between two programs.&lt;/p>
+&lt;p>To be even more precise, an API is a set of classes, interfaces, or data structures that are defined by the program that owns the API.&lt;/p>
+&lt;p>With the API, you can make a program do something. What exactly - defined by the API.&lt;/p>
+&lt;p>&lt;strong>There are many APIs exist&lt;/strong>.&lt;/p>
+&lt;p>For example, Java itself gives access to dozens of APIs to developers: Core API, Concurrency API, Collection API and many more.&lt;/p>
+&lt;p>Other frameworks define their own APIs: Hibernate API, JPA (Java Persistence API), RestEasy, and so on.&lt;/p>
+&lt;p>&lt;strong>Each of the APIs has its own goal&lt;/strong>.&lt;/p>
+&lt;p>APIs are not created just for fun. Each of the APIs is like a TV remote control. It gives an opportunity to control the application.&lt;/p>
+&lt;p>For example, an application for disk space usage analysis can contain an API that allows getting statistics on files and the space they take; this will point to the heaviest file on the disk drive and so on.&lt;/p>
+&lt;p>At the same time, the API does not allow doing any random stuff. All the capabilities of the API are consistent with its goal.&lt;/p>
+&lt;p>&lt;strong>APIs do not belong to concrete technology&lt;/strong>.&lt;/p>
+&lt;p>If an application is written in Java, that does not mean that the API will be limited to that particular programming language. Applications can communicate through APIs written using different technologies and programming languages.&lt;/p>
+&lt;p>For example, REST API.&lt;/p>
+&lt;h1 id="what-is-rest-api">What is REST API?&lt;/h1>
+&lt;p>REST or Representational State Transfer is an architectural approach based on the HTTP protocol.&lt;/p>
+&lt;h1 id="why-do-you-need-to-design-a-rest-api">Why do you need to design a REST API?&lt;/h1>
+&lt;p>&lt;strong>Application development is like collecting a puzzle without hard rules&lt;/strong>.&lt;/p>
+&lt;p>Everybody can win that game. But the true mastery of software engineering is writing software applications that will work quickly, without errors, and will be extensible.&lt;/p>
+&lt;p>That is why, as in house building, you need to know everything beforehand, because the cost of a mistake on&lt;/p>
+&lt;p>design stage cheaper than the cost of a mistake at the moment when the house is built.&lt;/p>
+&lt;h1 id="domain-driven-design-of-rest-api">Domain driven design of REST API&lt;/h1>
+&lt;p>&lt;strong>Technique that I am going to share today&lt;/strong> is well described in Manning&amp;rsquo;s book - &amp;ldquo;The Design of Web APIs&amp;rdquo; [1].&lt;/p>
+&lt;p>The link to the book can be found at the bottom of the page.&lt;/p>
+&lt;p>&lt;strong>Small input&lt;/strong>, before I will explain the method. All the ideas below are highly oriented onto practice.&lt;/p>
+&lt;p>The method is not just a dry theory, but rather a live method of REST API design. Thus, we will talk about it using live&lt;/p>
+&lt;p>example. Imagine that we need to design a REST API for some blog service. To be precise, we will work with&lt;/p>
+&lt;p>posts and their comments. Using that requirement as an example, we will use the method.&lt;/p>
+&lt;p>&lt;strong>What goals such API can have?&lt;/strong> There can be even multiple goals:&lt;/p>
 &lt;ul>
-&lt;li>Прочитать имеющиеся посты. Должен быть способ получить список уже имеющихся постов.&lt;/li>
-&lt;li>Изменение имеющегося поста. Что если в текст прокралась ошибка? Автор должен иметь возможность её поправить после написания и публикации поста.&lt;/li>
-&lt;li>Создание нового поста. Как-то же пост попадает наш блогосервис.&lt;/li>
-&lt;li>Удаление поста. Автор решил удалить свой устаревший пост или пост с идеями, в которые он больше не верит.&lt;/li>
-&lt;li>Чтение комментариев к посту. Для краткости предположим что комментарии попадают в наш блогосервис каким-то иным способом, не через наше REST API. Однако, в нашем REST API мы хотим разрешить пользователям читать комментарии для имеющихся постов.&lt;/li>
+&lt;li>
+&lt;p>Read posts. There should be a way to read existing posts.&lt;/p>
+&lt;/li>
+&lt;li>
+&lt;p>Modify posts. What if there is a mistake in a particular post? It&amp;rsquo;s author must have a way to fix the mistake after post was published.&lt;/p>
+&lt;/li>
+&lt;li>
+&lt;p>Create post. Posts must be added to our service somehow.&lt;/p>
+&lt;/li>
+&lt;li>
+&lt;p>Delete post. When author decided to remove own post.&lt;/p>
+&lt;/li>
+&lt;li>
+&lt;p>Read post&amp;rsquo;s comments. For brevity&amp;rsquo;s sake, let&amp;rsquo;s agree that comments are added to our service some other way.&lt;/p>
+&lt;/li>
 &lt;/ul>
-&lt;p>Эти цели мы транслируем в REST API.&lt;/p>
-&lt;p>&lt;strong>Теперь разберёмся с основными правилами&lt;/strong>:&lt;/p>
+&lt;p>These goals we will translate to our REST API.&lt;/p>
+&lt;p>&lt;strong>Now, let&amp;rsquo;s define main rules&lt;/strong>:&lt;/p>
 &lt;ul>
-&lt;li>Цели транслируются в &lt;strong>ресурсы&lt;/strong> и &lt;strong>действия&lt;/strong>&lt;/li>
-&lt;li>&lt;strong>Ресурсы&lt;/strong> определяются путём в REST API, а &lt;strong>действия&lt;/strong> определяются методами HTTP&lt;/li>
+&lt;li>
+&lt;p>Goals are translated to &lt;strong>resources&lt;/strong> and &lt;strong>actions&lt;/strong>&lt;/p>
+&lt;/li>
+&lt;li>
+&lt;p>&lt;strong>Resources&lt;/strong> are expressed as paths in REST API, and &lt;strong>actions&lt;/strong> are expressed as HTTP protocol&amp;rsquo;s methods.&lt;/p>
+&lt;/li>
 &lt;/ul>
-&lt;p>&lt;strong>Что такое ресурс?&lt;/strong> Ресурс это объект, представление, сущность, всё что угодно, что представляет данные в системе. В нашем блогосервисе ресурсов несколько — Пост и Комментарий.&lt;/p>
-&lt;p>&lt;strong>Что такое действие?&lt;/strong> Действие это способ заставить наш блогосервис что-то сделать, например — отдать список имеющихся постов, создать новый и так далее. Действия определяются методами HTTP протокола, как уже было сказано выше. Таких действий несколько, но нас интересуют стандартные: GET, POST, PUT, DELETE.&lt;/p>
-&lt;p>&lt;strong>Перейдём к самому проектированию&lt;/strong>. Разберём его по шагам:&lt;/p>
+&lt;p>&lt;strong>What is a resource?&lt;/strong> Resource is an object, a view, or an entity - literally it can be anything that means some data&lt;/p>
+&lt;p>in the service. There are two resources in our blog service - Post and Comment.&lt;/p>
+&lt;p>&lt;strong>What is action?&lt;/strong> Action is a way to ask our blog service to do something, for example, to get existing posts or&lt;/p>
+&lt;p>to create a new one. Actions are expressed as methods of HTTP protocol, as was said above. The HTTP protocol defines&lt;/p>
+&lt;p>multiple such methods, but we are interested in standard ones: GET, POST, PUT, DELETE.&lt;/p>
+&lt;p>&lt;strong>Now, let&amp;rsquo;s go to the method&lt;/strong>. Let&amp;rsquo;s break it down into steps:&lt;/p>
 &lt;ul>
-&lt;li>Перво-наперво нужно определить все ресурсы и под-ресурсы, с которыми наше API должно работать. В нашем случае это &lt;strong>Пост&lt;/strong> и &lt;strong>Комментарий&lt;/strong>.&lt;/li>
-&lt;li>Далее, нужно определить набор действий, которые наше API позволяет совершать над ресурсами. Для нас это:&lt;/li>
+&lt;li>
+&lt;p>First of all, we need to define all the resources and sub-resources with which our API must work. In our case, these are &lt;strong>Post&lt;/strong> and &lt;strong>Comment&lt;/strong>.&lt;/p>
+&lt;/li>
+&lt;li>
+&lt;p>Next, we need to define a list of actions that our API must allow us to do. For us, the list is the following:&lt;/p>
+&lt;/li>
 &lt;/ul>
 &lt;ol>
-&lt;li>GET Пост — для получения списка имеющихся постов&lt;/li>
-&lt;li>POST Пост — для создания нового поста&lt;/li>
-&lt;li>PUT Пост — для изменения имеющегося поста&lt;/li>
-&lt;li>DELETE Пост — для удаления поста&lt;/li>
-&lt;li>GET Комментарий — для получения списка комментариев поста&lt;/li>
+&lt;li>
+&lt;p>GET Post — for access to existing posts&lt;/p>
+&lt;/li>
+&lt;li>
+&lt;p>POST Post — for new post creation&lt;/p>
+&lt;/li>
+&lt;li>
+&lt;p>PUT Post — for existing post modification&lt;/p>
+&lt;/li>
+&lt;li>
+&lt;p>DELETE Post — for existing post deletion&lt;/p>
+&lt;/li>
+&lt;li>
+&lt;p>GET Comment — for access to the existing post&amp;rsquo;s comments&lt;/p>
+&lt;/li>
 &lt;/ol>
 &lt;ul>
-&lt;li>Определим набор параметров для действий, которые мы спроектировали выше:&lt;/li>
+&lt;li>Let&amp;rsquo;s define a list of parameters for the actions from above:&lt;/li>
 &lt;/ul>
 &lt;ol>
-&lt;li>Операция получения постов GET — может быть вызвана как без параметров, что приведёт к чтению всех имеющихся постов, так и с идентификатором конкретного поста для получения выбранного поста&lt;/li>
-&lt;li>Операция создания поста POST подразумевает, что в неё будет передана информация о посте, который необходимо создать&lt;/li>
-&lt;li>PUT требует двух параметров — идентификатора поста, который мы будем изменять и сам пост, который заменит имеющийся в блогосервисе&lt;/li>
-&lt;li>DELETE требует идентификатора поста, который необходимо удалить&lt;/li>
-&lt;li>Операция получения комментариев GET требует идентификатора поста, потому что мы хотим получить список комментариев к определённому посту&lt;/li>
+&lt;li>
+&lt;p>GET posts action can be called without parameters, and that will lead to access to all of the existing posts. It can also be called with the identifier of a concrete post and will return only the post with the identifier specified as a parameter.&lt;/p>
+&lt;/li>
+&lt;li>
+&lt;p>POST action implies that there should be new post data used for new post creation.&lt;/p>
+&lt;/li>
+&lt;li>
+&lt;p>PUT action requires two parameters —the identifier of the post that we will modify and the post&amp;rsquo;s data that will replace existing data.&lt;/p>
+&lt;/li>
+&lt;li>
+&lt;p>DELETE action requires to have post&amp;rsquo;s id to know which of the posts must be deleted&lt;/p>
+&lt;/li>
+&lt;li>
+&lt;p>GET post&amp;rsquo;s comments action requires identifier of the post for which comments must be returned&lt;/p>
+&lt;/li>
 &lt;/ol>
-&lt;p>&lt;strong>Прервёмся на секунду&lt;/strong>. Мы провели большую подготовительную работу для сбора данных о нашем будущем API. Теперь мы знаем как конкретно и с чем конкретно наше API будет работать. Но эту информацию стоит дополнить и на следующем шаге мы займёмся именно этим.&lt;/p>
-&lt;p>На какие ещё моменты нам стоит обратить внимание? Их несколько. Нужно ответить на следующие вопросы:&lt;/p>
+&lt;p>&lt;strong>Let&amp;rsquo;s stop for a second&lt;/strong>.&lt;/p>
+&lt;p>We did a huge preparation to get as much information as we can about our future API. And now we know how our API should work.&lt;/p>
+&lt;p>But that information is not enough, and we need to collect additional information. That we will do right now.&lt;/p>
+&lt;p>What else do we need to know? Basically, we need to answer onto following questions:&lt;/p>
 &lt;ul>
-&lt;li>Кто будет вызывать операции API?&lt;/li>
-&lt;li>Что и как будет делать этот кто-то с нашим API?&lt;/li>
+&lt;li>
+&lt;p>Who will use our API?&lt;/p>
+&lt;/li>
+&lt;li>
+&lt;p>What and how exactly that &amp;lsquo;who&amp;rsquo; will do with our API?&lt;/p>
+&lt;/li>
 &lt;/ul>
-&lt;p>&lt;strong>Небольшая ремарка&lt;/strong> — структура статьи на Medium не позволяет создать таблицу, хотя дальнейшую работу по проектированию нашего REST API я рекомендую проводить именно с таблицами. Поэтому дальше — мы в текстовом виде разберём что нам нужно делать, но я подразумеваю, что все моменты которые мы оговорим будут внесены в специальную таблицу.&lt;/p>
-&lt;p>&lt;strong>Наша таблица проектирования — наш помощник&lt;/strong>. Список её колонок следующий:&lt;/p>
+&lt;p>There is a special structure we can use specifically to collect all information we need. It can be represented as a table&lt;/p>
+&lt;p>with predefined list of columns:&lt;/p>
 &lt;ul>
-&lt;li>&lt;strong>Кто&lt;/strong> — тут могут быть роли пользователей, которые будут работать с нашим API&lt;/li>
-&lt;li>&lt;strong>Что&lt;/strong> — имеется ввиду что делает пользователь с нашим API. Его ожидания&lt;/li>
-&lt;li>&lt;strong>Как&lt;/strong> — опять же, как наш пользователь достигает своей цели&lt;/li>
-&lt;li>&lt;strong>Входные данные&lt;/strong> — информацию, которую необходимо передать нашему API, для того, чтобы оно помогло пользователю достигнуть цели&lt;/li>
-&lt;li>&lt;strong>Выходные данные&lt;/strong> — информация, которую вернёт наш API в результате работы метода&lt;/li>
-&lt;li>&lt;strong>Цель&lt;/strong> — описывает явно смысл конкретной операции нашего API&lt;/li>
-&lt;li>&lt;strong>HTTP метод&lt;/strong> — указание на HTTP метод, который описывает действие нашего пользователя&lt;/li>
-&lt;li>&lt;strong>URI&lt;/strong> — путь по которому данная операция нашего API доступна клиентам&lt;/li>
+&lt;li>
+&lt;p>&lt;strong>Who&lt;/strong> — means users, persons, roles, clients and so on; it means who will use our API&lt;/p>
+&lt;/li>
+&lt;li>
+&lt;p>&lt;strong>What&lt;/strong> — means expectations of the user about our API (&amp;ldquo;what to expect?&amp;quot;)&lt;/p>
+&lt;/li>
+&lt;li>
+&lt;p>&lt;strong>How&lt;/strong> — means how we will reach his goal&lt;/p>
+&lt;/li>
+&lt;li>
+&lt;p>&lt;strong>Input&lt;/strong> — data that must be given to our API so that it can help our user reach his goal&lt;/p>
+&lt;/li>
+&lt;li>
+&lt;p>&lt;strong>Output&lt;/strong> — data that will be returned to the user as the result&lt;/p>
+&lt;/li>
+&lt;li>
+&lt;p>&lt;strong>Goal&lt;/strong> — describes goal of particular operation&lt;/p>
+&lt;/li>
+&lt;li>
+&lt;p>&lt;strong>HTTP method&lt;/strong> — points onto HTTP method that describes an action that our user does&lt;/p>
+&lt;/li>
+&lt;li>
+&lt;p>&lt;strong>URI&lt;/strong> — path to particular API operation&lt;/p>
+&lt;/li>
 &lt;/ul>
-&lt;p>&lt;img src="/images/design-rest-api/1.png" alt="design-rest-api-table-1">&lt;/p>
-&lt;p>&lt;strong>Всё что нам осталось сделать&lt;/strong>, это на основе информации, которую мы проговорили выше &lt;strong>заполнить эту табличку&lt;/strong>. Попробуем сделать это для операции получения постов:&lt;/p>
-&lt;p>&lt;img src="/images/design-rest-api/2.png" alt="design-rest-api-table-2">&lt;/p>
-&lt;p>&lt;strong>Разберём подробнее&lt;/strong>. Раз уж мы работаем с постами, то кто-то их должен писать. Это будет Автор. Автор может получить доступ ко всем своим постам, поэтому для операции чтения постов нам не требуется никаких входных данных. Реализация самого API может установить текущего пользователя системы и определить авторство постов. На выходе же мы получим список постов, которые были написаны автором (или текущем залогиненным пользователем). Операция получения данных описывается в HTTP протоколе методом GET, а URI в конце, может иметь произвольную структуру, но общепринято в хвосте URL путь писать с указанием ресурса с которым в данном API мы работаем во множественном числе. В нашем случае это &lt;code>…/posts&lt;/code>.&lt;/p>
-&lt;p>&lt;strong>По мере заполнения таблицы, всегда задаём себе вопросы&lt;/strong> — откуда берутся ресурсы, кто с ними работает и так далее. Чем шире посмотреть на имеющиеся данные, тем больше возможных кейсов можно идентифицировать на этапе проектирования. Простой пример — мы спроектировали операцию получения авторских постов. Но кто эти посты добавляет в систему? Очевидно, что авторы. Спроектируем и это:&lt;/p>
-&lt;p>&lt;img src="/images/design-rest-api/3.png" alt="design-rest-api-table-3">&lt;/p>
-&lt;p>Пользуясь этим подходом &lt;strong>спроектируем оставшиеся операции&lt;/strong>:&lt;/p>
-&lt;p>&lt;img src="/images/design-rest-api/4.png" alt="design-rest-api-table-4">&lt;/p>
-&lt;p>&lt;strong>Обратите внимание на последнюю строку&lt;/strong>. Мы уже коснулись темы подресурсов выше. В таблице на картинке выше Вы можете заметить как выглядит URI для доступа к комментариям поста. В пути сначала пишется родительский ресурс, а потом уже указание на подресурс: &lt;code>/api/[resource]/{id}/[sub-resource]&lt;/code>. Это общепринятая практика и подобное построение пути даёт возможность пользователям Вашего API сразу понять какие ресурсы зависят от других.&lt;/p>
-&lt;p>&lt;strong>В заключение, хочется задать вопрос — Подходит ли спроектированное нами API на все случаи жизни? Конечно же — нет&lt;/strong>. Если Вы присмотритесь к таблице внимательнее, станет ясно, что это API предназначено исключительно для Авторов постов. Автор может читать только свои посты. А вот пользователи блогосервиса должны получать доступ ко всем постам всех авторов. Такие вот моменты становятся видны, если на этапе проектирования каждой из операции задавать вопросы о том, кто будет пользоваться ими и в каких случаях.&lt;/p>
-&lt;p>&lt;strong>Надеюсь эта статья поможет Вам&lt;/strong> подступиться к такой огромной теме как REST API’и и направит Вас в моменты, когда придётся проектировать собственное API.&lt;/p>
-&lt;h1 id="полезные-ссылки">Полезные ссылки&lt;/h1>
+&lt;p>&lt;img src="/images/design-rest-api/1.en.png" alt="design-rest-api-table-1">&lt;/p>
+&lt;p>&lt;strong>All is left to do is fill in the table&lt;/strong> with data based on the information we gathered. Let&amp;rsquo;s try to do that for GET posts operation:&lt;/p>
+&lt;p>&lt;img src="/images/design-rest-api/2.en.png" alt="design-rest-api-table-2">&lt;/p>
+&lt;p>&lt;strong>Let&amp;rsquo;s look closer on it&lt;/strong>. We work with posts. That means that somebody needs to write them. So, every post has its own Author.&lt;/p>
+&lt;p>The author can get access to all of his posts. For that, we do not need to provide any specific input and under the hood implementation of the API&lt;/p>
+&lt;p>can detect current user and detect his posts. As the output we will have a list of posts written by current user (Author).&lt;/p>
+&lt;p>Read operation in HTTP protocol expressed as GET method. And finally according to commonly used approach URI must end with&lt;/p>
+&lt;p>name of the resource. In our case it will be &lt;code>.../posts&lt;/code>.&lt;/p>
+&lt;p>&lt;strong>During filling in the table, always aks yourself following questions&lt;/strong> - where are resources from? who works with them? and so on.&lt;/p>
+&lt;p>The bigger picture you will try to see, the more cases you can identify on the design stage. Simple example:&lt;/p>
+&lt;p>We have designed operation of getting the posts, but who had added them before? Author, of course. Let&amp;rsquo;s design that as well:&lt;/p>
+&lt;p>&lt;img src="/images/design-rest-api/3.en.png" alt="design-rest-api-table-3">&lt;/p>
+&lt;p>Using same approach &lt;strong>let&amp;rsquo;s design rest of operations&lt;/strong>:&lt;/p>
+&lt;p>&lt;img src="/images/design-rest-api/4.en.png" alt="design-rest-api-table-4">&lt;/p>
+&lt;p>&lt;strong>Pay attention onto last row&lt;/strong>. We have discussed sub-resources before. On the screenshot from above you can notice how URI&lt;/p>
+&lt;p>for sub-resources access can look like. In our example, how URI for accessing post&amp;rsquo;s comments can look like. At the beginning of the path&lt;/p>
+&lt;p>name of the parent resource must be given and only after that name of sub-resource can be used. According to that&lt;/p>
+&lt;p>the schema for URI can look like this: &lt;code>/api/[resource]/{id}/[sub-resource]&lt;/code>. This is a commonly used practice and URIs like this allow&lt;/p>
+&lt;p>your users to understand which of resources depends on others.&lt;/p>
+&lt;p>&lt;strong>As an outro, we need to ask ourselves one question - Will the API we have designed fit all the cases in any situations? Of course - not&lt;/strong>.&lt;/p>
+&lt;p>If you look onto the table closer, it becomes clear for you that the API we have designed is intended to be used only by Authors.&lt;/p>
+&lt;p>Author can read only own posts, but users of blog service must have access to all posts of all authors. Such requirements (you can also call them as constraints)&lt;/p>
+&lt;p>become visible during design stage, only if you try to get the big picture by asking yourself questions about your resources, actions, users, cases and so on.&lt;/p>
+&lt;p>&lt;strong>I hope that this article will help you&lt;/strong> to understand that REST APIs can be designed using simple and formalised algorithm.&lt;/p>
+&lt;h1 id="useful-links">Useful links&lt;/h1>
 &lt;ul>
-&lt;li>[1] Мой старый &lt;a href="https://anver-bogatov.medium.com/%D0%BA%D0%B0%D0%BA-%D0%BF%D1%80%D0%BE%D0%B5%D0%BA%D1%82%D0%B8%D1%80%D0%BE%D0%B2%D0%B0%D1%82%D1%8C-rest-api-86b2d6737401">блог на Medium&lt;/a>&lt;/li>
-&lt;li>[2] Книга &amp;ldquo;The Design of Web APIs&amp;rdquo; &lt;a href="https://www.manning.com/books/the-design-of-web-apis">на Manning&lt;/a>&lt;/li>
+&lt;li>[1] &amp;ldquo;The Design of Web APIs&amp;rdquo; book &lt;a href="https://www.manning.com/books/the-design-of-web-apis">on Manning&lt;/a>&lt;/li>
 &lt;/ul></content></item></channel></rss>
