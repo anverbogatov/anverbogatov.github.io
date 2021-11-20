@@ -37,4 +37,7 @@ You can find me here:
 * YouTube-channel [#NOT.a.musician](https://www.youtube.com/channel/UCYcClck5kXPmHskLrHaihBQ)
 * YouTube-channel [noProgrammer](https://www.youtube.com/channel/UC2oyEaWybm66PdP0g4hKLKA)
 
+* My music own [Spotify](https://open.spotify.com/artist/5bTYJ41CZNNhAakENxaGuu?si=eiPWRjwnR22fHv1Uf4GDtw)
+* My music own [Apple Music](https://music.apple.com/ru/artist/anver-bogatov/1553726448)
+
 ![Me and my youngest daughter](/images/about/photo.jpg)
