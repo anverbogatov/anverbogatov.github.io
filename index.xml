@@ -232,28 +232,9 @@ for explaining and chewing on my every question. It helped me a lot and motivate
 How many times have I started writing to you about my problem and how I just wanted to press the send button. 😀The answer immediately crossed my mind.
 Plin thanks a lot the day you wrote to me, it was a defining moment for me)
 And now tomorrow will be my first working day 🙂
-&lt;/code>&lt;/pre>&lt;hr></content></item><item><title/><link>/showcase/</link><pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate><guid>/showcase/</guid><description>Цикл статей о Domain Driven Design 1️⃣ DDD 101: Заметки о Domain Driven Design #1 🗺 Моделирование ⚠️ Идентификация рисков - Risk Storming 🗾 Карты Пользовательских Историй или User Story Mapping 📶 Уровни детализации Use Case&amp;rsquo;ов 🏗 Проектирование 🧩 Проектирование REST API 🧸 Софт-скиллы 😎 Навык решения проблем или Problem Solving Skill ⭐️ Техника построения речи S.T.A.R. Hibernate framework Hibernate N+1 Проблема</description><content>&lt;h1 id="цикл-статей-о-domain-driven-design">Цикл статей о Domain Driven Design&lt;/h1>
+&lt;/code>&lt;/pre>&lt;hr></content></item><item><title/><link>/showcase/</link><pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate><guid>/showcase/</guid><description>🏗 Software design 🧩 How to design REST API?</description><content>&lt;h1 id="-software-design">🏗 Software design&lt;/h1>
 &lt;ul>
-&lt;li>&lt;a href="/posts/ddd-intro">1️⃣ DDD 101: Заметки о Domain Driven Design #1&lt;/a>&lt;/li>
-&lt;/ul>
-&lt;h1 id="-моделирование">🗺 Моделирование&lt;/h1>
-&lt;ul>
-&lt;li>&lt;a href="/posts/risk-storming">⚠️ Идентификация рисков - Risk Storming&lt;/a>&lt;/li>
-&lt;li>&lt;a href="/posts/user-story-mapping">🗾 Карты Пользовательских Историй или User Story Mapping&lt;/a>&lt;/li>
-&lt;li>&lt;a href="/posts/use-case-goal-levels">📶 Уровни детализации Use Case&amp;rsquo;ов&lt;/a>&lt;/li>
-&lt;/ul>
-&lt;h1 id="-проектирование">🏗 Проектирование&lt;/h1>
-&lt;ul>
-&lt;li>&lt;a href="/posts/design-rest-api">🧩 Проектирование REST API&lt;/a>&lt;/li>
-&lt;/ul>
-&lt;h1 id="-софт-скиллы">🧸 Софт-скиллы&lt;/h1>
-&lt;ul>
-&lt;li>&lt;a href="/posts/problem-solving-skill">😎 Навык решения проблем или Problem Solving Skill&lt;/a>&lt;/li>
-&lt;li>&lt;a href="/posts/star-technique">⭐️ Техника построения речи S.T.A.R.&lt;/a>&lt;/li>
-&lt;/ul>
-&lt;h1 id="hibernate-framework">Hibernate framework&lt;/h1>
-&lt;ul>
-&lt;li>&lt;a href="/posts/hibernate-n1-problem">Hibernate N+1 Проблема&lt;/a>&lt;/li>
+&lt;li>&lt;a href="/posts/design-rest-api">🧩 How to design REST API?&lt;/a>&lt;/li>
 &lt;/ul></content></item><item><title/><link>/support/</link><pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate><guid>/support/</guid><description>Write articles in a notepad - is a hobby.
 Write articles aimed to teach somebody - it&amp;rsquo;s a job.
 I do that because I want to be grateful to the IT community for who I have become. I do that because when I was learning all the topics, I did not have a person who could explain things to me or who could answer my questions&amp;hellip; I do that in my spare time, instead of having fun or sometime even instead of hanging out with my family.</description><content>&lt;p>Write articles in a notepad - is a hobby.&lt;/p>
