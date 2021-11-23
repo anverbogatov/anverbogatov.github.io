@@ -1,247 +1,611 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Anver Bogatov</title><link>/</link><description>Recent content on Anver Bogatov</description><generator>Hugo -- gohugo.io</generator><lastBuildDate>Sat, 20 Nov 2021 18:55:34 +0400</lastBuildDate><atom:link href="/index.xml" rel="self" type="application/rss+xml"/><item><title>How to design a REST API?</title><link>/posts/design-rest-api/</link><pubDate>Sat, 20 Nov 2021 18:55:34 +0400</pubDate><guid>/posts/design-rest-api/</guid><description>What is API? API or Application Programming Interface — is a description of communication between two programs.
-To be even more precise, an API is a set of classes, interfaces, or data structures that are defined by the program that owns the API.
-With the API, you can make a program do something. What exactly - defined by the API.
-There are many APIs exist.
-For example, Java itself gives access to dozens of APIs to developers: Core API, Concurrency API, Collection API and many more.</description><content>&lt;h1 id="what-is-api">What is API?&lt;/h1>
-&lt;p>&lt;strong>API or Application Programming Interface&lt;/strong> — is a description of communication between two programs.&lt;/p>
-&lt;p>To be even more precise, an API is a set of classes, interfaces, or data structures that are defined by the program that owns the API.&lt;/p>
-&lt;p>With the API, you can make a program do something. What exactly - defined by the API.&lt;/p>
-&lt;p>&lt;strong>There are many APIs exist&lt;/strong>.&lt;/p>
-&lt;p>For example, Java itself gives access to dozens of APIs to developers: Core API, Concurrency API, Collection API and many more.&lt;/p>
-&lt;p>Other frameworks define their own APIs: Hibernate API, JPA (Java Persistence API), RestEasy, and so on.&lt;/p>
-&lt;p>&lt;strong>Each of the APIs has its own goal&lt;/strong>.&lt;/p>
-&lt;p>APIs are not created just for fun. Each of the APIs is like a TV remote control. It gives an opportunity to control the application.&lt;/p>
-&lt;p>For example, an application for disk space usage analysis can contain an API that allows getting statistics on files and the space they take; this will point to the heaviest file on the disk drive and so on.&lt;/p>
-&lt;p>At the same time, the API does not allow doing any random stuff. All the capabilities of the API are consistent with its goal.&lt;/p>
-&lt;p>&lt;strong>APIs do not belong to concrete technology&lt;/strong>.&lt;/p>
-&lt;p>If an application is written in Java, that does not mean that the API will be limited to that particular programming language. Applications can communicate through APIs written using different technologies and programming languages.&lt;/p>
-&lt;p>For example, REST API.&lt;/p>
-&lt;h1 id="what-is-rest-api">What is REST API?&lt;/h1>
-&lt;p>REST or Representational State Transfer is an architectural approach based on the HTTP protocol.&lt;/p>
-&lt;h1 id="why-do-you-need-to-design-a-rest-api">Why do you need to design a REST API?&lt;/h1>
-&lt;p>&lt;strong>Application development is like collecting a puzzle without hard rules&lt;/strong>.&lt;/p>
-&lt;p>Everybody can win that game. But the true mastery of software engineering is writing software applications that will work quickly, without errors, and will be extensible.&lt;/p>
-&lt;p>That is why, as in house building, you need to know everything beforehand, because the cost of a mistake on&lt;/p>
-&lt;p>design stage cheaper than the cost of a mistake at the moment when the house is built.&lt;/p>
-&lt;h1 id="domain-driven-design-of-rest-api">Domain driven design of REST API&lt;/h1>
-&lt;p>&lt;strong>Technique that I am going to share today&lt;/strong> is well described in Manning&amp;rsquo;s book - &amp;ldquo;The Design of Web APIs&amp;rdquo; [1].&lt;/p>
-&lt;p>The link to the book can be found at the bottom of the page.&lt;/p>
-&lt;p>&lt;strong>Small input&lt;/strong>, before I will explain the method. All the ideas below are highly oriented onto practice.&lt;/p>
-&lt;p>The method is not just a dry theory, but rather a live method of REST API design. Thus, we will talk about it using live&lt;/p>
-&lt;p>example. Imagine that we need to design a REST API for some blog service. To be precise, we will work with&lt;/p>
-&lt;p>posts and their comments. Using that requirement as an example, we will use the method.&lt;/p>
-&lt;p>&lt;strong>What goals such API can have?&lt;/strong> There can be even multiple goals:&lt;/p>
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Anver Bogatov</title><link>/</link><description>Recent content on Anver Bogatov</description><generator>Hugo -- gohugo.io</generator><language>ru-RU</language><lastBuildDate>Wed, 10 Nov 2021 19:51:58 +0400</lastBuildDate><atom:link href="/index.xml" rel="self" type="application/rss+xml"/><item><title>Hibernate N+1 Проблема</title><link>/posts/hibernate-n1-problem/</link><pubDate>Wed, 10 Nov 2021 19:51:58 +0400</pubDate><guid>/posts/hibernate-n1-problem/</guid><description>Пример N+1 проблемы Проще всего проблему проиллюстрировать используя классический пример с Книгой (book) и Автором (author). Предположим, что у нас в модели есть сущность Book. У каждой сущности Book есть свой Author.
+В Java, с использованием Hibernate это отношение можно смоделировать следующим образом:
+@Data @Entity @Table(name = &amp;#34;book&amp;#34;) public class Book { @Id @GeneratedValue(strategy = GenerationType.SEQUENCE) private int id; private String title; @OneToOne(fetch = FetchType.LAZY) private Author author; } ---------------------------------------------------------- @Data @Entity @Table(name = &amp;#34;author&amp;#34;) public class Author { @Id @GeneratedValue(strategy = GenerationType.</description><content>&lt;h3 id="пример-n1-проблемы">Пример N+1 проблемы&lt;/h3>
+&lt;p>Проще всего проблему проиллюстрировать используя классический пример с Книгой (book) и Автором (author). Предположим, что у нас в модели есть сущность Book. У каждой сущности Book есть свой Author.&lt;/p>
+&lt;p>В Java, с использованием Hibernate это отношение можно смоделировать следующим образом:&lt;/p>
+&lt;div class="highlight">&lt;pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4">&lt;code class="language-java" data-lang="java">&lt;span style="color:#a6e22e">@Data&lt;/span>
+&lt;span style="color:#a6e22e">@Entity&lt;/span>
+&lt;span style="color:#a6e22e">@Table&lt;/span>&lt;span style="color:#f92672">(&lt;/span>name &lt;span style="color:#f92672">=&lt;/span> &lt;span style="color:#e6db74">&amp;#34;book&amp;#34;&lt;/span>&lt;span style="color:#f92672">)&lt;/span>
+&lt;span style="color:#66d9ef">public&lt;/span> &lt;span style="color:#66d9ef">class&lt;/span> &lt;span style="color:#a6e22e">Book&lt;/span> &lt;span style="color:#f92672">{&lt;/span>
+&lt;span style="color:#a6e22e">@Id&lt;/span>
+&lt;span style="color:#a6e22e">@GeneratedValue&lt;/span>&lt;span style="color:#f92672">(&lt;/span>strategy &lt;span style="color:#f92672">=&lt;/span> GenerationType&lt;span style="color:#f92672">.&lt;/span>&lt;span style="color:#a6e22e">SEQUENCE&lt;/span>&lt;span style="color:#f92672">)&lt;/span>
+&lt;span style="color:#66d9ef">private&lt;/span> &lt;span style="color:#66d9ef">int&lt;/span> id&lt;span style="color:#f92672">;&lt;/span>
+&lt;span style="color:#66d9ef">private&lt;/span> String title&lt;span style="color:#f92672">;&lt;/span>
+&lt;span style="color:#a6e22e">@OneToOne&lt;/span>&lt;span style="color:#f92672">(&lt;/span>fetch &lt;span style="color:#f92672">=&lt;/span> FetchType&lt;span style="color:#f92672">.&lt;/span>&lt;span style="color:#a6e22e">LAZY&lt;/span>&lt;span style="color:#f92672">)&lt;/span>
+&lt;span style="color:#66d9ef">private&lt;/span> Author author&lt;span style="color:#f92672">;&lt;/span>
+&lt;span style="color:#f92672">}&lt;/span>
+&lt;span style="color:#f92672">----------------------------------------------------------&lt;/span>
+&lt;span style="color:#a6e22e">@Data&lt;/span>
+&lt;span style="color:#a6e22e">@Entity&lt;/span>
+&lt;span style="color:#a6e22e">@Table&lt;/span>&lt;span style="color:#f92672">(&lt;/span>name &lt;span style="color:#f92672">=&lt;/span> &lt;span style="color:#e6db74">&amp;#34;author&amp;#34;&lt;/span>&lt;span style="color:#f92672">)&lt;/span>
+&lt;span style="color:#66d9ef">public&lt;/span> &lt;span style="color:#66d9ef">class&lt;/span> &lt;span style="color:#a6e22e">Author&lt;/span> &lt;span style="color:#f92672">{&lt;/span>
+&lt;span style="color:#a6e22e">@Id&lt;/span>
+&lt;span style="color:#a6e22e">@GeneratedValue&lt;/span>&lt;span style="color:#f92672">(&lt;/span>strategy &lt;span style="color:#f92672">=&lt;/span> GenerationType&lt;span style="color:#f92672">.&lt;/span>&lt;span style="color:#a6e22e">SEQUENCE&lt;/span>&lt;span style="color:#f92672">)&lt;/span>
+&lt;span style="color:#66d9ef">private&lt;/span> &lt;span style="color:#66d9ef">int&lt;/span> id&lt;span style="color:#f92672">;&lt;/span>
+&lt;span style="color:#66d9ef">private&lt;/span> String name&lt;span style="color:#f92672">;&lt;/span>
+&lt;span style="color:#a6e22e">@OneToOne&lt;/span>&lt;span style="color:#f92672">(&lt;/span>mappedBy &lt;span style="color:#f92672">=&lt;/span> &lt;span style="color:#e6db74">&amp;#34;author&amp;#34;&lt;/span>&lt;span style="color:#f92672">)&lt;/span>
+&lt;span style="color:#66d9ef">private&lt;/span> Book book&lt;span style="color:#f92672">;&lt;/span>
+&lt;span style="color:#f92672">}&lt;/span>
+&lt;/code>&lt;/pre>&lt;/div>&lt;p>Поле &lt;code>book&lt;/code> в классе &lt;code>Author&lt;/code> указывает на то, что владельцем отношения является сущность &lt;code>Book&lt;/code>:&lt;/p>
+&lt;div class="highlight">&lt;pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4">&lt;code class="language-java" data-lang="java"> &lt;span style="color:#a6e22e">@OneToOne&lt;/span>&lt;span style="color:#f92672">(&lt;/span>mappedBy &lt;span style="color:#f92672">=&lt;/span> &lt;span style="color:#e6db74">&amp;#34;author&amp;#34;&lt;/span>&lt;span style="color:#f92672">)&lt;/span>
+&lt;span style="color:#66d9ef">private&lt;/span> Book book&lt;span style="color:#f92672">;&lt;/span>
+&lt;/code>&lt;/pre>&lt;/div>&lt;p>Предположим, что нам необходимо загрузить из базы данных несколько книг. Для доступа к базе данных, мы используем простейший Spring Repository:&lt;/p>
+&lt;div class="highlight">&lt;pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4">&lt;code class="language-java" data-lang="java">&lt;span style="color:#66d9ef">public&lt;/span> &lt;span style="color:#66d9ef">interface&lt;/span> &lt;span style="color:#a6e22e">BookRepository&lt;/span> &lt;span style="color:#66d9ef">extends&lt;/span> CrudRepository&lt;span style="color:#f92672">&amp;lt;&lt;/span>Book&lt;span style="color:#f92672">,&lt;/span> Integer&lt;span style="color:#f92672">&amp;gt;&lt;/span> &lt;span style="color:#f92672">{&lt;/span>
+&lt;span style="color:#f92672">}&lt;/span>
+&lt;/code>&lt;/pre>&lt;/div>&lt;p>C репозиторием, подобному тому, что Я привожу выше, уже можно зачитать из базы данных все сохранённые Книги (book). Сделать это можно, просто вызвав следующий метод:&lt;/p>
+&lt;div class="highlight">&lt;pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4">&lt;code class="language-java" data-lang="java">repository&lt;span style="color:#f92672">.&lt;/span>&lt;span style="color:#a6e22e">findAll&lt;/span>&lt;span style="color:#f92672">();&lt;/span>
+&lt;/code>&lt;/pre>&lt;/div>&lt;p>При наличии следующей конфигурации:&lt;/p>
+&lt;div class="highlight">&lt;pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4">&lt;code class="language-yaml" data-lang="yaml">&lt;span style="color:#f92672">spring&lt;/span>:
+&lt;span style="color:#f92672">jpa&lt;/span>:
+&lt;span style="color:#f92672">show-sql&lt;/span>: &lt;span style="color:#66d9ef">true&lt;/span>
+&lt;/code>&lt;/pre>&lt;/div>&lt;p>В логах приложения мы увидим:&lt;/p>
+&lt;pre>&lt;code class="language-logs" data-lang="logs">Hibernate: select book0_.id as id1_1_, book0_.author_id as author_i3_1_, book0_.title as title2_1_ from book book0_
+Hibernate: select author0_.id as id1_0_0_, author0_.name as name2_0_0_, book1_.id as id1_1_1_, book1_.author_id as author_i3_1_1_, book1_.title as title2_1_1_
+from author author0_ left outer join book book1_ on author0_.id=book1_.author_id where author0_.id=?
+Hibernate: select author0_.id as id1_0_0_, author0_.name as name2_0_0_, book1_.id as id1_1_1_, book1_.author_id as author_i3_1_1_, book1_.title as title2_1_1_
+from author author0_ left outer join book book1_ on author0_.id=book1_.author_id where author0_.id=?
+Hibernate: select author0_.id as id1_0_0_, author0_.name as name2_0_0_, book1_.id as id1_1_1_, book1_.author_id as author_i3_1_1_, book1_.title as title2_1_1_
+from author author0_ left outer join book book1_ on author0_.id=book1_.author_id where author0_.id=?
+&lt;/code>&lt;/pre>&lt;p>Разберём подробнее, что же в мы тут видим.&lt;/p>
+&lt;p>Первый запрос:&lt;/p>
+&lt;div class="highlight">&lt;pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4">&lt;code class="language-sql" data-lang="sql">&lt;span style="color:#66d9ef">select&lt;/span> book0_.id &lt;span style="color:#66d9ef">as&lt;/span> id1_1_, book0_.author_id &lt;span style="color:#66d9ef">as&lt;/span> author_i3_1_, book0_.title &lt;span style="color:#66d9ef">as&lt;/span> title2_1_ &lt;span style="color:#66d9ef">from&lt;/span> book book0_
+&lt;/code>&lt;/pre>&lt;/div>&lt;p>Зачитывает все имеющиеся записи в таблице &lt;code>book&lt;/code>. Для своего эксперимента Я сохранил 3 сущности типа Book. У каждой из этих сущностей, был установлен свой, уникальный автор - Author. Итого, в базе данных сохранено 3 записи в таблице &lt;code>book&lt;/code> и 3 записи в таблице &lt;code>author&lt;/code>.&lt;/p>
+&lt;p>После того, как Hibernate зачитал все имеющиеся книги одним запросом, он начал зачитывать записи из таблицы с авторами по одному, с использованием outer join конструкции.&lt;/p>
+&lt;p>Это и есть проблема - N+1.&lt;/p>
+&lt;h3 id="что-такое-n1">Что такое N+1?&lt;/h3>
+&lt;p>Проблема N+1 - это проблема неоптимального доступа к сохранённым данным, при которой каждой из записей зачитанных одним sql запросом связные данные будут зачитаны по одному.&lt;/p>
+&lt;p>N+1 можно так же расшифровать как - один запрос, чтобы зачитать множество сущностей одного типа, но N запросов, чтобы зачитать все связные сущности.&lt;/p>
+&lt;h3 id="почему-это-происходит">Почему это происходит?&lt;/h3>
+&lt;p>Потому что, в момент когда мы используем репозиторий для загрузки всех сущностей типа &lt;code>Book&lt;/code>, мы не сообщаем о том, что нам так же нужны связные сущности типа &lt;code>Author&lt;/code>.&lt;/p>
+&lt;p>Запрос за каждой связной сущностью &lt;code>Author&lt;/code> происходит в момент доступа к ней, через поле &lt;code>author&lt;/code> объектов типа &lt;code>Book&lt;/code>.&lt;/p>
+&lt;h3 id="как-обойти-проблему">Как обойти проблему?&lt;/h3>
+&lt;p>Обойти проблему можно используя нативную фичу Hibernate под названием «Batch Fetching» (пакетная выборка).&lt;/p>
+&lt;p>Достаточно добавить следующую аннотацию на объявление класса сущности &lt;code>Author&lt;/code>:&lt;/p>
+&lt;div class="highlight">&lt;pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4">&lt;code class="language-java" data-lang="java">&lt;span style="color:#a6e22e">@BatchSize&lt;/span>&lt;span style="color:#f92672">(&lt;/span>size &lt;span style="color:#f92672">=&lt;/span> 100&lt;span style="color:#f92672">)&lt;/span>
+&lt;/code>&lt;/pre>&lt;/div>&lt;p>И запросы в логах будут выглядеть следующим образом:&lt;/p>
+&lt;pre>&lt;code class="language-logs" data-lang="logs">Hibernate: select book0_.id as id1_1_, book0_.author_id as author_i3_1_, book0_.title as title2_1_ from book book0_
+Hibernate: select author0_.id as id1_0_0_, author0_.name as name2_0_0_, book1_.id as id1_1_1_, book1_.author_id as author_i3_1_1_, book1_.title as title2_1_1_ from author author0_ left outer join book book1_ on author0_.id=book1_.author_id where author0_.id in (?, ?, ?)
+&lt;/code>&lt;/pre>&lt;p>Первый запрос зачитает все записи из таблицы &lt;code>book&lt;/code>, а второй запрос зачитает все связные записи из таблицы &lt;code>author&lt;/code>.&lt;/p>
+&lt;h3 id="полезные-материалы">Полезные материалы&lt;/h3>
 &lt;ul>
-&lt;li>
-&lt;p>Read posts. There should be a way to read existing posts.&lt;/p>
+&lt;li>[1] &lt;a href="https://github.com/anverbogatov/hibernate-n1-problem">GitHub - anverbogatov/hibernate-n1-problem: This repository contains simple Spring Boot application that is intended to illustrate N+1 problem in Hibernate.&lt;/a> - полный код приложения, которое Я написал, чтобы продемонстрировать проблему&lt;/li>
+&lt;li>[2] &lt;a href="https://docs.jboss.org/hibernate/orm/4.3/manual/en-US/html_single/#performance-fetching-batch">HIBERNATE - Relational Persistence for Idiomatic Java&lt;/a> - документация о пакетной выборке данных в Hibernate&lt;/li>
+&lt;/ul></content></item><item><title>DDD 101: Заметки о Domain Driven Design #1</title><link>/posts/ddd-intro/</link><pubDate>Thu, 04 Nov 2021 09:25:57 +0400</pubDate><guid>/posts/ddd-intro/</guid><description>Мысли вслух Domain Driven Design (DDD) или ПРЕДМЕТНО-ОРИЕНТИРОВАННОЕ ПРОЕКТИРОВАНИЕ - это.. если совсем коротко - это сложная тема. Нужно прочитать десяток, а то и пол-сотни статей, просмотреть множество выступлений на эту тему с конференций, познакомиться с некоторыми способами моделирования бизнес процессов, открыть для себя «синюю» и «красную» книги - и всё это, для того, чтобы просто разобраться с DDD. Обратите внимание, я не сказал - начать использовать. Просто - детально разобраться.</description><content>&lt;h3 id="мысли-вслух">Мысли вслух&lt;/h3>
+&lt;p>Domain Driven Design (DDD) или &lt;strong>ПРЕДМЕТНО-ОРИЕНТИРОВАННОЕ ПРОЕКТИРОВАНИЕ&lt;/strong> - это.. если совсем коротко - это сложная тема. Нужно прочитать десяток, а то и пол-сотни статей, просмотреть множество выступлений на эту тему с конференций, познакомиться с некоторыми способами моделирования бизнес процессов, открыть для себя «синюю» и «красную» книги - и всё это, для того, чтобы просто разобраться с DDD. Обратите внимание, я не сказал - начать использовать. Просто - детально разобраться.&lt;/p>
+&lt;p>Выше, я описал свой путь к пониманию DDD. Это заняло много времени. В конце концов, я осознал суть &lt;strong>ПРЕДМЕТНО-ОРИЕНТИРОВАННОГО ПРОЕКТИРОВАНИЯ&lt;/strong>, прочувствовал на себе как именно этот подход меняет мышление, и какую именно пользу он в себе несёт (как для бизнеса, так и для самого разработчика). Самое главное открытие, которое я сделал, разобравшись в теме - это… &lt;em>DDD - это простая тема, объясняемая «сложным» языком и не «в том» порядке&lt;/em>.&lt;/p>
+&lt;p>Цикл статей о &lt;strong>ПРЕДМЕТНО-ОРИЕНТИРОВАННОМ ПРОЕКТИРОВАНИИ&lt;/strong> под названием «DDD 101» - это подача материала по теме, в том виде, в котором я хотел бы его получить, когда сам начинал разбираться с DDD.&lt;/p>
+&lt;p>Твоя поддержка мотивирует меня писать больше. Пожалуйста, обрати внимание на &lt;a href="/support">новый раздел&lt;/a>.&lt;/p>
+&lt;h3 id="как-будем-работать">Как будем работать?&lt;/h3>
+&lt;p>Разбирать концепции DDD в вакууме, пользуясь только техническим описанием и собственной фантазией - является первой ошибкой в деле освоения DDD. Я множество раз перечитывал описания разных идей из DDD, быть может даже понимал, но всегда вопрос «А как это выглядит в коде?» витал в воздухе.&lt;/p>
+&lt;p>В этом цикле статей, эту проблему мы решим за счёт следующего подхода:
+Я подготовил живое Java приложение, написанное с применением &lt;strong>ОБЪЕКТНО-ОРИЕНТИРОВАННОГО ПРОГРАММИРОВАНИЯ&lt;/strong> (ООП). Именно в него мы будем вживлять идеи DDD. Это позволит тебе увидеть разницу между подходами, а так же получить прямую связь концепций DDD с кодом.&lt;/p>
+&lt;p>Вообщем-то, это и будет нашим порядком работы над изучением DDD - разбираемся с очередной концепцией DDD и смотрим на то, как именно мы можем применить её в жизни.&lt;/p>
+&lt;h3 id="описание-системы">Описание системы&lt;/h3>
+&lt;p>Итак, в любой компании, перед началом работы разработчика проходит этап онбординга. Это когда новоиспечённому сотруднику дают вводную о компании, о бизнесе, о приложениях, с которыми он будет работать.&lt;/p>
+&lt;p>Я предлагаю пойти по схожему пути и обрести контекст того, с чем мы будем работать прямо сейчас.&lt;/p>
+&lt;p>Представим, что мы занимаемся разработкой программного обеспечения для сети фитнес-клубов. На дворе бушует коронавирус, и поэтому - местные власти ввели ограничение на количество людей, находящихся в одном помещении. Наш заказчик хотел бы, чтобы его клиенты регистрировали своё участие в занятиях йога-класса, чтобы заказчик, мог соблюдать местные ограничения, и при этом, не было неловких ситуаций, когда количество участников конкретного занятия выясняется прямо на занятии.&lt;/p>
+&lt;p>Так же, заказчик, крайне озабочен заполняемостью йога-классов, с точки зрения эффективности маркетинга, и для этого, ему нужно иметь возможность увидеть как много людей посещало занятия, которые уже прошли.&lt;/p>
+&lt;p>Итого, в рамках этого цикла статей, мы будем работать исключительно с этими вводными, не беря во внимание остальные элементы, наподобие - регистрация членства в фитнес клубе, продление подписки на услуги и т.д. Мы берём ограниченное количество требований в работу, для того, чтобы не усложнять наш пример, ибо, даже на таких простых требованиях DDD покажет положительный эффект.&lt;/p>
+&lt;p>Код приложения написанный в виде ООП доступен для просмотра здесь:
+&lt;a href="https://github.com/anverbogatov/ddd-yoga-sessions">ddd-yoga-sessions&lt;/a> (на момент публикации этой статьи - приложение ещё в разработке).&lt;/p>
+&lt;p>Все последующие изменения в коде будут сделаны с целью продемонстрировать ту или иную концепцию DDD. Для твоего удобства, каждый из них будет реализован в отдельном бранче. Поэтому - используй историю коммитов, для того, чтобы увидеть цельные изменения в коде.&lt;/p>
+&lt;h3 id="использованные-термины">Использованные термины&lt;/h3>
+&lt;ul>
+&lt;li>&lt;strong>ПРЕДМЕТНО-ОРИЕНТИРОВАННОЕ ПРОЕКТИРОВАНИЕ&lt;/strong> - в оригинале - Domain Driven Design. Подход проектирования программного обеспечения, в котором во главу угла ставится область бизнеса, для которой и проектируется ПО.&lt;/li>
+&lt;li>&lt;strong>ОБЪЕКТНО-ОРИЕНТИРОВАННОГО ПРОГРАММИРОВАНИЯ&lt;/strong> - старый, давно всем известный подход проектирования программного обеспечения; так же, известен как ООП. Подход базируется на идее выстраивания программы, как набора объектов, структура которых выстраивается по определённым правилам.&lt;/li>
+&lt;/ul></content></item><item><title>Метод идентификации рисков Risk Storming</title><link>/posts/risk-storming/</link><pubDate>Sat, 30 Oct 2021 11:14:22 +0400</pubDate><guid>/posts/risk-storming/</guid><description>Что такое Risk Storming? Это метод, позволяющий легко и быстро, коллективно и визуально идентифицировать риски в системе. Метод подразумевает участие нескольких людей. Для более широкого взгляда на рассматриваемую систему, полный состав участников может включать в себя людей из разных направлений и с разными навыками.
+Метод Сам метод состоит из нескольких последовательно выполняемых шагов. Разберём каждый их них.
+Шаг 1: Нарисовать диаграммы архитектуры Поскольку метод подразумевает поиск рисков в готовой или строящейся системе, нам необходимо эту самую систему каким-то образом видеть.</description><content>&lt;h3 id="что-такое-risk-storming">Что такое Risk Storming?&lt;/h3>
+&lt;p>Это метод, позволяющий легко и быстро, коллективно и визуально идентифицировать риски в системе. Метод подразумевает участие нескольких людей. Для более широкого взгляда на рассматриваемую систему, полный состав участников может включать в себя людей из разных направлений и с разными навыками.&lt;/p>
+&lt;h3 id="метод">Метод&lt;/h3>
+&lt;p>Сам метод состоит из нескольких последовательно выполняемых шагов. Разберём каждый их них.&lt;/p>
+&lt;h4 id="шаг-1-нарисовать-диаграммы-архитектуры">Шаг 1: Нарисовать диаграммы архитектуры&lt;/h4>
+&lt;p>Поскольку метод подразумевает поиск рисков в готовой или строящейся системе, нам необходимо эту самую систему каким-то образом видеть.&lt;/p>
+&lt;p>&lt;img src="/images/risk-storming/1.png" alt="risk-storming-map">
+&lt;em>Рисунок 1. Пример risk storming сессии&lt;/em>&lt;/p>
+&lt;p>Диаграммы архитектуры в этом плане - прекрасное подспорье. Они проиллюстрируют основные компоненты системы и их взаимосвязи.&lt;/p>
+&lt;h4 id="шаг-2-индивидуальный-поиск-рисков">Шаг 2. Индивидуальный поиск рисков&lt;/h4>
+&lt;p>На данном шаге, каждый из участников выписывает абсолютно любые риски и проблемы, пришедшие ему в голову, на стикеры.&lt;/p>
+&lt;p>Этот шаг проводится в абсолютной тишине и должен быть ограничен по времени. Например, 5-10 минут может быть вполне достаточно.&lt;/p>
+&lt;p>Примерами рисков могут быть абсолютно любые предположения о неработоспособности чего-либо. Например:&lt;/p>
+&lt;ul>
+&lt;li>Формат данных в сторонней системе изменился&lt;/li>
+&lt;li>Внешние сервисы недоступны&lt;/li>
+&lt;li>Неконсистентость данных&lt;/li>
+&lt;/ul>
+&lt;h4 id="шаг-3-делимся-предположениями">Шаг 3. Делимся предположениями&lt;/h4>
+&lt;p>На данном шаге, все участники сессии размещают свои стикеры на диаграммах архитектуры, на основе которых производился поиск рисков.&lt;/p>
+&lt;p>Стикеры размещаются близкой к той части диаграммы, к которой относится описанные риски.&lt;/p>
+&lt;p>Если несколько участников сессии описали схожие риски, стикеры этих рисков располагаются вместе.&lt;/p>
+&lt;p>&lt;img src="/images/risk-storming/2.png" alt="risk-storming-map2">
+&lt;em>Рисунок 2. Риски и архитектура&lt;/em>&lt;/p>
+&lt;h4 id="шаг-4-приоритизация">Шаг 4. Приоритизация&lt;/h4>
+&lt;p>И на заключительном шаге, каждый из найденных рисков, рассматривается и обсуждается коллективно.&lt;/p>
+&lt;p>Задача этого шага определить насколько высокий приоритет имеет найденная потенциальная проблема.&lt;/p>
+&lt;p>Вариантов оценить приоритет несколько. Я опишу их два:&lt;/p>
+&lt;ul>
+&lt;li>Planning Poker (&lt;a href="https://www.planningpoker.com">PlanningPoker.com - Estimates Made Easy. Sprints Made Simple.&lt;/a>) - это когда участники оценивают риски, используя карты с цифрами и коллективно обсуждая. В конце концов, переговоры должны придти к общему пониманию.&lt;/li>
+&lt;li>Используя специальную матрицу, на которой на одной оси располагается Вероятность возникновения проблемы, а на другой - её Влияние.
+&lt;img src="/images/risk-storming/3.png" alt="risk-storming-map3">
+&lt;em>Рисунок 3. Матрица оценки риска&lt;/em>&lt;/li>
+&lt;/ul>
+&lt;h3 id="пример">Пример&lt;/h3>
+&lt;p>Для того, чтобы посмотреть на метод в действии, нам понадобится архитектурная схема системы. Поскольку подход абсолютно универсальный - я взял произвольную схему из Интернета:
+&lt;img src="/images/risk-storming/4.png" alt="risk-storming-map4">
+&lt;em>Рисунок 4. Схема работы сервиса&lt;/em>&lt;/p>
+&lt;p>Теперь, когда у нас есть схема архитектуры мы можем приступать.&lt;/p>
+&lt;p>Следующим шагом будет попытка каждого участника идентифицировать риски, возможные в абсолютно любой части системы. Риски описываются на стикерах и затем, стикеры, располагаются на той части схемы, к которой риск, описанный на нём, относится.&lt;/p>
+&lt;p>У меня получилось следующее:
+&lt;img src="/images/risk-storming/5.png" alt="risk-storming-map5">
+&lt;em>Рисунок 5. Отмеченные риски&lt;/em>&lt;/p>
+&lt;p>Напомню, что цель данного метода не вычислить каждый возможный потенциальный риск. Естественно, должны быть пределы разумного. «Нападение акул на сотрудников дата центра» - хорошая идея, но это гарантированно не произойдёт (если только дата центр не располагается на дне океана).&lt;/p>
+&lt;p>Следующим шагом будет коллективная оценка каждого найденного риска, с помощью принятого в команде метода оценки. Для примера я воспользуюсь методом с матрицей. Давайте попробуем оценить приоритет риска с загрузкой в наш сервис гигантского файла (нужно прояснить, под гигантским файлом я имею ввиду любой контент, размер которого выходит за пределы разумного и принятого для данной системы).&lt;/p>
+&lt;p>Загрузка гигантского файла может заставить нашу систему расходовать большое количество ресурсов на его обработку и хранение. Более того, предположим что наш Image Storage, это S3 сервис от AWS, а это значит что хранение гигантских объёмов данных будет стоить нам больших денег. Поэтому я полагаю, что Вероятность, что кто-то попробует это провернуть не нулевая, так что Medium, а Влияние на работоспособность системы и её обслуживание велико, то есть High. Оценив риск таким образом, я поместил его в соответствующую строку и колонку.
+&lt;img src="/images/risk-storming/6.png" alt="risk-storming-map6">
+&lt;em>Рисунок 6. Оценка одного из рисков&lt;/em>&lt;/p>
+&lt;p>Аналогично, нужно поступить и с каждым из оставшихся рисков. В итоге, мы получим примерно следующую картину:
+&lt;img src="/images/risk-storming/7.png" alt="risk-storming-map7">
+&lt;em>Рисунок 7. Итоговая оценка рисков&lt;/em>&lt;/p>
+&lt;p>Итак, мы получили оценки для каждого из рисков. С матрицей уже сейчас можно сделать выводы о том, какие из рисков нужно постараться обработать быстрее остальных. Например, неограниченное количество запросов к сервису может привести к полному отказу работоспособности сервиса из-за DDOS атаки.&lt;/p>
+&lt;p>Список рисков с их оценкой в дальнейшем послужит отличной вводной информацией для формирования технического бэклога команды, обслуживающей сервис.&lt;/p>
+&lt;h3 id="дополнительные-материалы">Дополнительные материалы&lt;/h3>
+&lt;ul>
+&lt;li>[1] &lt;a href="https://riskstorming.com">Risk-storming&lt;/a> - веб-сайт методологии&lt;/li>
+&lt;li>[2] &lt;a href="https://leanpub.com/software-architecture-for-developers">https://leanpub.com/software-architecture-for-developers&lt;/a> - книга автора методологии. В самой книге, методологии посвящена небольшая глава.&lt;/li>
+&lt;/ul></content></item><item><title>User Story Mapping или Карты Пользовательских Сценариев</title><link>/posts/user-story-mapping/</link><pubDate>Mon, 25 Oct 2021 19:59:56 +0400</pubDate><guid>/posts/user-story-mapping/</guid><description>Что такое User Story Mapping? User Story Mapping или КАРТЫ ПОЛЬЗОВАТЕЛЬСКИХ ИСТОРИЙ - это способ визуального планирования и приоритизации задач. Способ хорош тем, что заставляет нас думать о своих software решениях с позиции ПОЛЬЗОВАТЕЛЬСКИХ ИСТОРИЙ (User Story).
+Прежде чем мы перейдём к знакомству с методом, важно разобраться с тем, а что такое вообще ПОЛЬЗОВАТЕЛЬСКАЯ ИСТОРИЯ.
+Что такое User Story? ПОЛЬЗОВАТЕЛЬСКАЯ ИСТОРИЯ - это описание какой-либо фичи продукта, рассказанное с точки зрения её пользователя.</description><content>&lt;h3 id="что-такое-user-story-mapping">Что такое User Story Mapping?&lt;/h3>
+&lt;p>User Story Mapping или &lt;strong>КАРТЫ ПОЛЬЗОВАТЕЛЬСКИХ ИСТОРИЙ&lt;/strong> - это способ визуального планирования и приоритизации задач. Способ хорош тем, что заставляет нас думать о своих software решениях с позиции &lt;strong>ПОЛЬЗОВАТЕЛЬСКИХ ИСТОРИЙ&lt;/strong> (User Story).&lt;/p>
+&lt;p>Прежде чем мы перейдём к знакомству с методом, важно разобраться с тем, а что такое вообще &lt;strong>ПОЛЬЗОВАТЕЛЬСКАЯ ИСТОРИЯ&lt;/strong>.&lt;/p>
+&lt;h3 id="что-такое-user-story">Что такое User Story?&lt;/h3>
+&lt;p>&lt;strong>ПОЛЬЗОВАТЕЛЬСКАЯ ИСТОРИЯ&lt;/strong> - это описание какой-либо фичи продукта, рассказанное с точки зрения её пользователя. Буквально рассказ о том, как именно фича используется конкретным пользователем. &lt;strong>ПОЛЬЗОВАТЕЛЬСКИЕ ИСТОРИИ&lt;/strong> при описании функционала software продукта, ставят во главу угла именно пользователя.&lt;/p>
+&lt;p>При написании &lt;strong>ПОЛЬЗОВАТЕЛЬСКИХ ИСТОРИЙ&lt;/strong> зачастую используется следующая схема:&lt;/p>
+&lt;pre>&lt;code>As a [type of user],
+I want [some particular feature],
+So that [some benefit] is received.
+&lt;/code>&lt;/pre>&lt;p>На русском, эта схема будет выглядеть следующим образом:&lt;/p>
+&lt;pre>&lt;code>Как [тип пользователя],
+Я хочу [описание какого-то действия],
+Чтобы [описание цели].
+&lt;/code>&lt;/pre>&lt;p>При составлении &lt;strong>ПОЛЬЗОВАТЕЛЬСКИХ ИСТОРИЙ&lt;/strong> важно понимать какой уровень детализации Вам необходим. Например, следующая история это плохой пример:&lt;/p>
+&lt;pre>&lt;code>Как клиент онлайн магазина,
+Я хочу купить товар,
+Чтобы им пользоваться.
+&lt;/code>&lt;/pre>&lt;p>Почему это пример плох? Давайте закроем глаза на то, что пример взял из головы и описание цели странноватое. Главная проблема этого примера в том, что «хочу купить товар» это слишком большое действие, чтобы описывать его одной историей. «Купить товар» обычно подразумевает:&lt;/p>
+&lt;ul>
+&lt;li>открыть сайт онлайн магазина&lt;/li>
+&lt;li>найти нужный товар&lt;/li>
+&lt;li>просмотреть его характеристики&lt;/li>
+&lt;li>прочитать отзывы на него&lt;/li>
+&lt;li>добавить его в корзину&lt;/li>
+&lt;li>залогиниться для сохранения истории покупок&lt;/li>
+&lt;li>ввести данные банковской карты&lt;/li>
+&lt;li>оплатить&lt;/li>
+&lt;/ul>
+&lt;p>Почему важно подобрать удобный уровень детализации &lt;strong>ПОЛЬЗОВАТЕЛЬСКОЙ ИСТОРИИ&lt;/strong>? Потому что основная польза метода &lt;strong>КАРТА ПОЛЬЗОВАТЕЛЬСКИХ ИСТОРИЙ&lt;/strong> заключается в планировании доставки функционала небольшими частями. Это позволяет от одного небольшого релиза к другому, этакими частыми шажками, придти к конечной цели пользователя, реализованной в виде software решения.&lt;/p>
+&lt;p>Огромные истории крайне трудно планировать, поскольку, из-за своего размера они сразу займут много времени и частичную их доставку запланировать будет проблематично. Поэтому хорошей практикой будет разбивать большие задачи, на отдельные истории. Выше я уже привёл список действий, которые входят в состав действия «Купить товар». Каждое их этих мелких действий будет отдельной историей.&lt;/p>
+&lt;h3 id="как-выглядит-user-story-mapping">Как выглядит User Story Mapping?&lt;/h3>
+&lt;p>Итак, теперь, когда мы разобрались с тем, что такое &lt;strong>ПОЛЬЗОВАТЕЛЬСКИЕ ИСТОРИИ&lt;/strong>, самое время разобраться с методологией, которая их активно использует.&lt;/p>
+&lt;p>Итак, попробуем составить свою &lt;strong>КАРТУ ПОЛЬЗОВАТЕЛЬСКИХ ИСТОРИЙ&lt;/strong>. И для этого, в первую очередь нужно понять какую именно фичу мы будем моделировать. Раз уж мы заговорили про покупку товара в онлайн магазине, давайте продолжим этот пример.&lt;/p>
+&lt;p>&lt;strong>КАРТА ПОЛЬЗОВАТЕЛЬСКИХ ИСТОРИЙ&lt;/strong>, это метод визуального моделирования и планирования, поэтому для визуализации моей истории, я буду использовать сервис Miro (&lt;a href="https://miro.com">Online Whiteboard &amp;amp; Visual Collaboration Platform | Miro&lt;/a>).&lt;/p>
+&lt;p>История состоит из нескольких шагов, выполняемых пользователем в определённой последовательности. Поэтому на нашу электронную доску, первым делом мы добавим нашего пользователя.&lt;/p>
+&lt;p>&lt;img src="/images/user-story-mapping/1.png" alt="user-story-mapping-user">&lt;/p>
+&lt;p>Для чего это нужно? Как уже было сказано выше, &lt;strong>ПОЛЬЗОВАТЕЛЬСКИЕ ИСТОРИИ&lt;/strong> - это ориентированный на пользователя (user-centric) подход. Поэтому при моделировании историй, нужно всегда держать в голове от лица кого эта история
+рассказывается.&lt;/p>
+&lt;h4 id="каркас">Каркас&lt;/h4>
+&lt;p>Далее, для того чтобы наша история стала похожа на осмысленный нарратив, нам нужно рассказать что и в какой последовательности делает наш пользователь. Для этого, основные действия в истории пользователя мы добавим в виде отдельных стикеров и расположим их в порядке их выполнения, слева-направо.&lt;/p>
+&lt;p>&lt;img src="/images/user-story-mapping/2.png" alt="user-story-mapping-backbone">&lt;/p>
+&lt;p>У нас получился список мелких целей, которые пользователь пытается достичь на каждом этапе. Если мы попытаемся рассказать историю, нарратив, используя эти карточки в качестве подсказок, то у нас это легко получиться. Это будет история про то, как Клиент онлайн магазина заказывает товар. В этом и есть &lt;strong>ПОЛЬЗОВАТЕЛЬСКОЙ ИСТОРИИ&lt;/strong>. Однако, &lt;strong>КАРТА ПОЛЬЗОВАТЕЛЬСКИХ ИСТОРИЙ&lt;/strong> на этом не заканчивается.&lt;/p>
+&lt;p>То, что мы только что сделали, этот набор стикеров, из которых состоит наша история, называется &lt;strong>КАРКАС&lt;/strong> (или Backbone, в зарубежной литературе). Именно он является основой &lt;strong>ПОЛЬЗОВАТЕЛЬСКОЙ ИСТОРИИ&lt;/strong>, и именно на него мы будем наслаивать остальные элементы, а именно генерировать мелкие истории в формате задач, а так же выделять части чего-то единого.&lt;/p>
+&lt;p>Следующим шагом, давайте посмотрим на оранжевые стикеры. Несмотря на то, что каждый из них описывает свой уникальный шаг пользователя на пути к конечной цели, есть в них и общие элементы. Например, «Ввести данные банковской карты» и «Произвести оплату заказа» относятся к более крупному действию, а именно - «Оплата товара».&lt;/p>
+&lt;p>Ещё один нюанс, о котором я сразу хочу упомянуть - &lt;strong>КАРТА ПОЛЬЗОВАТЕЛЬСКИХ ИСТОРИЙ&lt;/strong> должен являться живым документом. Его содержимое должно обсуждаться, меняться и поддерживаться в актуальном состоянии. Это абсолютно нормально, работать над ним итеративно, меняя его содержимое и порядок операций для того, чтобы отразить видение того, как именно должен пройти путь пользователя через наше software решение, прежде, чем он достигнет конечного результата.&lt;/p>
+&lt;p>Итак, после очередной итерации, наша карта стала выглядеть следующим образом:&lt;/p>
+&lt;p>&lt;img src="/images/user-story-mapping/3.png" alt="user-story-mapping-iteration">&lt;/p>
+&lt;p>Внимательный читатель заметит, что на карте появились голубые стикеры, которые отображают более общие шаги и называются &lt;strong>АКТИВНОСТЯМИ&lt;/strong>, а так же, поменялся порядок некоторых оранжевых стикеров.&lt;/p>
+&lt;p>Но и это ещё не всё. Пока мы просто организуем наше представление о действиях пользователя. Мы прописываем саму историю. Однако, поскольку &lt;strong>КАРТЫ ПОЛЬЗОВАТЕЛЬСКИХ ИСТОРИЙ&lt;/strong> является ещё и инструментом планирования задач, самое время про это и поговорить.&lt;/p>
+&lt;h4 id="задачи">Задачи&lt;/h4>
+&lt;p>Каждый из оранжевых стикеров описывает большой шаг на пути к конечной цели. Более того, каждый из них может содержать в себе несколько под-шагов или даже различных вариантов одного и того же действия.&lt;/p>
+&lt;p>Эти под-шаги или варианты, в данном методе называются &lt;strong>ЗАДАЧАМИ&lt;/strong> и отображаются в вертикальной оси, снизу от &lt;strong>КАРКАСА&lt;/strong>, с помощью стикеров другого цвета.&lt;/p>
+&lt;p>Каждая &lt;strong>ЗАДАЧА&lt;/strong> относится к своему элементу &lt;strong>КАРКАСА&lt;/strong>, и описывает какое-то небольшое действие, целью которого является как раз таки, элемент &lt;strong>КАРКАСА&lt;/strong>. Если совсем просто, стикеры с задачами, размещаются под оранжевыми стикерами, к которым они имеют отношение. Каждый из стикеров-задач, является &lt;strong>ПОЛЬЗОВАТЕЛЬСКОЙ ИСТОРИЕЙ&lt;/strong>, которая может быть передана разработчику.&lt;/p>
+&lt;p>В случае с моей картой, стикеры-задачи могут выглядеть так:&lt;/p>
+&lt;p>&lt;img src="/images/user-story-mapping/4.png" alt="user-story-mapping-task">&lt;/p>
+&lt;p>Есть один простой трюк, который поможет описывать задачи так, чтобы:&lt;/p>
+&lt;ul>
+&lt;li>все они имели схожую смысловую структуру&lt;/li>
+&lt;li>и, чтобы все участники моделирования, предельно точно понимали что и зачем нужно делать.
+Именно из &lt;strong>ЗАДАЧ&lt;/strong>, в последствии будут созданы тикеты для разработчика.&lt;/li>
+&lt;/ul>
+&lt;p>Итак, трюк следующий - помните схему, по которой составляются &lt;strong>ПОЛЬЗОВАТЕЛЬСКИЕ ИСТОРИИ&lt;/strong>:
+&lt;code>As a [user], I want [something], So that [achieve some benefit]&lt;/code>
+А теперь немного изменим её, заменив общие термины на элементы карты:&lt;/p>
+&lt;pre>&lt;code>As a [user],
+I want [task],
+So that [backbone element]
+&lt;/code>&lt;/pre>&lt;p>Моя схема написана на русском, так что, давайте, следуя этой схеме, попробуем составить несколько историй для разработчика:&lt;/p>
+&lt;pre>&lt;code>1) Как клиент онлайн магазина, Я хочу использовать строку поиска, Чтобы найти нужный товар
+2) Как клиент онлайн магазина, Я хочу использовать номер телефона, Чтобы залогиниться в системе
+3) Как клиент онлайн магазина, Я хочу просмотреть описание товара, Чтобы посмотреть информацию о товаре
+&lt;/code>&lt;/pre>&lt;p>Каждая из &lt;strong>ЗАДАЧ&lt;/strong>, в подобном написании, представляет из себя &lt;strong>ПОЛЬЗОВАТЕЛЬСКУЮ ИСТОРИЮ&lt;/strong>. В таком случае, каждый из оранжевых стикеров - представляет из себя Epic (то есть, большую задачу, которая состоит из ряда историй). Если уж совсем точно, то - оранжевые тикеты, это Epic’и в JIRA, тикеты-задачи - это User Story в JIRA. Каждая из User Story в JIRA, затем может быть разбита на несколько тикетов, в рамках которых разработчик реализует те или иные части фичи.&lt;/p>
+&lt;h4 id="планирование">Планирование&lt;/h4>
+&lt;p>Пришло время поговорить о последнем элементе &lt;strong>КАРТЫ ПОЛЬЗОВАТЕЛЬСКИХ ИСТОРИЙ&lt;/strong>, а именно о планировании.&lt;/p>
+&lt;p>Если горизонтальная плоскость отображает шкалу времени, то вертикальная в данном методе, отображает приоритет. Чем выше &lt;strong>ЗАДАЧА&lt;/strong> в колонке, тем выше и её приоритет и, соответсвенно, она быстрее будет выполнена разработчиком.&lt;/p>
+&lt;p>Есть два способа планирования в данном методе. Блок с &lt;strong>ЗАДАЧАМИ&lt;/strong> может быть поделён, с помощью горизонтальных линий на:&lt;/p>
+&lt;ul>
+&lt;li>важность или&lt;/li>
+&lt;li>релизы&lt;/li>
+&lt;/ul>
+&lt;p>В случае с важностью, обычно используют три уровня: Must, Should, Could. Первый означает первоочерёдную ценность задач и означает, что они обязаны быть выполнены. Второй - что задачи важны и хорошо бы их выполнить. Третий - необязательны и могут быть не выполнены. Пример деления по важности выглядит следующим образом:&lt;/p>
+&lt;p>&lt;img src="/images/user-story-mapping/5.png" alt="user-story-mapping-important">&lt;/p>
+&lt;p>Как можно увидеть на скриншоте выше, мы просто разделили набор &lt;strong>ЗАДАЧ&lt;/strong> на блоки, относительно их важности.&lt;/p>
+&lt;p>Второй способ, вместо важности - разделение на релизы. Выглядит следующим образом:&lt;/p>
+&lt;p>&lt;img src="/images/user-story-mapping/6.png" alt="user-story-mapping-releases">&lt;/p>
+&lt;p>Как можно заметить, выглядит это примерно так же, как и вариант выше, однако, насчёт привязки к номеру версии software решения, мы можем планировать &lt;strong>ПОЛЬЗОВАТЕЛЬСКИЕ ИСТОРИИ&lt;/strong> к выпуску в определённых версиях нашего софта.&lt;/p>
+&lt;h3 id="процесс-моделирования">Процесс моделирования&lt;/h3>
+&lt;p>В заключение, расскажу о том как, по мнению автора методологии, должен проходить процесс моделирования карт.&lt;/p>
+&lt;p>Прежде всего, подобные карты создаются не одним человеком, а группой людей, включающей себя бизнес-ориентированных людей (Product Owner’а например), заинтересованных в фиче людей и разработчиков. Моделирование карты происходит в формате воркшопа, то есть - живого общения с обсуждениями и разноцветными стикерами на флипчартах и стенах.&lt;/p>
+&lt;p>Основных шагов в ходе воркшопа пять:&lt;/p>
+&lt;ol>
+&lt;li>Определение скоупа. На данном этапе все участники сессии моделирования карты должны иметь единое понимание того, о чём будет идти речь. Пользователи и фичи, для которых будет производиться моделирование, должны быть оговорены заранее.&lt;/li>
+&lt;li>Создание большой картины. На этом этапе накидываются основные идеи о составе истории. Происходит первоначальное создание каркаса фичи.&lt;/li>
+&lt;li>Детализация. На данном этапе через коллективное обсуждение элементы каркаса разбиваются на более мелкие задачи. Пересматриваются элементы каркаса, меняются местами, добавляются новые, удаляются ненужные, выделяются активности.&lt;/li>
+&lt;li>Разделение на релизы. На этом этапе задачи группируются на релизы. Каждый релиз фактически представляет из себя небольшой MVP. Каждый релиз должен иметь описание ценности, которую он доставит и описание метрик, с помощью которых можно будет замерить достижение цели релиза.&lt;/li>
+&lt;li>Стратегия разработки и релизов. На этом этапе уже планируются задачи в разработку. Если нужно, карта актуализируется ещё. Цель этого этапа связать планирование на карте непосредственно с разработкой фичи.&lt;/li>
+&lt;/ol>
+&lt;h3 id="словарь-терминов">Словарь терминов&lt;/h3>
+&lt;ul>
+&lt;li>&lt;strong>КАРТА ПОЛЬЗОВАТЕЛЬСКИХ ИСТОРИЙ&lt;/strong> - она же User Story Mapping; метод визуального описания и планирования задач.&lt;/li>
+&lt;li>&lt;strong>ПОЛЬЗОВАТЕЛЬСКАЯ ИСТОРИЯ&lt;/strong> - она же User Story; это способ описания взаимодействия пользователя с software системой в формате
+нарративного повествования.&lt;/li>
+&lt;li>&lt;strong>КАРКАС&lt;/strong> - он же Backbone; основной набор шагов &lt;strong>ПОЛЬЗОВАТЕЛЬСКОЙ ИСТОРИИ&lt;/strong>.&lt;/li>
+&lt;li>&lt;strong>АКТИВНОСТИ&lt;/strong> - это группа задач, имеющих схожие цели.&lt;/li>
+&lt;/ul>
+&lt;h3 id="дополнительные-материалы">Дополнительные материалы&lt;/h3>
+&lt;ul>
+&lt;li>[1] &lt;a href="https://www.jpattonassociates.com/wp-content/uploads/2015/03/story_mapping.pdf">https://www.jpattonassociates.com/wp-content/uploads/2015/03/story_mapping.pdf&lt;/a> Отличный pdf документ-памятка по рассматриваему сегодня методу&lt;/li>
+&lt;li>[2] &lt;a href="https://www.ozon.ru/product/polzovatelskie-istorii-iskusstvo-gibkoy-razrabotki-po-patton-dzheff-218989010/?utm_campaign=productpage_link&amp;amp;utm_medium=share_button&amp;amp;utm_source=smm">Книга «Пользовательские истории. Искусство гибкой разработки ПО» Паттон Джефф – купить книгу ISBN 978-5-496-02931-5 с быстрой доставкой в интернет-магазине OZON&lt;/a>&lt;/li>
+&lt;/ul></content></item><item><title>Уровни детализации Use Case'ов</title><link>/posts/use-case-goal-levels/</link><pubDate>Tue, 19 Oct 2021 10:36:26 +0400</pubDate><guid>/posts/use-case-goal-levels/</guid><description>Введение Для того, чтобы разобраться с темой, нам понадобятся два понятия:
+СЦЕНАРИЙ - это последовательность шагов, совершаемых в определённых условиях, с целью достижения определённой цели, и, оканчивающаяся результатом, который напрямую связан с целью. Эта последовательность начинается с действия, которое является триггером (причиной для начала), и продолжается до тех пор, пока не будет достигнута или провалена конечная цель.
+ПРЕЦЕДЕНТ - это набор сценариев взаимодействия между системой и актёрами; отображает как именно цель основного актёра может быть достигнута или провалена.</description><content>&lt;h3 id="введение">Введение&lt;/h3>
+&lt;p>Для того, чтобы разобраться с темой, нам понадобятся два понятия:&lt;/p>
+&lt;p>&lt;strong>СЦЕНАРИЙ&lt;/strong> - это &lt;strong>последовательность шагов&lt;/strong>, совершаемых в определённых условиях, с целью достижения определённой цели, и, оканчивающаяся результатом, который напрямую связан с целью. Эта последовательность начинается с действия, которое является триггером (причиной для начала), и продолжается до тех пор, пока не будет достигнута или провалена конечная цель.&lt;/p>
+&lt;p>&lt;strong>ПРЕЦЕДЕНТ&lt;/strong> - это &lt;strong>набор сценариев&lt;/strong> взаимодействия между системой и актёрами; отображает как именно цель основного актёра может быть достигнута или провалена. Например, прецедент оформления возмещения страховой выплаты в результате происшествия, будет включать в себя оба сценария - «успешная выплата» и «выплата невозможна из-за нарушения правил».&lt;/p>
+&lt;p>Если быть совсем точным, то в состав одного ПРЕЦЕДЕНТА, могут войти один и более СЦЕНАРИЕВ.&lt;/p>
+&lt;p>СЦЕНАРИИ, в свою очередь, могут быть двух видов:&lt;/p>
+&lt;ul>
+&lt;li>Основными и&lt;/li>
+&lt;li>Альтернативными&lt;/li>
+&lt;/ul>
+&lt;p>Основной СЦЕНАРИЙ - это сценарий, описывающий успешное достижение конечной цели главным актёром.&lt;/p>
+&lt;p>Альтернативный СЦЕНАРИЙ - это сценарий, описывающий безуспешное достижение конечной цели главынм актёром, или же последовательность шагов, позволяющую достичь своей цели, после её провала.&lt;/p>
+&lt;p>&lt;img src="/images/use-case-goal-levels/1.png" alt="use-case-mind-map">&lt;/p>
+&lt;h4 id="примеры">Примеры&lt;/h4>
+&lt;p>Скорее всего, описание Вам покажется неясным. Особенно, описание Альтернативного СЦЕНАРИЯ, однако, всё встанет на свои места, как только мы разберёмся с примером.&lt;/p>
+&lt;p>Представьте, что мы составляем ПРЕЦЕДЕНТ, в котором Клиент (основной актёр) резервирует столики в системе обслуживания ресторана. Примером &lt;strong>основного СЦЕНАРИЯ&lt;/strong>, в таком случае может быть следующий сценарий:&lt;/p>
+&lt;ol>
+&lt;li>Клиент звонит в ресторан и просит зарезервировать столик на двоих на конкретную дату и время&lt;/li>
+&lt;li>Администратор проверяет наличие столика и подтверждает резерв&lt;/li>
+&lt;/ol>
+&lt;p>В этом случае, цель пользователя достигнута полностью - клиент получил столик в распоряжение в оговорённое время.&lt;/p>
+&lt;p>&lt;strong>Альтернативный СЦЕНАРИЙ&lt;/strong>, в котором &lt;strong>цель&lt;/strong> основного актёра будет &lt;strong>провалена&lt;/strong>, может выглядеть следующим образом:&lt;/p>
+&lt;ol>
+&lt;li>Клиент звонит в ресторан и просит зарезервировать столик на двоих на конкретную дату и время&lt;/li>
+&lt;li>Администратор проверяет наличие столика и сообщает Клиенту о том, что в наличии свободного столика на оговорённую дату не имеется&lt;/li>
+&lt;/ol>
+&lt;p>Ну и наконец, &lt;strong>альтернативный СЦЕНАРИЙ&lt;/strong>, в котором &lt;strong>цель&lt;/strong> основного актёра будет &lt;strong>достигнута после&lt;/strong> её первоначального &lt;strong>провала&lt;/strong> будет выглядеть так:&lt;/p>
+&lt;ol>
+&lt;li>Клиент звонит в ресторан и просит зарезервировать столик на двоих на конкретную дату и время&lt;/li>
+&lt;li>Администратор проверяет наличие столика и сообщает Клиенту о том, что в наличии свободного столика на оговорённую дату не имеется&lt;/li>
+&lt;li>Администратор проверяет наличие столика на время ближайшее к оговорённому ранее и предлагает эту дату и время Клиенту&lt;/li>
+&lt;li>Клиент подтверждает своё согласие на новую дату и время&lt;/li>
+&lt;li>Администратор подтверждает резерв&lt;/li>
+&lt;/ol>
+&lt;h3 id="уровни-детализации">Уровни детализации&lt;/h3>
+&lt;p>В своей работе под названием &amp;ldquo;Structuring Use cases with goals&amp;rdquo;, Алистер Кокбёрн, вводит понятие уровня моря, как &amp;ldquo;золотое сечение&amp;rdquo; степени детализации ПРЕЦЕДЕНТА и СЦЕНАРИЯ. Переводится это буквально - sea level (на следующем изображении, он подписан как &amp;ldquo;User Goal Level&amp;rdquo;).&lt;/p>
+&lt;p>&lt;img src="/images/use-case-goal-levels/2.png" alt="use-case-granularity">&lt;/p>
+&lt;p>Если внимательно посмотреть на изображение выше, можно увидеть, три больших уровня. На двух из них, существуют подуровни. Перечислим их:&lt;/p>
+&lt;ul>
+&lt;li>&lt;strong>Summary Level&lt;/strong> - можно перевести как &amp;ldquo;Уровень обобщения&amp;rdquo;. Он имеет два подуровня:
+&lt;ul>
+&lt;li>Cloud Level - буквально - &amp;ldquo;Уровень небес&amp;rdquo;&lt;/li>
+&lt;li>Kite Level - &amp;ldquo;Уровень кайта&amp;rdquo;. Аналогии с предметами из жизни в данной модели приведены неспроста. Запущенный в небо кайт, летает ниже уровня облаков.&lt;/li>
+&lt;/ul>
 &lt;/li>
-&lt;li>
-&lt;p>Modify posts. What if there is a mistake in a particular post? It&amp;rsquo;s author must have a way to fix the mistake after post was published.&lt;/p>
-&lt;/li>
-&lt;li>
-&lt;p>Create post. Posts must be added to our service somehow.&lt;/p>
-&lt;/li>
-&lt;li>
-&lt;p>Delete post. When author decided to remove own post.&lt;/p>
-&lt;/li>
-&lt;li>
-&lt;p>Read post&amp;rsquo;s comments. For brevity&amp;rsquo;s sake, let&amp;rsquo;s agree that comments are added to our service some other way.&lt;/p>
+&lt;li>&lt;strong>Sea Level&lt;/strong> (User Goal Level) - &amp;ldquo;Уровень моря&amp;rdquo;.&lt;/li>
+&lt;li>&lt;strong>Subfunctions Level&lt;/strong>
+&lt;ul>
+&lt;li>Fish / Indigo Level&lt;/li>
+&lt;li>Clam / Black Level&lt;/li>
+&lt;/ul>
 &lt;/li>
 &lt;/ul>
-&lt;p>These goals we will translate to our REST API.&lt;/p>
-&lt;p>&lt;strong>Now, let&amp;rsquo;s define main rules&lt;/strong>:&lt;/p>
+&lt;p>Давайте поговорим о каждом из них.&lt;/p>
+&lt;h4 id="summary-level">Summary Level&lt;/h4>
+&lt;p>Summary Level или Уровень обобщения - это уровень на котором процессы видны в контексте их жизненного цикла. Что это значит, это значит что уровень деталей настолько мал, что мы можем изображать процесс, который в жизни занимает многие дни и даже годы. Каждый шаг на данном уровне имеют свою уникальную конечную цель и может быть представлен в деталях на Уровне моря.&lt;/p>
+&lt;p>Кокбёрн выделяет два подуровня на Уровне обобщения:&lt;/p>
+&lt;h5 id="cloud-level">Cloud Level&lt;/h5>
+&lt;p>Уровень небес отображает процессы с наименьшим количеством деталей. ПРЕЦЕДЕНТОВ, описываемых на данном уровне может быть крайне мало, буквально, 5-6 на всю организацию. Примерами могут быть: реклама товаров, продажа товаров потребителям, управление ресурсами и т.д.&lt;/p>
+&lt;h5 id="kite-level">Kite Level&lt;/h5>
+&lt;p>Уровень кайта показывает обобщённые ПРЕЦЕДЕНТЫ. Сами же ПРЕЦЕДЕНТЫ на этом уровне изображаются на уровне департаментов, но продолжают отображать обобщённые цели. Примерами могут быть: регистрация пассажира на рейс, оформление билета на рейс.&lt;/p>
+&lt;h4 id="sea-level-user-goal-level">Sea Level (User Goal Level)&lt;/h4>
+&lt;p>На Уровне моря бизнес-процессы описываются уже более детализированно, чем на уровнях выше. Сам Кокбёрн рекомендует задавать следующие вопросы при разработке ПРЕЦЕДЕНТОВ и их СЦЕНАРИЕВ с этим уровнем детализации - &amp;ldquo;Может ли основной актёр уйти удовлетворённым после выполнения этого процесса? Достиг ли основной актёр своей конечной цели?&amp;rdquo;. Примерами могут быть: добавление товара в корзину, оформление заказа и т.д.&lt;/p>
+&lt;p>Всё, что проектируется с уровнем детализации ниже Уровня моря скорее относится к системному дизайну, нежели к бизнес проектированию.&lt;/p>
+&lt;h4 id="subfunctions-level">Subfunctions Level&lt;/h4>
+&lt;p>Ниже Уровня моря лежат мелкие детали. Зачастую, люди из бизнеса не слишком заинтересованы в подобной детализации процессов, однако, людям из разработки подобный уровень детализации позволяет получить больше информации о технических аспектах реализации процесса.&lt;/p>
+&lt;p>Кокбёрн выделяет следующие два под уровня:&lt;/p>
+&lt;h5 id="fish--indigo-level">Fish / Indigo Level&lt;/h5>
+&lt;p>Примерами могут быть: поиск кода аэропорта определённого города, отображение списка клиентов, после ввода имени и т.д.&lt;/p>
+&lt;h5 id="clam--black-level">Clam / Black Level&lt;/h5>
+&lt;p>Это самый низкий уровень с наибольшим количеством деталей. Подобная детализация может оказаться излишней даже для людей из разработки. Примерами могут быть: валидация введённых в поле данных, добавление нового поля в форму и т.д.&lt;/p>
+&lt;h3 id="пример-с-картой">Пример с картой&lt;/h3>
+&lt;p>Нужны ли все эти уровне в описании бизнес-процессов? Думаю, что нет. Однако, здорово иметь подобную свободу, ведь, каждый может выбрать способ описания ПРЕЦЕДЕНТОВ и СЦЕНАРИЕВ, подходящий конкретно ему.&lt;/p>
+&lt;p>В любом случае, если после описания выше Вам всё ещё затруднительно разобраться, что это всё означает, я приведу пример с картой, который напрямую отображает некоторые уровни детализации.&lt;/p>
+&lt;p>Итак, предположим, что у нас есть ПРЕЦЕДЕНТ - &amp;ldquo;Добраться из Самары в Москву&amp;rdquo;. Процесс перемещения из одного города в другой можно описать разными предложениями, с указанием разных деталей. Визуально, маршрут легко представить с помощью карты:&lt;/p>
+&lt;p>&lt;img src="/images/use-case-goal-levels/3.jpg" alt="use-case-granularity-in-map">&lt;/p>
+&lt;p>Как не сложно догадаться, все три картинки, отображают части маршрута от Самары до Москвы с разным удалением от уровня земли. Чем ближе к поверхности земли, тем больше деталей нам доступно.&lt;/p>
+&lt;p>&lt;strong>Карта #1&lt;/strong> показывает весь маршрут с высоты Уровня небес. Глядя на маршрут с такой высоты мы можем описать его только фразами вида: &amp;ldquo;Выезжаем из Самарской области в сторону Пензы. Проезжаем Пензу и направляемся в сторону Рязани&amp;rdquo;. В жизни, перемещения на такие расстояния займут много часов.&lt;/p>
+&lt;p>&lt;strong>Карта #2&lt;/strong> показывает участок маршрута на Уровне моря. Карта на этом уровне детализации содержит большее количество деталей. Маршрут на таком уровне детализации может быть описан примерно такими СЦЕНАРИЯМИ: &amp;ldquo;Выезжаем через северный выезд из города Самара и едем через посёлок Пребрежный в сторону Жигулёвска&amp;rdquo;. То есть, уровень детализации такой, что мы описываем перемещение между городами и сёлами в пределах одной области. Напомню, в случае с Уровнем небес, мы описывали перемещения между областями и большими городами.&lt;/p>
+&lt;p>&lt;strong>Карта #3&lt;/strong> уже находится на Уровне Рыб (fish level), а значит содержит множество мелких деталей о маршруте. Если взглянуть на карту, можно увидеть маршрут с высокой детализацией - можно рассмотреть по каким именно улицам и дорогам нужно двигаться, где именно поворачивать, и т.д.&lt;/p>
+&lt;h3 id="сферы-применения">Сферы применения&lt;/h3>
+&lt;p>Напоследок, хочется порассуждать, а где же эти знания могут пригодиться?&lt;/p>
+&lt;p>Действительно, разработчики в своей ежедневной практике практически не сталкиваются с разработкой ПРЕЦЕДЕНТОВ и бизнес требований, однако, всё же, это не значит, что навыки описания ПРЕЦЕДЕНТОВ с нужным уровнем детализации будут бесполезны.&lt;/p>
+&lt;p>На мой взгляд, есть две сферы применения этих навыков в жизни разработчика:&lt;/p>
+&lt;ol>
+&lt;li>Это разработка и управление командой. В случае с разработкой, эти навыки позволяют правильно воспринимать требования их ПРЕЦЕДЕНТОВ, переданных в разработку. Сопоставляя конечную цель основного актёра и СЦЕНАРИИ, входящие в состав ПРЕЦЕДЕНТОВ, разработчик может как лучше понять детали будущей реализации системы, так и увидеть белые пятна в предложенных СЦЕНАРИЯХ (недостаток деталей).&lt;/li>
+&lt;li>Это проектирование. Такие подходы к проектированию, как Domain Storytelling сильно завязаны на понятия СЦЕНАРИЯ и уровней детализации. Наличие навыка составления граммотных ПРЕЦЕДЕНТОВ и СЦЕНАРИЕВ играет ключевую роль в проектировании domain stories в подходе.&lt;/li>
+&lt;/ol>
+&lt;h3 id="словарь-терминов">Словарь терминов&lt;/h3>
 &lt;ul>
-&lt;li>
-&lt;p>Goals are translated to &lt;strong>resources&lt;/strong> and &lt;strong>actions&lt;/strong>&lt;/p>
-&lt;/li>
-&lt;li>
-&lt;p>&lt;strong>Resources&lt;/strong> are expressed as paths in REST API, and &lt;strong>actions&lt;/strong> are expressed as HTTP protocol&amp;rsquo;s methods.&lt;/p>
-&lt;/li>
+&lt;li>&lt;strong>СЦЕНАРИЙ&lt;/strong> - он же scenario, он же user story.&lt;/li>
+&lt;li>&lt;strong>ПРЕЦЕДЕНТ&lt;/strong> - он же use case или сценарий использования.&lt;/li>
 &lt;/ul>
-&lt;p>&lt;strong>What is a resource?&lt;/strong> Resource is an object, a view, or an entity - literally it can be anything that means some data&lt;/p>
-&lt;p>in the service. There are two resources in our blog service - Post and Comment.&lt;/p>
-&lt;p>&lt;strong>What is action?&lt;/strong> Action is a way to ask our blog service to do something, for example, to get existing posts or&lt;/p>
-&lt;p>to create a new one. Actions are expressed as methods of HTTP protocol, as was said above. The HTTP protocol defines&lt;/p>
-&lt;p>multiple such methods, but we are interested in standard ones: GET, POST, PUT, DELETE.&lt;/p>
-&lt;p>&lt;strong>Now, let&amp;rsquo;s go to the method&lt;/strong>. Let&amp;rsquo;s break it down into steps:&lt;/p>
+&lt;h3 id="дополнительные-материалы">Дополнительные материалы&lt;/h3>
 &lt;ul>
-&lt;li>
-&lt;p>First of all, we need to define all the resources and sub-resources with which our API must work. In our case, these are &lt;strong>Post&lt;/strong> and &lt;strong>Comment&lt;/strong>.&lt;/p>
+&lt;li>[1] Книга Алистера Кокбёрна &amp;ldquo;Writing Effective Use Cases&amp;rdquo; &lt;a href="https://www.ozon.ru/product/writing-effective-use-cases-1829617/?sh=jD1ziFN8">https://www.ozon.ru/product/writing-effective-use-cases-1829617/?sh=jD1ziFN8&lt;/a>&lt;/li>
+&lt;li>[2] Методичка Алистера Кокбёрна &amp;ldquo;Structuring Use cases with goals&amp;rdquo; &lt;a href="https://www.researchgate.net/publication/2807676_Structuring_Use_cases_with_goals">https://www.researchgate.net/publication/2807676_Structuring_Use_cases_with_goals&lt;/a>&lt;/li>
+&lt;li>[3] Статья &amp;ldquo;Use Case Modelling&amp;rdquo; &lt;a href="https://www.w3computing.com/systemsanalysis/use-case-modeling/">https://www.w3computing.com/systemsanalysis/use-case-modeling/&lt;/a>&lt;/li>
+&lt;/ul></content></item><item><title>STAR Technique</title><link>/posts/star-technique/</link><pubDate>Fri, 08 Oct 2021 07:30:41 +0400</pubDate><guid>/posts/star-technique/</guid><description>Зачем про это знать? Изначально техники построения речи возникли в качестве подспорья людям, проходящим интервью. А конкретно, такие техники широко используются для ответа на вопросы поведенческого характера, например - &amp;ldquo;Вспомните себя в ситуации Х, что вы делали, как справились?&amp;rdquo;
+В этой статье, речь пойдёт как раз таки об одной из таких техник.
+Описание STAR - это аббревиатура, где каждая буква означает определённый подраздел в изложении Вашего ответа.
+В каждом таком подразделе следует описать определённую вещь:</description><content>&lt;h1 id="зачем-про-это-знать">Зачем про это знать?&lt;/h1>
+&lt;p>Изначально &lt;strong>техники построения речи возникли&lt;/strong> в качестве подспорья людям, проходящим интервью. А конкретно, такие техники широко используются для ответа на вопросы поведенческого характера, например - &amp;ldquo;Вспомните себя в ситуации Х, что вы делали, как справились?&amp;rdquo;&lt;/p>
+&lt;p>В этой статье, речь пойдёт как раз таки об одной из таких техник.&lt;/p>
+&lt;h1 id="описание">Описание&lt;/h1>
+&lt;p>STAR - это аббревиатура, где каждая буква означает определённый подраздел в изложении Вашего ответа.&lt;/p>
+&lt;p>&lt;img src="/images/star-technique/1.png" alt="star-technique-mind-map">&lt;/p>
+&lt;p>В каждом таком подразделе следует описать определённую вещь:&lt;/p>
+&lt;ul>
+&lt;li>&lt;strong>Situation&lt;/strong>: опишите ситуацию в которой Вы были или задачу, над которой Вы работали&lt;/li>
+&lt;li>&lt;strong>Task&lt;/strong>: опишите какую цель Вы пытались достичь&lt;/li>
+&lt;li>&lt;strong>Action&lt;/strong>: опишите действия, которые вы предприняли, чтобы справиться с задачей с достаточным уровнем детализации, но сохраняя фокус повествования на Вас. Конкретно какие шаги Вы предприняли? Каков конкретно Ваш вклад? Будьте крайне внимательны к собственному повествованию. Это рассказ не о достижениях команды, а о Ваших личных. Не стоит рассказывать, говоря «мы», стоит рассказывать только с «Я»&lt;/li>
+&lt;li>&lt;strong>Result&lt;/strong>: опишите результат Ваших действий. Чем всё закончилось? Чего Вы достигли? Что Вы выучили или вынесли для себя?&lt;/li>
+&lt;/ul>
+&lt;h1 id="пример">Пример&lt;/h1>
+&lt;p>С моей стороны, &lt;strong>примером&lt;/strong> повествования с использованием &lt;strong>этой техники&lt;/strong>, был бы следующий рассказ:&lt;/p>
+&lt;p>&amp;ldquo;Однажды, на одном из собеседований меня спросили про Х. Вопрос мне был предельно понятен, но что ответить, и самое главное, как это сделать граммотно - я не придумал. Поэтому для себя я чётко решил - нужно найти способ ответов на подобные вопросы. После долгих поисков, я выяснил, что существует целая область техник построения речи, которая может помочь в решении моей проблемы. Я начал читать про разные техники, выбрал одну для досконального изучения и в конце концов, научился граммотно отвечать на вопросы, подобные тому, что задали мне на собеседовании. Даже статью написал на эту тему.&amp;rdquo;&lt;/p>
+&lt;p>Разберём &lt;strong>подробнее&lt;/strong>:&lt;/p>
+&lt;ul>
+&lt;li>&lt;strong>S - situation&lt;/strong> - на собеседовании задали вопрос, на который не смог ответить&lt;/li>
+&lt;li>&lt;strong>T - task&lt;/strong> - найти способ отвечать на подобные вопросы&lt;/li>
+&lt;li>&lt;strong>A - action&lt;/strong> - узнал про техники построения речи, изучил одну из них&lt;/li>
+&lt;li>&lt;strong>R - result&lt;/strong> - научился пользоваться выбранной техникой, написал статью о ней&lt;/li>
+&lt;/ul>
+&lt;h1 id="памятка">Памятка&lt;/h1>
+&lt;p>&lt;img src="/images/star-technique/2.png" alt="star-technique-mind-map">&lt;/p>
+&lt;h1 id="заключение">Заключение&lt;/h1>
+&lt;p>В качестве заключения, от себя скажу - техники подобные этим, здорово помогают выстраивать свою речь, свои рассказы, в легко воспринимаемую цепочку предложений. Если Вы когда-либо находили себя в ситуации, когда Вам трудно что-либо объяснить собеседнику, техники, подобные этим, станут прекрасным подспорьем в преодолении подобных проблем.&lt;/p></content></item><item><title>Problem Solving Skill</title><link>/posts/problem-solving-skill/</link><pubDate>Tue, 05 Oct 2021 08:12:49 +0400</pubDate><guid>/posts/problem-solving-skill/</guid><description>Что такое Problem Solving? Это умение решать проблемы. Всё, расходимся. 😁
+Пошутили?! Давай разбираться! Это действительно умение решать проблемы, но что такое «решать проблемы»? Как это «решать проблемы»? Да и что такое «проблема» вообще?
+Что такое «Проблема»? Под «проблемой» в IT понимается любая задача или ситуация решение которой требуется найти. Для разработчика такой «проблемой» может стать очередная задача, выданная ему менеджером или же алгоритмическая задача, данная ему на собеседовании.
+Простые проблемы не рассматриваются в рамках Problem Solving Skill темы.</description><content>&lt;h1 id="что-такое-problem-solving">Что такое Problem Solving?&lt;/h1>
+&lt;p>Это умение решать проблемы. Всё, расходимся. 😁&lt;/p>
+&lt;p>Пошутили?! &lt;strong>Давай разбираться!&lt;/strong>
+Это действительно умение решать проблемы, но что такое «решать проблемы»? Как это «решать проблемы»? Да и что такое «проблема» вообще?&lt;/p>
+&lt;h1 id="что-такое-проблема">Что такое «Проблема»?&lt;/h1>
+&lt;p>Под «проблемой» в IT понимается &lt;strong>любая задача или ситуация решение которой требуется найти&lt;/strong>. Для разработчика такой «проблемой» может стать очередная задача, выданная ему менеджером или же алгоритмическая задача, данная ему на собеседовании.&lt;/p>
+&lt;p>Простые проблемы не рассматриваются в рамках Problem Solving Skill темы. Для неё представляют интерес проблемы, которые не имеют ясного решения и его, решение, как раз таки требуется найти.&lt;/p>
+&lt;h1 id="что-такое-решать-проблемы">Что такое «Решать проблемы»?&lt;/h1>
+&lt;p>«Решать проблемы» можно надеясь на интуицию, или пытаясь подобрать подходящие решения, а может быть мы уже видели / знаем как решались подобные задачи и можем решить их сейчас.&lt;/p>
+&lt;p>На самом деле, у процесса решения любой проблемы &lt;strong>есть строгий алгоритм&lt;/strong>.&lt;/p>
+&lt;h2 id="алгоритм">Алгоритм&lt;/h2>
+&lt;p>&lt;img src="/images/problem-solving-skill/1.png" alt="mindmap-with-problem-solving-algorithm">&lt;/p>
+&lt;p>Интеллект-карта выше иллюстрирует шаги и подшаги, относящиеся к процессу решения проблемы. Всего четыре шага, и один из шагов имеет два подшага. Давай подробно их разберём.&lt;/p>
+&lt;h3 id="understand-the-problem">Understand the problem&lt;/h3>
+&lt;p>Всё начинается с «Понимания проблемы». Прежде чем приступить к поиску решения, &lt;strong>нужно чётко понимать&lt;/strong>, что поставленная задача предельно ясна. Не стоит сломя голову бросаться в Google или «омут» и штурмовать задачу нахрапом.&lt;/p>
+&lt;p>Взгляни на требования, если есть неясности или сомнения - смело &lt;strong>задавай проясняющие вопросы&lt;/strong>. Помни - кристально ясная задача - это наполовину решенная задача.&lt;/p>
+&lt;h3 id="devise-the-plan">Devise the plan&lt;/h3>
+&lt;p>После выяснения всех необходимых деталей и прояснения нюансов, наступает шаг &lt;strong>«Разработки плана»&lt;/strong>. Как бы официально название шага не звучало, это именно тот этап, на котором мы отвечаем сами себе на вопрос - а как, собственно, мы будем задачу решать?&lt;/p>
+&lt;p>У данного этапа есть два подшага.&lt;/p>
+&lt;h4 id="research-for-an-existing-solution">Research for an existing solution&lt;/h4>
+&lt;p>На этом этапе выполняется &lt;strong>поиск существующего решения&lt;/strong> проблемы. Google, Stackoverflow и прочие информационные ресурсы в помощь. Задача этого этапа ответить на вопрос - какие известные решения могут нам помочь?&lt;/p>
+&lt;h4 id="adapt-it-to-our-specific-case">Adapt it to our specific case&lt;/h4>
+&lt;p>На этом этапе происходит более детальный &lt;strong>анализ применимости существующих решений&lt;/strong> для решения текущей задачи. Главная задача этого этапа ответить на вопрос «Насколько подходит то или иное решение конкретно нашей задаче?».&lt;/p>
+&lt;h3 id="implement-the-solution">Implement the solution&lt;/h3>
+&lt;p>Наконец, самый главный этап - это &lt;strong>разработка решения&lt;/strong> задачи. На этом этапе уже требуется претворить план, разработанный на предыдущих этапах, в жизнь.&lt;/p>
+&lt;h3 id="verify-the-results">Verify the results&lt;/h3>
+&lt;p>Последний этап не менее важен, чем предыдущий. После реализации задуманного плана, необходимо, &lt;strong>удостовериться&lt;/strong>, что решение, которое мы создали, действительно, полностью решает поставленную задачу.&lt;/p>
+&lt;p>Если решение оценивается как неудовлетворительное, то это признак того, что на одном из предыдущих этапов была допущена ошибка - либо задача была понята не полностью, либо выбран не верный подход. В таком случае, алгоритм хорош тем, что можно просто вернуться в его начало, и пройти по этапам ещё раз.&lt;/p>
+&lt;h2 id="пример">Пример&lt;/h2>
+&lt;p>Довольно часто на собеседованиях на роль программиста дают алгоритмические задачи и, опять же, довольно часто, задача выглядит так:&lt;/p>
+&lt;pre>&lt;code>Напишите функцию расчёта чисел Фибоначчи. Количество чисел должно быть
+передано в функцию как целое число.
+&lt;/code>&lt;/pre>&lt;p>Попробуем решить её, используя алгоритм, описанный выше.&lt;/p>
+&lt;ol>
+&lt;li>Чтобы полностью понять нужно задать ряд уточняющих вопросов:
+&lt;ol>
+&lt;li>Что такое числа Фибоначчи? (Если не помним или не знаем, лучше сразу уточнить у интервьюера. В конце концов, вместо числе Фибоначчи в задаче может быть всё что угодно и совсем не обязательно известное заранее)&lt;/li>
+&lt;li>Могут ли быть отрицательные целые числа переданы в качестве аргумента? В задаче об этом ни слова, а значит, потенциально наше решение могут сломать, просто передав невалидные аргумент, если только мы не подумаем об этом заранее.&lt;/li>
+&lt;/ol>
 &lt;/li>
-&lt;li>
-&lt;p>Next, we need to define a list of actions that our API must allow us to do. For us, the list is the following:&lt;/p>
-&lt;/li>
+&lt;li>Далее, ищем существующие решения. Задачу с числами Фибоначчи решили уже множество раз, поэтому, наверняка можно нагуглить библиотеку или метод из core библиотеки твоего языка программирования, который сделает расчёты за тебя. Выбираем подходящий метод.&lt;/li>
+&lt;li>Пишем код метода, держа в уме ответы на вопросы, данные на первом этапе. Например, если отрицательные методы могут быть переданы, то добавляем в тело метода проверку входящих параметров.&lt;/li>
+&lt;li>Проверяем, что решение работает. Раз уж речь идёт о собеседовании на программиста, то лучшим способом проверить решение и показать свою профпригодность будет написание юнит-теста.&lt;/li>
+&lt;/ol>
+&lt;p>Итак, предположим, мы прошли все этапы алгоритма, и метод, и использующий, написанную за нас библиотеку, прекрасно работает. Интервьюер не удовлетворён и просит нас в этот раз не использовать чужие библиотеки.&lt;/p>
+&lt;p>&lt;strong>Отлично!&lt;/strong> В этом случае, мы понимаем, что ошибка произошла на втором шаге алгоритма - мы выбрали не подходящее решение. И теперь, ищем существующие алгоритмы для решения проблемы. Можно воспользоваться восходящим вычислением, можно нисходящим. Выбрав подход, переделываем код метода. Юнит тест для проверки работоспособности нашего метода уже есть. Так что, решение задачи в этот раз будет легче.&lt;/p>
+&lt;h2 id="зачем-программисту-знать-про-problem-solving-skill">Зачем программисту знать про Problem Solving Skill?&lt;/h2>
+&lt;h3 id="удалённая-работа">Удалённая работа&lt;/h3>
+&lt;p>А вот этот вопрос, я задавал себе много раз, пока не начал работать удалённо. Дело в том, что удалённая работа подразумевает умение решать задачи самостоятельно. В remote режиме, нет старшего товарища, который поможет советом или следить за тем, что ты делаешь. Именно поэтому зачастую компании, которые предлагают remote позиции разработчиков не рассматривают разработчиков junior и даже middle уровней. Им требуются люди, &lt;strong>способные проанализировать поставленную задачу&lt;/strong> и, либо, &lt;strong>способные решить&lt;/strong> её, либо, &lt;strong>способные предложить альтернативные подходы&lt;/strong>. Если быть точным - &lt;strong>способные взять на себя полную ответственность за задачу&lt;/strong>.&lt;/p>
+&lt;h3 id="собеседования">Собеседования&lt;/h3>
+&lt;p>Второй областью, в которой этот навык может быть крайне полезен для разработчика - это собеседования. Последние годы даже в вакансиях стало модным писать про наличие Problem Solving Skill. И его наличие рассматривается на собеседовании как раз таки с помощью различных задач, не имеющих чёткого решения. Это то, что зачастую интервьюером называется «нам интересно посмотреть на Ваш ход мыслей».&lt;/p>
+&lt;p>В следующий раз, услышав фразу про «ход мыслей» ты уже будешь готов продемонстрировать &lt;strong>свой навык&lt;/strong>.&lt;/p>
+&lt;h2 id="в-качестве-завершения">В качестве завершения&lt;/h2>
+&lt;p>Надеюсь, прочитав эту статью, ты найдёшь для себя &lt;strong>много полезного&lt;/strong>.&lt;/p>
+&lt;p>Со своей стороны, скажу что умение работать в плане решения чётко и последовательно - это прекрасный навык, который как &lt;strong>поможет&lt;/strong> в решении поставленных задач, так и прекрасно &lt;strong>дополнит твоё резюме&lt;/strong>.&lt;/p></content></item><item><title>Как проектировать REST API?</title><link>/posts/design-rest-api/</link><pubDate>Sun, 03 Oct 2021 18:55:34 +0400</pubDate><guid>/posts/design-rest-api/</guid><description>Изначально, это статью Я написал для своего блога на Medium [1]. Сюда переношу её почти без изменений. Что такое API? API или Application Programming Interface — это описание способа взаимодействия программ. Если быть точнее, это набор классов, интерфейсов, структур данных, которые объявлены программой. С помощью них можно заставить программу выполнять действия. Какие именно действия — описано как раз таки в API.
+API’ев существует огромное множество. Например, сама Java даёт разработчику доступ к десяткам API — Core API, Concurrency API, Collection API и много много других.</description><content>&lt;pre>&lt;code>Изначально, это статью Я написал для своего блога на Medium [1].
+Сюда переношу её почти без изменений.
+&lt;/code>&lt;/pre>&lt;h1 id="что-такое-api">Что такое API?&lt;/h1>
+&lt;p>&lt;strong>API или Application Programming Interface&lt;/strong> — это описание способа взаимодействия программ. Если быть точнее, это набор классов, интерфейсов, структур данных, которые объявлены программой. С помощью них можно заставить программу выполнять действия. Какие именно действия — описано как раз таки в API.&lt;/p>
+&lt;p>&lt;strong>API’ев существует огромное множество&lt;/strong>. Например, сама Java даёт разработчику доступ к десяткам API — Core API, Concurrency API, Collection API и много много других. Сторонние фреймворки тоже предоставляют свои API — Hibernate API, JPA (Java Persistence API), RestEasy и другие.&lt;/p>
+&lt;p>&lt;strong>У каждого API есть своя цель&lt;/strong>. API’и не делают просто так. Каждый API сродни пульту управления от телевизора. Он даёт возможность управлять программой. Например, программа для анализа использования дискового пространства может содержать API, который позволит получить статистику о файлах и занятом ими пространнстве; укажет на самый тяжёлый файл на диске и так далее. При этом каждое API не позволяет делать произвольные вещи. Все возможности API согласованы с его целью.&lt;/p>
+&lt;p>&lt;strong>API’и не привязаны к конкретной технологии&lt;/strong>. Если программа написана на Java это не означает, что API ограничен этим языком программирования. Приложение может предоставлять API, не привязанное к конкретной технологии, на которой оно построено. Пример — REST API.&lt;/p>
+&lt;h1 id="что-такое-rest-api">Что такое REST API?&lt;/h1>
+&lt;p>REST или Representational State Transfer («передача состояния представления») это архитектурный подход, основанный на протоколе HTTP.&lt;/p>
+&lt;h1 id="зачем-проектировать-rest-api">Зачем проектировать REST API?&lt;/h1>
+&lt;p>&lt;strong>Построение программ — это игра в конструктор без жёстких правил&lt;/strong>. Победить в этой игре могут все. Но настоящее искусство программиста это написание таких программ, которые будут работать быстро, безотказно и легко расширяться. Поэтому, как и при стройке дома, важно знать заранее что и как будет построено, ибо цена ошибки на этапе проектирование ниже, чем цена ошибки в момент, когда дом уже готов.&lt;/p>
+&lt;h1 id="предметно-ориентированное-проектирование-rest-api">Предметно-ориентированное проектирование REST API&lt;/h1>
+&lt;p>&lt;strong>Техника, которой я сегодня поделюсь&lt;/strong> хорошо описана в книге издательства Manning — “The Design of Web APIs&amp;quot; [2]. Ссылку на книгу можно найти в конце статьи.&lt;/p>
+&lt;p>&lt;strong>Небольшая вводная&lt;/strong>, прежде чем мы приступим к рассмотрению методики. Все идеи и советы ниже крайне ориентированы на практику. Это не теоретические знания, это живой метод проектирования REST API, поэтому и разбирать мы его будем на живом примере. Представьте, что Нам нужно спроектировать REST API для блог-сервиса. Конкретно, Мы отвечаем за работу с постами и их комментариями. На примере этого требования мы и разберёмся с методом.&lt;/p>
+&lt;p>&lt;strong>Какие цели могут быть у такого API?&lt;/strong> Пожалуй их будет несколько:&lt;/p>
+&lt;ul>
+&lt;li>Прочитать имеющиеся посты. Должен быть способ получить список уже имеющихся постов.&lt;/li>
+&lt;li>Изменение имеющегося поста. Что если в текст прокралась ошибка? Автор должен иметь возможность её поправить после написания и публикации поста.&lt;/li>
+&lt;li>Создание нового поста. Как-то же пост попадает наш блогосервис.&lt;/li>
+&lt;li>Удаление поста. Автор решил удалить свой устаревший пост или пост с идеями, в которые он больше не верит.&lt;/li>
+&lt;li>Чтение комментариев к посту. Для краткости предположим что комментарии попадают в наш блогосервис каким-то иным способом, не через наше REST API. Однако, в нашем REST API мы хотим разрешить пользователям читать комментарии для имеющихся постов.&lt;/li>
+&lt;/ul>
+&lt;p>Эти цели мы транслируем в REST API.&lt;/p>
+&lt;p>&lt;strong>Теперь разберёмся с основными правилами&lt;/strong>:&lt;/p>
+&lt;ul>
+&lt;li>Цели транслируются в &lt;strong>ресурсы&lt;/strong> и &lt;strong>действия&lt;/strong>&lt;/li>
+&lt;li>&lt;strong>Ресурсы&lt;/strong> определяются путём в REST API, а &lt;strong>действия&lt;/strong> определяются методами HTTP&lt;/li>
+&lt;/ul>
+&lt;p>&lt;strong>Что такое ресурс?&lt;/strong> Ресурс это объект, представление, сущность, всё что угодно, что представляет данные в системе. В нашем блогосервисе ресурсов несколько — Пост и Комментарий.&lt;/p>
+&lt;p>&lt;strong>Что такое действие?&lt;/strong> Действие это способ заставить наш блогосервис что-то сделать, например — отдать список имеющихся постов, создать новый и так далее. Действия определяются методами HTTP протокола, как уже было сказано выше. Таких действий несколько, но нас интересуют стандартные: GET, POST, PUT, DELETE.&lt;/p>
+&lt;p>&lt;strong>Перейдём к самому проектированию&lt;/strong>. Разберём его по шагам:&lt;/p>
+&lt;ul>
+&lt;li>Перво-наперво нужно определить все ресурсы и под-ресурсы, с которыми наше API должно работать. В нашем случае это &lt;strong>Пост&lt;/strong> и &lt;strong>Комментарий&lt;/strong>.&lt;/li>
+&lt;li>Далее, нужно определить набор действий, которые наше API позволяет совершать над ресурсами. Для нас это:&lt;/li>
 &lt;/ul>
 &lt;ol>
-&lt;li>
-&lt;p>GET Post — for access to existing posts&lt;/p>
-&lt;/li>
-&lt;li>
-&lt;p>POST Post — for new post creation&lt;/p>
-&lt;/li>
-&lt;li>
-&lt;p>PUT Post — for existing post modification&lt;/p>
-&lt;/li>
-&lt;li>
-&lt;p>DELETE Post — for existing post deletion&lt;/p>
-&lt;/li>
-&lt;li>
-&lt;p>GET Comment — for access to the existing post&amp;rsquo;s comments&lt;/p>
-&lt;/li>
+&lt;li>GET Пост — для получения списка имеющихся постов&lt;/li>
+&lt;li>POST Пост — для создания нового поста&lt;/li>
+&lt;li>PUT Пост — для изменения имеющегося поста&lt;/li>
+&lt;li>DELETE Пост — для удаления поста&lt;/li>
+&lt;li>GET Комментарий — для получения списка комментариев поста&lt;/li>
 &lt;/ol>
 &lt;ul>
-&lt;li>Let&amp;rsquo;s define a list of parameters for the actions from above:&lt;/li>
+&lt;li>Определим набор параметров для действий, которые мы спроектировали выше:&lt;/li>
 &lt;/ul>
 &lt;ol>
-&lt;li>
-&lt;p>GET posts action can be called without parameters, and that will lead to access to all of the existing posts. It can also be called with the identifier of a concrete post and will return only the post with the identifier specified as a parameter.&lt;/p>
-&lt;/li>
-&lt;li>
-&lt;p>POST action implies that there should be new post data used for new post creation.&lt;/p>
-&lt;/li>
-&lt;li>
-&lt;p>PUT action requires two parameters —the identifier of the post that we will modify and the post&amp;rsquo;s data that will replace existing data.&lt;/p>
-&lt;/li>
-&lt;li>
-&lt;p>DELETE action requires to have post&amp;rsquo;s id to know which of the posts must be deleted&lt;/p>
-&lt;/li>
-&lt;li>
-&lt;p>GET post&amp;rsquo;s comments action requires identifier of the post for which comments must be returned&lt;/p>
-&lt;/li>
+&lt;li>Операция получения постов GET — может быть вызвана как без параметров, что приведёт к чтению всех имеющихся постов, так и с идентификатором конкретного поста для получения выбранного поста&lt;/li>
+&lt;li>Операция создания поста POST подразумевает, что в неё будет передана информация о посте, который необходимо создать&lt;/li>
+&lt;li>PUT требует двух параметров — идентификатора поста, который мы будем изменять и сам пост, который заменит имеющийся в блогосервисе&lt;/li>
+&lt;li>DELETE требует идентификатора поста, который необходимо удалить&lt;/li>
+&lt;li>Операция получения комментариев GET требует идентификатора поста, потому что мы хотим получить список комментариев к определённому посту&lt;/li>
 &lt;/ol>
-&lt;p>&lt;strong>Let&amp;rsquo;s stop for a second&lt;/strong>.&lt;/p>
-&lt;p>We did a huge preparation to get as much information as we can about our future API. And now we know how our API should work.&lt;/p>
-&lt;p>But that information is not enough, and we need to collect additional information. That we will do right now.&lt;/p>
-&lt;p>What else do we need to know? Basically, we need to answer onto following questions:&lt;/p>
+&lt;p>&lt;strong>Прервёмся на секунду&lt;/strong>. Мы провели большую подготовительную работу для сбора данных о нашем будущем API. Теперь мы знаем как конкретно и с чем конкретно наше API будет работать. Но эту информацию стоит дополнить и на следующем шаге мы займёмся именно этим.&lt;/p>
+&lt;p>На какие ещё моменты нам стоит обратить внимание? Их несколько. Нужно ответить на следующие вопросы:&lt;/p>
 &lt;ul>
-&lt;li>
-&lt;p>Who will use our API?&lt;/p>
-&lt;/li>
-&lt;li>
-&lt;p>What and how exactly that &amp;lsquo;who&amp;rsquo; will do with our API?&lt;/p>
-&lt;/li>
+&lt;li>Кто будет вызывать операции API?&lt;/li>
+&lt;li>Что и как будет делать этот кто-то с нашим API?&lt;/li>
 &lt;/ul>
-&lt;p>There is a special structure we can use specifically to collect all information we need. It can be represented as a table&lt;/p>
-&lt;p>with predefined list of columns:&lt;/p>
+&lt;p>&lt;strong>Небольшая ремарка&lt;/strong> — структура статьи на Medium не позволяет создать таблицу, хотя дальнейшую работу по проектированию нашего REST API я рекомендую проводить именно с таблицами. Поэтому дальше — мы в текстовом виде разберём что нам нужно делать, но я подразумеваю, что все моменты которые мы оговорим будут внесены в специальную таблицу.&lt;/p>
+&lt;p>&lt;strong>Наша таблица проектирования — наш помощник&lt;/strong>. Список её колонок следующий:&lt;/p>
 &lt;ul>
-&lt;li>
-&lt;p>&lt;strong>Who&lt;/strong> — means users, persons, roles, clients and so on; it means who will use our API&lt;/p>
-&lt;/li>
-&lt;li>
-&lt;p>&lt;strong>What&lt;/strong> — means expectations of the user about our API (&amp;ldquo;what to expect?&amp;quot;)&lt;/p>
-&lt;/li>
-&lt;li>
-&lt;p>&lt;strong>How&lt;/strong> — means how we will reach his goal&lt;/p>
-&lt;/li>
-&lt;li>
-&lt;p>&lt;strong>Input&lt;/strong> — data that must be given to our API so that it can help our user reach his goal&lt;/p>
-&lt;/li>
-&lt;li>
-&lt;p>&lt;strong>Output&lt;/strong> — data that will be returned to the user as the result&lt;/p>
-&lt;/li>
-&lt;li>
-&lt;p>&lt;strong>Goal&lt;/strong> — describes goal of particular operation&lt;/p>
-&lt;/li>
-&lt;li>
-&lt;p>&lt;strong>HTTP method&lt;/strong> — points onto HTTP method that describes an action that our user does&lt;/p>
-&lt;/li>
-&lt;li>
-&lt;p>&lt;strong>URI&lt;/strong> — path to particular API operation&lt;/p>
-&lt;/li>
+&lt;li>&lt;strong>Кто&lt;/strong> — тут могут быть роли пользователей, которые будут работать с нашим API&lt;/li>
+&lt;li>&lt;strong>Что&lt;/strong> — имеется ввиду что делает пользователь с нашим API. Его ожидания&lt;/li>
+&lt;li>&lt;strong>Как&lt;/strong> — опять же, как наш пользователь достигает своей цели&lt;/li>
+&lt;li>&lt;strong>Входные данные&lt;/strong> — информацию, которую необходимо передать нашему API, для того, чтобы оно помогло пользователю достигнуть цели&lt;/li>
+&lt;li>&lt;strong>Выходные данные&lt;/strong> — информация, которую вернёт наш API в результате работы метода&lt;/li>
+&lt;li>&lt;strong>Цель&lt;/strong> — описывает явно смысл конкретной операции нашего API&lt;/li>
+&lt;li>&lt;strong>HTTP метод&lt;/strong> — указание на HTTP метод, который описывает действие нашего пользователя&lt;/li>
+&lt;li>&lt;strong>URI&lt;/strong> — путь по которому данная операция нашего API доступна клиентам&lt;/li>
 &lt;/ul>
-&lt;p>&lt;img src="/images/design-rest-api/1.en.png" alt="design-rest-api-table-1">&lt;/p>
-&lt;p>&lt;strong>All is left to do is fill in the table&lt;/strong> with data based on the information we gathered. Let&amp;rsquo;s try to do that for GET posts operation:&lt;/p>
-&lt;p>&lt;img src="/images/design-rest-api/2.en.png" alt="design-rest-api-table-2">&lt;/p>
-&lt;p>&lt;strong>Let&amp;rsquo;s look closer on it&lt;/strong>. We work with posts. That means that somebody needs to write them. So, every post has its own Author.&lt;/p>
-&lt;p>The author can get access to all of his posts. For that, we do not need to provide any specific input and under the hood implementation of the API&lt;/p>
-&lt;p>can detect current user and detect his posts. As the output we will have a list of posts written by current user (Author).&lt;/p>
-&lt;p>Read operation in HTTP protocol expressed as GET method. And finally according to commonly used approach URI must end with&lt;/p>
-&lt;p>name of the resource. In our case it will be &lt;code>.../posts&lt;/code>.&lt;/p>
-&lt;p>&lt;strong>During filling in the table, always aks yourself following questions&lt;/strong> - where are resources from? who works with them? and so on.&lt;/p>
-&lt;p>The bigger picture you will try to see, the more cases you can identify on the design stage. Simple example:&lt;/p>
-&lt;p>We have designed operation of getting the posts, but who had added them before? Author, of course. Let&amp;rsquo;s design that as well:&lt;/p>
-&lt;p>&lt;img src="/images/design-rest-api/3.en.png" alt="design-rest-api-table-3">&lt;/p>
-&lt;p>Using same approach &lt;strong>let&amp;rsquo;s design rest of operations&lt;/strong>:&lt;/p>
-&lt;p>&lt;img src="/images/design-rest-api/4.en.png" alt="design-rest-api-table-4">&lt;/p>
-&lt;p>&lt;strong>Pay attention onto last row&lt;/strong>. We have discussed sub-resources before. On the screenshot from above you can notice how URI&lt;/p>
-&lt;p>for sub-resources access can look like. In our example, how URI for accessing post&amp;rsquo;s comments can look like. At the beginning of the path&lt;/p>
-&lt;p>name of the parent resource must be given and only after that name of sub-resource can be used. According to that&lt;/p>
-&lt;p>the schema for URI can look like this: &lt;code>/api/[resource]/{id}/[sub-resource]&lt;/code>. This is a commonly used practice and URIs like this allow&lt;/p>
-&lt;p>your users to understand which of resources depends on others.&lt;/p>
-&lt;p>&lt;strong>As an outro, we need to ask ourselves one question - Will the API we have designed fit all the cases in any situations? Of course - not&lt;/strong>.&lt;/p>
-&lt;p>If you look onto the table closer, it becomes clear for you that the API we have designed is intended to be used only by Authors.&lt;/p>
-&lt;p>Author can read only own posts, but users of blog service must have access to all posts of all authors. Such requirements (you can also call them as constraints)&lt;/p>
-&lt;p>become visible during design stage, only if you try to get the big picture by asking yourself questions about your resources, actions, users, cases and so on.&lt;/p>
-&lt;p>&lt;strong>I hope that this article will help you&lt;/strong> to understand that REST APIs can be designed using simple and formalised algorithm.&lt;/p>
-&lt;h1 id="useful-links">Useful links&lt;/h1>
+&lt;p>&lt;img src="/images/design-rest-api/1.png" alt="design-rest-api-table-1">&lt;/p>
+&lt;p>&lt;strong>Всё что нам осталось сделать&lt;/strong>, это на основе информации, которую мы проговорили выше &lt;strong>заполнить эту табличку&lt;/strong>. Попробуем сделать это для операции получения постов:&lt;/p>
+&lt;p>&lt;img src="/images/design-rest-api/2.png" alt="design-rest-api-table-2">&lt;/p>
+&lt;p>&lt;strong>Разберём подробнее&lt;/strong>. Раз уж мы работаем с постами, то кто-то их должен писать. Это будет Автор. Автор может получить доступ ко всем своим постам, поэтому для операции чтения постов нам не требуется никаких входных данных. Реализация самого API может установить текущего пользователя системы и определить авторство постов. На выходе же мы получим список постов, которые были написаны автором (или текущем залогиненным пользователем). Операция получения данных описывается в HTTP протоколе методом GET, а URI в конце, может иметь произвольную структуру, но общепринято в хвосте URL путь писать с указанием ресурса с которым в данном API мы работаем во множественном числе. В нашем случае это &lt;code>…/posts&lt;/code>.&lt;/p>
+&lt;p>&lt;strong>По мере заполнения таблицы, всегда задаём себе вопросы&lt;/strong> — откуда берутся ресурсы, кто с ними работает и так далее. Чем шире посмотреть на имеющиеся данные, тем больше возможных кейсов можно идентифицировать на этапе проектирования. Простой пример — мы спроектировали операцию получения авторских постов. Но кто эти посты добавляет в систему? Очевидно, что авторы. Спроектируем и это:&lt;/p>
+&lt;p>&lt;img src="/images/design-rest-api/3.png" alt="design-rest-api-table-3">&lt;/p>
+&lt;p>Пользуясь этим подходом &lt;strong>спроектируем оставшиеся операции&lt;/strong>:&lt;/p>
+&lt;p>&lt;img src="/images/design-rest-api/4.png" alt="design-rest-api-table-4">&lt;/p>
+&lt;p>&lt;strong>Обратите внимание на последнюю строку&lt;/strong>. Мы уже коснулись темы подресурсов выше. В таблице на картинке выше Вы можете заметить как выглядит URI для доступа к комментариям поста. В пути сначала пишется родительский ресурс, а потом уже указание на подресурс: &lt;code>/api/[resource]/{id}/[sub-resource]&lt;/code>. Это общепринятая практика и подобное построение пути даёт возможность пользователям Вашего API сразу понять какие ресурсы зависят от других.&lt;/p>
+&lt;p>&lt;strong>В заключение, хочется задать вопрос — Подходит ли спроектированное нами API на все случаи жизни? Конечно же — нет&lt;/strong>. Если Вы присмотритесь к таблице внимательнее, станет ясно, что это API предназначено исключительно для Авторов постов. Автор может читать только свои посты. А вот пользователи блогосервиса должны получать доступ ко всем постам всех авторов. Такие вот моменты становятся видны, если на этапе проектирования каждой из операции задавать вопросы о том, кто будет пользоваться ими и в каких случаях.&lt;/p>
+&lt;p>&lt;strong>Надеюсь эта статья поможет Вам&lt;/strong> подступиться к такой огромной теме как REST API’и и направит Вас в моменты, когда придётся проектировать собственное API.&lt;/p>
+&lt;h1 id="полезные-ссылки">Полезные ссылки&lt;/h1>
 &lt;ul>
-&lt;li>[1] &amp;ldquo;The Design of Web APIs&amp;rdquo; book &lt;a href="https://www.manning.com/books/the-design-of-web-apis">on Manning&lt;/a>&lt;/li>
-&lt;/ul></content></item><item><title>About me</title><link>/about/</link><pubDate>Sun, 03 Oct 2021 17:30:17 +0400</pubDate><guid>/about/</guid><description>Let&amp;rsquo;s get acquainted I am really happy to see you on my own small island in a huge ocean of Internet.
-I have been software engineer for all of my professional life, and I have been developing different kind of applications using Java programming language:
-from small terminal utilities up to huge enterprise software from small and lightweight microservices up to gigantic monoliths Some time I was even passionate about mobile development in which I have wrote a few applications on a freelance and a couple for myself for iOS &amp;amp; Android using Swift &amp;amp; Java.</description><content>&lt;h1 id="lets-get-acquainted">Let&amp;rsquo;s get acquainted&lt;/h1>
-&lt;p>I am really happy to see you on my own small island in a huge ocean of Internet.&lt;/p>
-&lt;p>I have been software engineer for all of my professional life, and I have been developing different kind of applications using Java programming language:&lt;/p>
+&lt;li>[1] Мой старый &lt;a href="https://anver-bogatov.medium.com/%D0%BA%D0%B0%D0%BA-%D0%BF%D1%80%D0%BE%D0%B5%D0%BA%D1%82%D0%B8%D1%80%D0%BE%D0%B2%D0%B0%D1%82%D1%8C-rest-api-86b2d6737401">блог на Medium&lt;/a>&lt;/li>
+&lt;li>[2] Книга &amp;ldquo;The Design of Web APIs&amp;rdquo; &lt;a href="https://www.manning.com/books/the-design-of-web-apis">на Manning&lt;/a>&lt;/li>
+&lt;/ul></content></item><item><title>Обо мне</title><link>/about/</link><pubDate>Sun, 03 Oct 2021 17:30:17 +0400</pubDate><guid>/about/</guid><description>Давай знакомиться Рад приветствовать тебя на своём скромном островке в огромном океане Интернета.
+Всю свою сознательную профессиональную жизнь Я являюсь разработчиком программного обеспечения и пишу абсолютно разные приложения на языке программирования Java:
+от мелких консольных утилит до тяжёлых энтерпрайз приложений от небольших и легко поддерживаемых микросервисов до гигантских монолитов В своё время моей страстью была и мобильная разработка, где Я успел написать несколько приложений как на заказ, так и для себя, под iOS &amp;amp; Android, на Swift и Java, соответсвенно.</description><content>&lt;h1 id="давай-знакомиться">Давай знакомиться&lt;/h1>
+&lt;p>Рад приветствовать тебя на своём скромном островке в огромном океане Интернета.&lt;/p>
+&lt;p>Всю свою сознательную профессиональную жизнь Я являюсь разработчиком программного обеспечения и пишу абсолютно разные приложения на языке программирования Java:&lt;/p>
 &lt;ul>
-&lt;li>from small terminal utilities up to huge enterprise software&lt;/li>
-&lt;li>from small and lightweight microservices up to gigantic monoliths&lt;/li>
+&lt;li>от мелких консольных утилит до тяжёлых энтерпрайз приложений&lt;/li>
+&lt;li>от небольших и легко поддерживаемых микросервисов до гигантских монолитов&lt;/li>
 &lt;/ul>
-&lt;p>Some time I was even passionate about mobile development in which I have wrote a few applications on a freelance and a couple for myself for iOS &amp;amp; Android using Swift &amp;amp; Java.&lt;/p>
-&lt;p>I have been doing software engineering for last 12 years and I feel like I finally want to pay my debt to the industry, which taught me everything and I want to help future generations to do a &amp;ldquo;Quick Start&amp;rdquo; in their own career.&lt;/p>
-&lt;p>You can find materials on following topics on my web site:&lt;/p>
+&lt;p>В своё время моей страстью была и мобильная разработка, где Я успел написать несколько приложений как на заказ, так и для себя, под iOS &amp;amp; Android, на Swift и Java, соответсвенно.&lt;/p>
+&lt;p>Занимаюсь Я этим довольно давно и поэтому в последние пару лет назрело острое желание вернуть долг индустрии, которая научила меня многому, и помочь будущим поколениям сделать &amp;ldquo;быстрый старт&amp;rdquo; в их карьере.&lt;/p>
+&lt;p>На моём сайте ты сможешь найти материалы на такие темы как:&lt;/p>
 &lt;ul>
-&lt;li>software architecture and software design&lt;/li>
-&lt;li>skills of modern developers aimed to quick growth&lt;/li>
-&lt;li>specificity of different technologies&lt;/li>
+&lt;li>архитектура и проектирование программного обеспечения&lt;/li>
+&lt;li>навыки современного разработчика, нацеленного на рост&lt;/li>
+&lt;li>тонкости использования различных технологий&lt;/li>
 &lt;/ul>
-&lt;p>and many many more. All of these materials will help you to look wider onto career of software engineer.&lt;/p>
-&lt;h1 id="contacts">Contacts&lt;/h1>
-&lt;p>You can find me here:&lt;/p>
+&lt;p>и многие другие, которые помогут тебе взглянуть шире на карьеру разработчика.&lt;/p>
+&lt;h1 id="контакты">Контакты&lt;/h1>
+&lt;p>Меня можно найти тут:&lt;/p>
 &lt;ul>
-&lt;li>&lt;a href="https://vk.com/anverbogatov">Vk&lt;/a>&lt;/li>
+&lt;li>&lt;a href="https://vk.com/anverbogatov">Вконтакте&lt;/a>&lt;/li>
 &lt;li>&lt;a href="https://github.com/anverbogatov">Github&lt;/a>&lt;/li>
 &lt;/ul>
-&lt;h1 id="other-projects">Other projects&lt;/h1>
+&lt;h1 id="другие-проекты">Другие проекты&lt;/h1>
 &lt;ul>
 &lt;li>
-&lt;p>YouTube-channel &lt;a href="https://www.youtube.com/channel/UCYcClck5kXPmHskLrHaihBQ">#NOT.a.musician&lt;/a>&lt;/p>
+&lt;p>YouTube-канал &lt;a href="https://www.youtube.com/channel/UCYcClck5kXPmHskLrHaihBQ">#НЕмузыкант&lt;/a>&lt;/p>
 &lt;/li>
 &lt;li>
-&lt;p>YouTube-channel &lt;a href="https://www.youtube.com/channel/UC2oyEaWybm66PdP0g4hKLKA">noProgrammer&lt;/a>&lt;/p>
+&lt;p>YouTube-канал &lt;a href="https://www.youtube.com/channel/UC2oyEaWybm66PdP0g4hKLKA">noПрограммист&lt;/a>&lt;/p>
 &lt;/li>
 &lt;li>
-&lt;p>My music own &lt;a href="https://open.spotify.com/artist/5bTYJ41CZNNhAakENxaGuu?si=eiPWRjwnR22fHv1Uf4GDtw">Spotify&lt;/a>&lt;/p>
+&lt;p>Моя музыка на &lt;a href="https://open.spotify.com/artist/5bTYJ41CZNNhAakENxaGuu?si=eiPWRjwnR22fHv1Uf4GDtw">Spotify&lt;/a>&lt;/p>
 &lt;/li>
 &lt;li>
-&lt;p>My music own &lt;a href="https://music.apple.com/ru/artist/anver-bogatov/1553726448">Apple Music&lt;/a>&lt;/p>
+&lt;p>Моя музыка на &lt;a href="https://music.apple.com/ru/artist/anver-bogatov/1553726448">Apple Music&lt;/a>&lt;/p>
 &lt;/li>
 &lt;/ul>
-&lt;p>&lt;img src="/images/about/photo.jpg" alt="Me and my youngest daughter">&lt;/p></content></item><item><title/><link>/reviews/</link><pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate><guid>/reviews/</guid><description>Reviews of my students: Ruslan Baratov:
-Translation (using Google Translate):
-Anver hello !! :) Tomorrow will be my first day at work. I don't worry much, of course, because I've been going for this for a whole year. I found time for programming every day. I studied something, wrote, a lot of things were not clear and a lot of things are still not clear 😁. But I want to say thank you very much for everything.</description><content>&lt;h1 id="reviews-of-my-students">Reviews of my students:&lt;/h1>
+&lt;p>&lt;img src="/images/about/photo.jpg" alt="Я, вместе с моей дочерью">&lt;/p></content></item><item><title/><link>/reviews/</link><pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate><guid>/reviews/</guid><description>Отзывы моих студентов Руслан Баратов:</description><content>&lt;h1 id="отзывы-моих-студентов">Отзывы моих студентов&lt;/h1>
 &lt;hr>
-&lt;p>&lt;a href="https://vk.com/rustic2">Ruslan Baratov:&lt;/a>&lt;/p>
-&lt;p>&lt;img src="/images/reviews/review1.png" alt="very-first-review">&lt;/p>
-&lt;p>Translation (using Google Translate):&lt;/p>
-&lt;pre>&lt;code>Anver hello !! :)
-Tomorrow will be my first day at work. I don't worry much, of course, because I've been going for this for a whole year. I found time for programming every day.
-I studied something, wrote, a lot of things were not clear and a lot of things are still not clear 😁.
-But I want to say thank you very much for everything. For what he wrote to me that day, he offered to help, it was very important for me, and that day I realized that this was a sign for me. (you can laugh about it, but it really was) 😁.
-I was shocked about how you painted everything for me, everything was very competent and intelligible.
-Thank you very much )
-for explaining and chewing on my every question. It helped me a lot and motivated and supported me.
-How many times have I started writing to you about my problem and how I just wanted to press the send button. 😀The answer immediately crossed my mind.
-Plin thanks a lot the day you wrote to me, it was a defining moment for me)
-And now tomorrow will be my first working day 🙂
-&lt;/code>&lt;/pre>&lt;hr></content></item><item><title/><link>/showcase/</link><pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate><guid>/showcase/</guid><description>🏗 Software design 🧩 How to design REST API?</description><content>&lt;h1 id="-software-design">🏗 Software design&lt;/h1>
+&lt;p>&lt;a href="https://vk.com/rustic2">Руслан Баратов:&lt;/a>&lt;/p>
+&lt;h2 id="very-first-reviewimagesreviewsreview1png">&lt;img src="/images/reviews/review1.png" alt="very-first-review">&lt;/h2></content></item><item><title/><link>/showcase/</link><pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate><guid>/showcase/</guid><description>Цикл статей о Domain Driven Design 1️⃣ DDD 101: Заметки о Domain Driven Design #1 🗺 Моделирование ⚠️ Идентификация рисков - Risk Storming 🗾 Карты Пользовательских Историй или User Story Mapping 📶 Уровни детализации Use Case&amp;rsquo;ов 🏗 Проектирование 🧩 Проектирование REST API 🧸 Софт-скиллы 😎 Навык решения проблем или Problem Solving Skill ⭐️ Техника построения речи S.T.A.R. Hibernate framework Hibernate N+1 Проблема</description><content>&lt;h1 id="цикл-статей-о-domain-driven-design">Цикл статей о Domain Driven Design&lt;/h1>
 &lt;ul>
-&lt;li>&lt;a href="/posts/design-rest-api">🧩 How to design REST API?&lt;/a>&lt;/li>
-&lt;/ul></content></item><item><title/><link>/support/</link><pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate><guid>/support/</guid><description>Write articles in a notepad - is a hobby.
-Write articles aimed to teach somebody - it&amp;rsquo;s a job.
-I do that because I want to be grateful to the IT community for who I have become. I do that because when I was learning all the topics, I did not have a person who could explain things to me or who could answer my questions&amp;hellip; I do that in my spare time, instead of having fun or sometime even instead of hanging out with my family.</description><content>&lt;p>Write articles in a notepad - is a hobby.&lt;/p>
-&lt;p>Write articles aimed to teach somebody - &lt;strong>it&amp;rsquo;s a job&lt;/strong>.&lt;/p>
-&lt;p>I do that because I want to be grateful to the IT community for who I have become.
-I do that because when I was learning all the topics, I did not have a person who could explain things to me or who could answer my questions&amp;hellip;
-I do that in my spare time, instead of having fun or sometime even instead of hanging out with my family.&lt;/p>
-&lt;p>If my articles were useful for you, you can show your gratitude by clicking on the picture below. &lt;strong>Your gratitude motivates me write more.&lt;/strong>&lt;/p>
+&lt;li>&lt;a href="/posts/ddd-intro">1️⃣ DDD 101: Заметки о Domain Driven Design #1&lt;/a>&lt;/li>
+&lt;/ul>
+&lt;h1 id="-моделирование">🗺 Моделирование&lt;/h1>
+&lt;ul>
+&lt;li>&lt;a href="/posts/risk-storming">⚠️ Идентификация рисков - Risk Storming&lt;/a>&lt;/li>
+&lt;li>&lt;a href="/posts/user-story-mapping">🗾 Карты Пользовательских Историй или User Story Mapping&lt;/a>&lt;/li>
+&lt;li>&lt;a href="/posts/use-case-goal-levels">📶 Уровни детализации Use Case&amp;rsquo;ов&lt;/a>&lt;/li>
+&lt;/ul>
+&lt;h1 id="-проектирование">🏗 Проектирование&lt;/h1>
+&lt;ul>
+&lt;li>&lt;a href="/posts/design-rest-api">🧩 Проектирование REST API&lt;/a>&lt;/li>
+&lt;/ul>
+&lt;h1 id="-софт-скиллы">🧸 Софт-скиллы&lt;/h1>
+&lt;ul>
+&lt;li>&lt;a href="/posts/problem-solving-skill">😎 Навык решения проблем или Problem Solving Skill&lt;/a>&lt;/li>
+&lt;li>&lt;a href="/posts/star-technique">⭐️ Техника построения речи S.T.A.R.&lt;/a>&lt;/li>
+&lt;/ul>
+&lt;h1 id="hibernate-framework">Hibernate framework&lt;/h1>
+&lt;ul>
+&lt;li>&lt;a href="/posts/hibernate-n1-problem">Hibernate N+1 Проблема&lt;/a>&lt;/li>
+&lt;/ul></content></item><item><title/><link>/support/</link><pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate><guid>/support/</guid><description>Писать заметки в блокноте - это хобби.
+Писать статьи с целью &amp;ldquo;научить&amp;rdquo; - это работа.
+Я делаю это, потому что хочу быть благодарен IT-сообществу за то, кем я стал. Я делаю это, потому что во времена когда учился я, у меня не было человека, который бы &amp;ldquo;разжевал&amp;rdquo; сложные для меня темы&amp;hellip; Я делаю это в своё свободное время, предпочитая создание полезных материалов вместо развлечений, или проведения бОльшего количества времени со своей семьёй.</description><content>&lt;p>Писать заметки в блокноте - это хобби.&lt;/p>
+&lt;p>Писать статьи с целью &amp;ldquo;научить&amp;rdquo; - &lt;strong>это работа&lt;/strong>.&lt;/p>
+&lt;p>Я делаю это, потому что хочу быть благодарен IT-сообществу за то, кем я стал.
+Я делаю это, потому что во времена когда учился я, у меня не было человека, который бы &amp;ldquo;разжевал&amp;rdquo; сложные для меня темы&amp;hellip;
+Я делаю это в своё свободное время, предпочитая создание полезных материалов вместо развлечений, или проведения бОльшего количества времени со своей семьёй.&lt;/p>
+&lt;p>Если мои статьи были для тебя полезны, ты можешь отблагодарить меня кликнув на картинку ниже. &lt;strong>Твоя поддержка мотивирует меня писать больше.&lt;/strong>&lt;/p>
 &lt;p>⬇⬇⬇ ⬇⬇⬇ ⬇⬇⬇ ⬇⬇⬇ ⬇⬇⬇&lt;/p>
 &lt;p>&lt;a href="https://www.donationalerts.com/r/anverbogatov">&lt;img src="/images/support/1.png" alt="Tip-Jar">&lt;/a>&lt;/p></content></item></channel></rss>
