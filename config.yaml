@@ -1,56 +1,49 @@
-baseurl: /
-languageCode: ru-RU
-defaultContentLanguage: ru
-theme: terminal
-paginate: 5
+baseURL: /
+
+languageCode: en-us
+title: "Anver Bogatov"
+theme: "toha"
+
 googleAnalytics: 'G-QX8WGB4JN0'
 
-params:
-  contentTypeName: posts
-  themeColor: green
-  showMenuItems: 5
-  showLanguageSelector: false
-  fullWidthTheme: false
-  centerTheme: true
-  showLastUpdated: false
-  twitter:
-    creator: ''
-    site: ''
-
 languages:
-  ru:
-    languageName: Russian
-    title: Anver Bogatov
-    subtitle: 'Мой личный островок в океане Интернета'
-    owner: ''
-    keywords: ''
-    copyright: ''
-    menuMore: Показать ещё
-    readMore: Читать дальше
-    readOtherPosts: Другие статьи
-    newerPosts: Новые статьи
-    olderPosts: Старые статьи
-    missingContentMessage: Страница не найдена...
-    missingBackButtonLabel: Назад на главную страницу
-    params:
-      logo:
-        logoText: Anver Bogatov
-        logoHomeLink: /
-    menu:
-      main:
-        - identifier: support
-          name: 💰
-          url: /support
-          weight: 4
-        - identifier: about
-          name: Обо мне
-          url: /about
-          weight: 2
-        - identifier: showcase
-          name: Статьи
-          url: /showcase
-          weight: 1
-        - identifier: reviews
-          name: Отзывы
-          url: /reviews
-          weight: 3
+  en:
+    languageName: English
+    weight: 1
+
+markup:
+  tableOfContents:
+    startLevel: 2
+    endLevel: 6
+    ordered: false
+
+outputs:
+  home:
+    - HTML
+    - RSS
+    - JSON
+
+enableEmoji: true
+
+# Site parameters
+params:
+  # GitHub repo URL and branch of your site
+  gitRepo: https://github.com/hugo-toha/hugo-toha.github.io
+  gitBranch: main
+
+  # specify whether you want to write some blog posts or not
+  enableBlogPost: true
+
+  # specify whether you want to show Table of Contents in reading page
+  enableTOC: true
+
+  # Provide newsletter configuration.
+  # This feature has been implemented for Mailchimp only for now.
+  # You can also hide it from the footer.
+  newsletter:
+    # specify whether you want to display the newsletter form
+    enable: false
+    # specify which newsletter provider you want to use
+    provider: mailchimp
+    # specify the target URL for the subscription form
+    mailchimpURL: https://github.us1.list-manage.com/subscribe/post?u=19de52a4603135aae97163fd8&amp;id=094a24c76e
