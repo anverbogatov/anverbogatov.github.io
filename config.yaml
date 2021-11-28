@@ -13,7 +13,7 @@ languages:
 
 module:
   imports:
-    - path: https://github.com/hugo-toha/hugo-toha.github.io
+    - path: toha
 
 markup:
   tableOfContents:
