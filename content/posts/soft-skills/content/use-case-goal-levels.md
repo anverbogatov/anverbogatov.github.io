@@ -1,14 +1,15 @@
-+++
-title = "Уровни детализации Use Case'ов"
-date = "2021-10-19T10:36:26+04:00"
-author = "Анвер Богатов"
-cover = "https://images.unsplash.com/photo-1550592704-6c76defa9985?ixid=MnwxMjA3fDB8MHxzZWFyY2h8MTJ8fHdyaXRpbmd8ZW58MHx8MHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=1000&q=60"
-tags = ["design", "usecase"]
-keywords = ["design", "usecase", "business", "goals", "scenarios"]
-description = "В этой статье речь пойдёт о прецедентах, сценариях и о способах их детализации. Для рядового разработчика эта тема вряд ли станет интересной. Однако, за кажущейся простой скрывается целый пласт знаний, который будет полезен и в руководстве командами, и в освоении DDD (Domain Driven Design)."
-showFullContent = false
-+++
-
+---
+title: 🇷🇺 Уровни детализации Use Case'ов
+date: "2021-10-19T10:36:26+04:00"
+menu:
+    sidebar:
+        name: Use Case Goal Levels
+        identifier: user-case-goal-levels
+        parent: soft-skills
+        weight: 10
+tags: ["design", "usecase"]
+keywords: ["design", "usecase", "business", "goals", "scenarios"]
+---
 ### Введение
 
 Для того, чтобы разобраться с темой, нам понадобятся два понятия:

@@ -1,14 +1,15 @@
-+++
-title = "Problem Solving Skill"
-date = "2021-10-05T08:12:49+04:00"
-author = "Анвер Богатов"
-authorTwitter = "" #do not include @
-cover = "https://images.unsplash.com/photo-1512758017271-d7b84c2113f1?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=2340&q=80"
-tags = ["softskills", "skills"]
-keywords = ["skill", "softskill", "problem", "problemsolving", "problemsolvingskill", "софтскилл", "навык решения проблем"]
-description = "Если просмотреть описания вакансий, особенно приведённых на английском языке, зачастую можно увидеть требование наличия Problem Solving Skill. Но что это такое? Давай разбираться."
-showFullContent = false
-+++
+---
+title: 🇷🇺 Problem Solving Skill
+date: "2021-10-05T08:12:49+04:00"
+menu:
+  sidebar:
+    name: Problem Solving
+    identifier: problem-solving-skill
+    parent: soft-skills
+    weight: 30
+tags: ["softskills", "skills"]
+keywords: ["skill", "softskill", "problem", "problemsolving", "problemsolvingskill", "софтскилл", "навык решения проблем"]
+---
 
 # Что такое Problem Solving?
 

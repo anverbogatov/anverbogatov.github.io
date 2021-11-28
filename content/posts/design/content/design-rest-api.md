@@ -1,14 +1,15 @@
-+++
-title = "Как проектировать REST API?"
-date = "2021-10-03T18:55:34+04:00"
-author = "Анвер Богатов"
-authorTwitter = "" #do not include @
-cover = "https://miro.medium.com/max/10944/0*7Uc8p5VVguHJA6GU"
-tags = ["design", "restapi"]
-keywords = ["api", "design", "restapi"]
-description = "Данная статья доступно объясняет простой и, самое главное, рабочий способ проектирования новых REST API для приложений."
-showFullContent = false
-+++
+---
+title: 🇷🇺 Как проектировать REST API?
+date: "2021-10-03T18:55:34+04:00"
+menu:
+    sidebar:
+        name: How to design REST API?
+        identifier: design-rest-api
+        parent: design
+        weight: 20
+tags: ["design", "restapi"]
+keywords: ["api", "design", "restapi"]
+---
 
 ```
 Изначально, это статью Я написал для своего блога на Medium [1]. 
