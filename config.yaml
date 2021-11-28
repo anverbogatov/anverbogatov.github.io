@@ -11,6 +11,10 @@ languages:
     languageName: English
     weight: 1
 
+module:
+  imports:
+    - path: https://github.com/hugo-toha/hugo-toha.github.io
+
 markup:
   tableOfContents:
     startLevel: 2
