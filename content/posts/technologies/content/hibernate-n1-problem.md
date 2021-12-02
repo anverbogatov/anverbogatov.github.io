@@ -5,8 +5,7 @@ menu:
     sidebar:
         name: Hibernate N+1 Problem
         identifier: hibernate1
-        parent: frameworks
-        weight: 20
+        parent: technologies
 tags: ["hibernate"]
 keywords: ["hibernate", "n+1", "n+1 problem"]
 ---
