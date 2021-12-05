@@ -1,6 +1,7 @@
 ---
 title: 🇷🇺 Hibernate N+1 Проблема
 date: "2021-11-10T19:51:58+04:00"
+hero: images/posts/hibernate-n1-problem/cover.png
 menu:
     sidebar:
         name: Hibernate N+1 Problem

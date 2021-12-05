@@ -1,6 +1,7 @@
 ---
 title: 🇷🇺 Метод идентификации рисков Risk Storming
 date: "2021-10-30T11:14:22+04:00"
+hero: images/posts/risk-storming/cover.png
 menu:
     sidebar:
         name: Risk Storming

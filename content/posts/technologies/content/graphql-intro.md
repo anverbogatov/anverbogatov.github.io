@@ -1,6 +1,7 @@
 ---
 title: GraphQL Introduction
 date: 2021-12-02T07:14:03+04:00
+hero: images/posts/graphql-introduction/cover.png
 menu:
     sidebar:
         name: GraphQL
