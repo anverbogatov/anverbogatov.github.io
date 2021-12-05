@@ -32,6 +32,8 @@ enableEmoji: true
 # Site parameters
 params:
 
+  background: "images/bg.jpg"
+
   logo:
     favicon: "images/skills/git.svg"
 
