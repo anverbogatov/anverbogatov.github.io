@@ -63,6 +63,11 @@ Even taking into account that they have created own game with my help, I have be
 in their life. That is also my personal achievement - I have seen spark in their eyes, and we agreed to make such "Sunday programming lessons" every Sunday. Let's see how 
 far that will go, but I will struggle to grow their interest in that.
 
+## Recap
+As a recap, I want to say a few words about "Scratch in 2021". I can not judge about it, because I am not in that area at all.
+But - I can compare with other ways of learning programming for kids, and I am sure for 100% that Scratch is the best way to teach
+your kids programming. 👍
+
 ## Useful materials
 * [1] [Scratch platform](https://scratch.mit.edu)
 * [2] [Parrot Battle](https://scratch.mit.edu/projects/611836744): The Game
