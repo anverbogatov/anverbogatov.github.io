@@ -17,7 +17,7 @@ experiences:
       # company overview
       overview: Vallex Software is a company that helps other companies successfully solve the most complex tasks in software engineering.
     positions:
-      - designation: Senior Software Engineer
+      - designation: Senior Software Engineer / Cloud Developer
         start: Dec 2018
         # don't provide end date if you are currently working there. It will be replaced by "Present"
         # end: Dec 2020
@@ -27,16 +27,42 @@ experiences:
           - Use and grow presence of DevOps in the life of my team by automating testing, deployments and so on with Helm, GHA & Bamboo pipelines
           - Be a team player by sharing own experience with technologies and methodologies, helping others to takle their tasks
 
-#  - company:
-#      name: PreExample Co.
-#      url: "https://www.preexample.com"
-#      location: Nowhere
-#      overview: PreExample Co. is a gateway company to enter into Example co. So, nothing special here.
-#    positions:
-#      - designation: Software Engineer
-#        start: March 2016
-#        end: May 2017
-#        responsibilities:
-#          - Write lots of example codes.
-#          - Read lots of examples.
-#          - See lots of example videos.
+  - company:
+      name: Maxifier
+      url: "https://maxifier.com/"
+      location: Russia, Samara
+      overview: Maxifier is a company which is known primarily for it's ad delivery optimization software.
+    positions:
+      - designation: Senior Software Engineer
+        start: May 2013
+        end: Nov 2018
+        responsibilities:
+          - Design and develop integrations of company's product with widely known and used ad servers
+          - Design and develop internal libraries, frameworks and APIs that are used by other teams
+          - Ensure workability of product's integrations to give customers possibility to use most recent data avaialbe on ad servers side in company's product
+      - designation: Mobile Engineering Lead
+        start: Feb 2016
+        end: Nov 2018
+        responsibilities:
+          - Design and develop native SDKs for iOS & Android written on Objective-C, Swift and Java
+          - Managing team's backlog by prioritizing entries with alignment with customers goals
+          - Organize team's technical aspects of work such as CI/CD, testing on simulators and real devices and etc.
+  - company:
+      name: NetCracker
+      url: "https://www.netcracker.com/"
+      location: Russia, Samara
+      overview: NetCracker is widely known for their BSS/OSS solutions.
+    positions:
+      - designation: Senior Software Engineer
+        start: Jul 2012
+        end: Aug 2011
+        responsibilities:
+          - Design, develop and test product features using Java programming language, SQL, Oracle's PL/SQL
+          - Lead company's students internship
+          - Communicating with other teams in attempt to organise features development that require multiple teams involvement
+      - designation: Software Engineer
+        start: Jul 2009
+        end: Aug 2011
+        responsibilities:
+          - Design and develop company's software platform using Java programming language, SQL, Oracle's PL/SQL
+          - Writing technical documentation on features I develop
