@@ -1,7 +1,7 @@
 ---
 title: Domain Storytelling
 date: 2021-12-21T07:46:15+04:00
-hero: images/posts/risk-storming/cover.png
+hero: images/posts/domain-storytelling/cover.png
 draft: true
 menu:
     sidebar:
@@ -20,12 +20,50 @@ tell stories about your business domain.
 
 ## When it can be useful?
 Domain Storytelling can be used in following cases:
-* when you need discover your business domain. In that case, you need to have domain experts at your disposal. Modelling session should be contacted along with live discussion with domain expert who can tell you stories about business domain. Usually, that kind of work is performed in a format of workshop where domain expert tells stories about domain and modeller draws Domain Storytelling diagrams aligned with what domain expert said.
-* when you need to share the knowledge about your business domain. Outcome of Domain Storytelling modelling sessions is always one or many diagrams that represent business processes. These diagrams are very easy to read and understand. That makes Domain Storytelling a perfect tool to do a knowledge transfer about domain. For example, you can document your domain with it with domain expert and then use these diagrams as an input for product development. 
-* when you need to design software architecture. Domain Storytelling is more about business then software, but it can be also useful close to the software implementation. With Domain Storytelling diagrams you can easily spot separate bounded context in business process flow. That information can be used when you will do context mapping session (of course if you work with DDD)
-* and finally - when you want to look onto the future. Domain Storytelling can be useful not only when you work with current state of the business, but it also can be useful to model how your software can change existing business processes in the future
+* **when you need discover your business domain**. In that case, you need to have domain experts at your disposal. Modelling session should be contacted along with live discussion with domain expert who can tell you stories about business domain. Usually, that kind of work is performed in a format of workshop where domain expert tells stories about domain and modeller draws Domain Storytelling diagrams aligned with what domain expert said.
+* **when you need to share the knowledge about your business domain**. Outcome of Domain Storytelling modelling sessions is always one or many diagrams that represent business processes. These diagrams are very easy to read and understand. That makes Domain Storytelling a perfect tool to do a knowledge transfer about domain. For example, you can document your domain with it with domain expert and then use these diagrams as an input for product development. 
+* **when you need to design software architecture**. Domain Storytelling is more about business then software, but it can be also useful close to the software implementation. With Domain Storytelling diagrams you can easily spot separate bounded context in business process flow. That information can be used when you will do context mapping session (of course if you work with DDD)
+* and finally - **when you want to look onto the future**. Domain Storytelling can be useful not only when you work with current state of the business, but it also can be useful to model how your software can change existing business processes in the future
 
+## How it is connected to Domain-Driven Design (DDD)?
+Concept of DDD describes two spaces:
+* problem space
+* solution space
 
+Solution space is where software architecture, context maps and so on live. Solution space is close to the end solution, to the software.
+
+Problem space is where business lives. So, Domain Storytelling lives there either. Before you will think on "How to solve business process?" question, you need to
+understand what kind of business problem in what domain you want to solve. And for doing that Domain Storytelling can be a first step in domain and problems discovery.
+
+## How to start?
+If you want to follow along, you can use special tool for Domain Storytelling drawings [available here](https://www.wps.de/modeler/).
+
+### Base elements
+There are only 3 base elements available in Domain Storytelling:
+* actor
+* work object
+* activity
+
+Basically, that is all you need to represent any business process you want - from smaller one to biggest.
+
+#### Actor
+Actor is a protagonist in the story you want to represent. Every Domain Storytelling diagram should represent communication between different actors. That is the core part of any business process you can think about.
+In different cases there can be only one protagonist or a group of them.
+Actors can be drawn like here and usually they are named with nouns:
+![actor-image](/images/domain-storytelling/1.png)
+
+#### Work Object
+Work Object is a piece of information, a data or an item that can be passed from one actor to another. Work Objects
+usually used to represent transmittable object without which business process could not be done. So, passing work objects around is from what your business process comprised of.
+Work Objects can be drawn like here and usually they are named with nouns:
+![work-object-image](/images/domain-storytelling/2.png)
+
+#### Activity
+Activity is an action that is originated by actors. Activities are executed in certain order and they also represent a direction in which
+your business process goes. 
+Activities can be drawn like arrows and usually they are named with verbs, but you also can name them the way that will help you to read your domain story aloud:
+![activity-image](/images/domain-storytelling/3.png)
 
 ## Useful materials
 * [1] [Domain Storytelling website](https://domainstorytelling.org/)
+* [2] [Domain Storytelling modelling tool](https://www.wps.de/modeler/)
