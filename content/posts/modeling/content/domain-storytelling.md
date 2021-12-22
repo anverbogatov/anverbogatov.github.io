@@ -84,6 +84,37 @@ In the example above you can have a story like this:
 3. Modeler validates domain story diagram by showing it to Domain Expert
 
 And now, imagine that you need to explain how to do a Domain Storytelling workshop to somebody who had never before heard about Domain Storytelling.
+With diagram like this you can even share it and do not explain things by yourself.
+
+That is a good example of how Domain Storytelling can save and transmit knowledge about domain.
+
+## Rules
+There are some rules you should know about to do Domain Storytelling right.
+
+### 1. One story = one diagram
+One domain story diagram must represent only one business process. Just one end to end flow. 
+That means that all actors, work objects and their activities are moved / executed toward one defined goal.
+Domain Storytelling is not about representing everything that happens in the company or in business domain. It is more about details
+vital for understanding of the business.
+
+So, keep in mind when you start draw a story you need to think about goal that must be achieved in your particular scenario.
+### 2. Actors must be unique, Work Objects can be duplicated
+Domain stories must contain only one instance each of actors drawn on a diagram. If you think that there are too many activities 
+drawn on a diagram, and it became a mess - then you should consider drawing another diagram to represent part of the business process
+drawn on current one or consider changing level of details you used while drawing. Because maybe you just wanted to represent 
+every small step of the business process on the diagram.
+
+And there is another situation with Work Objects. You can duplicate Work Objects on your domain story diagram for any part of the business process drawn there.
+### 3. No conditions
+One domain story diagram must represent only one business flow. If there are situations where some part of the business process
+can happen only in case of certain conditions met - then you should draw such variations as separate domain stories.
+### 4. 80% cases, no corner cases
+Taking into account that most of the business process will have many conditions through which the process can go, you should know that 
+amount of diagrams that represent every particular business process flow can be very high. That does not mean
+that you should draw every variant of your business process. 
+
+Domain Storytelling is not about covering 100% of variants of business process. You should not think about corner cases and 
+rather concentrate your efforts on drawing 80%-cases (happy cases and variants significant for the business).
 
 ## Useful materials
 * [1] [Domain Storytelling website](https://domainstorytelling.org/)
