@@ -1,6 +1,6 @@
 ---
 title: Domain Storytelling
-date: 2021-12-21T07:46:15+04:00
+date: 2021-12-22T07:46:15+04:00
 hero: images/posts/domain-storytelling/cover.png
 draft: true
 menu:
@@ -63,6 +63,27 @@ Activity is an action that is originated by actors. Activities are executed in c
 your business process goes. 
 Activities can be drawn like arrows and usually they are named with verbs, but you also can name them the way that will help you to read your domain story aloud:
 ![activity-image](/images/domain-storytelling/3.png)
+
+#### Annotation
+There is one auxiliary element that you can use to add comments or context specific information to elements of your diagram. It looks like this:
+![annotation-image](/images/domain-storytelling/4.png)
+
+### Tell the story
+Now, with having theory about Domain Storytelling on our minds we can start drawing real stories! 
+
+As I said, Domain Storytelling sessions usually conducted in a form of workshop where one person who takes a role of a modeller
+draws domain stories in a diagrams and communication with another persons who take role of domain experts about the business. In other words, domain experts tells modeller about business processes of his domain and modeller draws domain stories diagram in response. Let's model that story with Domain Storytelling.
+Here is how it can look like:
+![domain-storytelling-workshop](/images/domain-storytelling/5.png)
+
+Pay attention to small numbers in cyan circles located above activities. They point to an order of activities in which represented business process is executed. 
+What is even more, they help you read your domain story as a story written in English. Just try to read aloud whole story by composing sentences using order and names of actors, work objects and activities.
+In the example above you can have a story like this:
+1. Domain Expert tells a story to Modeler
+2. Modeler draws domain story diagram
+3. Modeler validates domain story diagram by showing it to Domain Expert
+
+And now, imagine that you need to explain how to do a Domain Storytelling workshop to somebody who had never before heard about Domain Storytelling.
 
 ## Useful materials
 * [1] [Domain Storytelling website](https://domainstorytelling.org/)
