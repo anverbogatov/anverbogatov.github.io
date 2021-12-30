@@ -1,44 +1,43 @@
-## section information
-#section:
-#  name: Projects
-#  id: projects
-#  enable: true
-#  weight: 4
-#  showOnNavbar: true
-#  # Can optionally hide the title in sections
-#  # hideTitle: true
-#
-## filter buttons
-#buttons:
-#  - name: All
-#    filter: "all"
-#  - name: Professional
-#    filter: "professional"
+# section information
+section:
+  name: Projects
+  id: projects
+  enable: true
+  weight: 4
+  showOnNavbar: true
+  # Can optionally hide the title in sections
+  # hideTitle: true
+
+# filter buttons
+buttons:
+  - name: All
+    filter: "all"
+  - name: Professional
+    filter: "professional"
 #  - name: Academic
 #    filter: "academic"
-#  - name: Hobby
-#    filter: "hobby"
-#
-## your projects
-#projects:
-#  - name: Kubernetes
-#    logo: /images/sections/projects/kubernetes.png
-#    role: Contributor
-#    timeline: "March 2018 - Present"
-#    repo: https://github.com/kubernetes/kubernetes # If your project is a public repo on GitHub, then provide this link. it will show star count.
-#    #url: ""  # If your project is not a public repo but it has a website or any external details url then provide it here. don't provide "repo" and "url" simultaneously.
-#    summary: Production-Grade Container Scheduling and Management.
-#    tags: ["professional", "kubernetes", "cloud"]
-#
-#  - name: Tensorflow
+  - name: Hobby
+    filter: "hobby"
+
+# your projects
+projects:
+  - name: "#NOT.musician"
+    logo: "https://yt3.ggpht.com/5qYSS9tO5BiX1apO2FO8QZ7qFQODTUiiEKbhLElzyf6fUhbmQl57mOA6veJb_Dv4s_nbkkepHQ=s176-c-k-c0x00ffffff-no-rj"
+    role: Author
+    timeline: "May 2020 - Present"
+    url: https://www.youtube.com/channel/UCYcClck5kXPmHskLrHaihBQ
+    summary: YouTube channel where I play my favourite songs, guitar riffs and own music.
+    tags: ["hobby", "guitar", "music"]
+
+  - name: FullStackGuy
 #    logo: /images/sections/projects/tensorflow.png
-#    role: Developer
-#    timeline: "Jun 2018 - Present"
+    role: Creator
+    timeline: "will be launched early in 2022"
 #    repo: https://github.com/tensorflow/tensorflow
-#    #url: ""
-#    summary: An Open Source Machine Learning Framework for Everyone.
-#    tags: ["professional", "machine-learning","academic"]
-#
+    #url: ""
+    summary: Will give more info on it in 2022.
+    tags: ["professional"]
+
 #  - name: Toha
 #    logo: /images/sections/projects/toha.png
 #    role: Owner
