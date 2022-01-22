@@ -32,10 +32,10 @@ projects:
   - name: FullStackGuy
 #    logo: /images/sections/projects/tensorflow.png
     role: Creator
-    timeline: "will be launched early in 2022"
+    timeline: "Jan 2022 - Present"
 #    repo: https://github.com/tensorflow/tensorflow
-    #url: ""
-    summary: Will give more info on it in 2022.
+    url: https://www.fullstackguy.ru/
+    summary: Web site and YouTube channel with educational contents about IT-related topics.
     tags: ["professional"]
 
 #  - name: Toha
