@@ -22,7 +22,7 @@ buttons:
 # your projects
 projects:
   - name: "#NOT.musician"
-    logo: "https://yt3.ggpht.com/5qYSS9tO5BiX1apO2FO8QZ7qFQODTUiiEKbhLElzyf6fUhbmQl57mOA6veJb_Dv4s_nbkkepHQ=s176-c-k-c0x00ffffff-no-rj"
+    logo: "/images/projects/notmusician.jpeg"
     role: Author
     timeline: "May 2020 - Present"
     url: https://www.youtube.com/channel/UCYcClck5kXPmHskLrHaihBQ
@@ -30,13 +30,13 @@ projects:
     tags: ["hobby", "guitar", "music"]
 
   - name: FullStackGuy
-#    logo: /images/sections/projects/tensorflow.png
+    logo: "/images/projects/fullstackguy.png"
     role: Creator
     timeline: "Jan 2022 - Present"
 #    repo: https://github.com/tensorflow/tensorflow
     url: https://www.fullstackguy.ru/
     summary: Web site and YouTube channel with educational contents about IT-related topics.
-    tags: ["professional"]
+    tags: ["professional", "educational"]
 
 #  - name: Toha
 #    logo: /images/sections/projects/toha.png
