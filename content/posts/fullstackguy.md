@@ -7,9 +7,9 @@ keywords: ["programming", "side-projects", "lifestyle"]
 ---
 
 Today, I have found out that my new YouTube channel has finally reached it's first 100 views, and I have decided to write something about it.
-Life of a programmer thoughts about own business or side projects revolves around always. So, that happened to me either.
+In a life of a programmer thoughts about own business or side projects always revolve around. So, that happened to me either.
 I was thinking about own side-projects for whole of my professional life. Previously, it was own Flappy Bird-like mobile game, then own 
-reporting service with analytics and dashboards for Todoist service. 
+reporting service with analytics and dashboards for Todoist service and many more. 
 
 Last months, I was thinking about ways of sharing my knowledge with newbies in IT.
 
