@@ -1,20 +1,20 @@
 # TODO: uncomment and configure when some achievements will be here
 
-## section information
-#section:
-#  name: Achievements
-#  id: achievements
-#  enable: true
-#  weight: 6
-#  showOnNavbar: true
-#  # Can optionally hide the title in sections
-#  # hideTitle: true
-#
-## Your achievements achievements
-#achievements:
-#  - title: Best Presenter
-#    image: /images/sections/achievements/presenter.jpg
-#    summary: Best presenter in the 2020 XYZ conference.
+# section information
+section:
+ name: Achievements
+ id: achievements
+ enable: true
+ weight: 5
+ showOnNavbar: true
+ # Can optionally hide the title in sections
+ # hideTitle: true
+
+# Your achievements achievements
+achievements:
+ - title: Certified Mentor
+   image: /images/sections/achievements/mentor.png
+   summary: Completed the master course at the Tutor Academy of Practicum by Yandex.
 #  - title: Champion
 #    image: /images/sections/achievements/sport.jpg
 #    summary: Champion in cycling inter-city cycling championship 2020.
