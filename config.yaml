@@ -32,6 +32,8 @@ enableEmoji: true
 # Site parameters
 params:
 
+  yandex_verification: '15b32cf305eef73e'
+  
   background: "images/bg.jpg"
 
   logo:

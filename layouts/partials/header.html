@@ -17,6 +17,9 @@
 {{ template "_internal/google_analytics.html" . }}
 {{ template "_internal/google_analytics_async.html" . }}
 
+<!--================= Yandex Verification =========================-->
+{{ partial "yandex" . }}
+
 <!--================= fab-icon =========================-->
 {{/* add favicon only if the site author has provided the the favicon */}}
 {{ if site.Params.logo.favicon }}
