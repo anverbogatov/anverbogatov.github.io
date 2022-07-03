@@ -39,6 +39,10 @@ params:
   logo:
     favicon: "images/skills/git.svg"
 
+  footer:
+    credentials:
+      enable: false
+
   # GitHub repo URL and branch of your site
   gitRepo: https://github.com/hugo-toha/hugo-toha.github.io
   gitBranch: main
