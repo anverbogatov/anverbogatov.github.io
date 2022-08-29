@@ -38,6 +38,14 @@ projects:
     summary: Web site and YouTube channel with educational content about IT-related topics.
     tags: ["professional", "educational"]
 
+  - name: Create web-sites with Hugo
+    logo: "/images/projects/fullstackguy.png"
+    role: Author, Producer
+    timeline: "Jun 2022 - Aug 2022"
+    url: https://coursebook.ru/course/273-sozdanie-saitov-s-hugo
+    summary: Online course on web-sites creation with Hugo static web-sites generator.
+    tags: ["professional", "educational"]
+
 #  - name: Toha
 #    logo: /images/sections/projects/toha.png
 #    role: Owner
