@@ -11,6 +11,23 @@ section:
 ## Your experiences
 experiences:
   - company:
+      name: OTP Bank
+      url: "https://www.otpbank.ru"
+      location: Russia, remote position
+      # company overview
+      overview: OTP Bank is one of the leaders in financial area of Central and Eastern Europe.
+    positions:
+      - designation: Principal Software Engineer
+        start: Oct 2022
+        # don't provide end date if you are currently working there. It will be replaced by "Present"
+        # end: Oct 2022
+        # give some points about what was your responsibilities at the company.
+        responsibilities:
+          # - Design and develop backends for [Crowd solution](https://blogs.sap.com/2019/02/25/sap-fsm-coresystems-crowd-service-at-a-glance/) in SAP FSM product
+          # - Use and grow presence of DevOps in the life of my team by automating testing, deployments and so on with Helm, GHA & Bamboo pipelines
+          # - Be a team player by sharing own experience with technologies and methodologies, helping others to takle their tasks
+
+  - company:
       name: Vallex Software
       url: "https://www.vallexsoftware.com/"
       location: Russia, remote position

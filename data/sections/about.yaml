@@ -7,10 +7,10 @@ section:
   showOnNavbar: true
   template: sections/about.html
 
-designation: Cloud Developer
+designation: Principal Software Engineer
 company:
-  name: Vallex Software
-  url: "https://www.vallexsoftware.com"
+  name: OTP Bank
+  url: "https://www.otpbank.ru"
 
 # your resume. this file path should be relative to you "static" directory
 resume: "https://docs.google.com/document/d/1bHcUG6-GWgjQgCyLfAjrbkWCqj-drps1PyTSIZNojBk/edit?usp=sharing"
