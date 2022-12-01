@@ -1,14 +1,16 @@
 baseURL: /
 
-languageCode: en-us
+languageCode: ru
+defaultContentLanguage: ru
+
 title: "Anver Bogatov"
 theme: "toha"
 
 googleAnalytics: 'G-QX8WGB4JN0'
 
 languages:
-  en:
-    languageName: English
+  ru:
+    languageName:  Русский
     weight: 1
 
 module:

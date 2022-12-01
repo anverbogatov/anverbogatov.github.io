@@ -2,7 +2,7 @@
 
 # section information
 section:
- name: Achievements
+ name: Достижения
  id: achievements
  enable: true
  weight: 5
@@ -12,9 +12,9 @@ section:
 
 # Your achievements achievements
 achievements:
- - title: Certified Mentor
+ - title: Сертифицированный Наставник
    image: /images/sections/achievements/mentor.png
-   summary: Completed the master course at the Tutor Academy of Practicum by Yandex.
+   summary: Окончил Школу Наставников в Академии "Яндекс Практикум".
 #  - title: Champion
 #    image: /images/sections/achievements/sport.jpg
 #    summary: Champion in cycling inter-city cycling championship 2020.

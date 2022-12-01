@@ -1,6 +1,6 @@
 # section information
 section:
-  name: Experiences
+  name: Опыт
   id: experiences
   enable: true
   weight: 3
@@ -11,7 +11,7 @@ section:
 ## Your experiences
 experiences:
   - company:
-      name: OTP Bank
+      name: ОТП Банк
       url: "https://www.otpbank.ru"
       location: Russia, remote position
       # company overview

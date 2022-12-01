@@ -1,6 +1,6 @@
 # section information
 section:
-  name: Skills
+  name: Навыки
   id: skills
   enable: true
   weight: 2

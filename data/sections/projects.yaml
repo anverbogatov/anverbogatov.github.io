@@ -1,6 +1,6 @@
 # section information
 section:
-  name: Projects
+  name: Проекты
   id: projects
   enable: true
   weight: 4
@@ -10,40 +10,40 @@ section:
 
 # filter buttons
 buttons:
-  - name: All
+  - name: Все
     filter: "all"
-  - name: Professional
+  - name: Профессиональные
     filter: "professional"
 #  - name: Academic
 #    filter: "academic"
-  - name: Hobby
+  - name: Хобби
     filter: "hobby"
 
 # your projects
 projects:
   - name: "#NOT.musician"
     logo: "/images/projects/notmusician.jpeg"
-    role: Author
-    timeline: "May 2020 - Present"
+    role: Автор
+    timeline: "Май 2020 - Настоящее"
     url: https://www.youtube.com/channel/UCYcClck5kXPmHskLrHaihBQ
-    summary: YouTube channel where I play my favourite songs, guitar riffs and own music.
+    summary: YouTube канал, на котором я исполняю любимые песни, гитарные рифы и собственную музыку.
     tags: ["hobby", "guitar", "music"]
 
   - name: FullStackGuy
     logo: "/images/projects/fullstackguy.png"
-    role: Creator
-    timeline: "Jan 2022 - Present"
+    role: Основатель
+    timeline: "Январь 2022 - Настоящее"
 #    repo: https://github.com/tensorflow/tensorflow
     url: https://www.fullstackguy.ru/
-    summary: Web site and YouTube channel with educational content about IT-related topics.
+    summary: Веб-сайт и YouTube канал с образовательным контентом на около-IT темы.
     tags: ["professional", "educational"]
 
-  - name: Create web-sites with Hugo
+  - name: Создание веб-сайтов с Hugo
     logo: "/images/projects/fullstackguy.png"
-    role: Author, Producer
-    timeline: "Jun 2022 - Aug 2022"
+    role: Автор, Продюсер
+    timeline: "Июнь 2022 - Август 2022"
     url: https://coursebook.ru/course/273-sozdanie-saitov-s-hugo
-    summary: Online course on web-sites creation with Hugo static web-sites generator.
+    summary: Онлайн курс о создании веб-сайтов со статическим генератором сайтов Hugo.
     tags: ["professional", "educational"]
 
 #  - name: Toha
