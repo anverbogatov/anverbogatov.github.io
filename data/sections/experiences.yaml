@@ -2,7 +2,7 @@
 section:
   name: Опыт
   id: experiences
-  enable: true
+  enable: false
   weight: 3
   showOnNavbar: true
   # Can optionally hide the title in sections
@@ -13,12 +13,12 @@ experiences:
   - company:
       name: ОТП Банк
       url: "https://www.otpbank.ru"
-      location: Russia, remote position
+      location: Россия, удалённая позиция
       # company overview
-      overview: OTP Bank is one of the leaders in financial area of Central and Eastern Europe.
+      overview: ОТП Банк - один из лидеров финансовой сферы Центральной и Восточной Европы.
     positions:
-      - designation: Principal Software Engineer
-        start: Oct 2022
+      - designation: Главный Эксперт
+        start: Октябрь 2022
         # don't provide end date if you are currently working there. It will be replaced by "Present"
         # end: Oct 2022
         # give some points about what was your responsibilities at the company.
