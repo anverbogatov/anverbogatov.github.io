@@ -11,47 +11,48 @@ section:
 # Your Skills.
 # Give a summary of you each skill in the summary section.
 skills:
-  - name: Java Development
+  - name: Java разработка
     logo: "/images/skills/java.svg"
-    summary: "Using as the main language for professional development. Capable of writing scalable, testable, and maintainable programs."
+    summary: "Использую Java в качестве основного языка программирования для разработки.
+    Способен создавать масштабируемые, легкотестируемые и поддерживаемые программы."
     url: "https://www.oracle.com/java/"
 
   - name: Domain Driven Design
     logo: "/images/skills/ddd.png"
-    summary: "Capable of designing software using DDD approach. Experienced in working with Domain Storytelling & Events Storming."
+    summary: "Способен проектировать и разрабатывать программы используя DDD подход. Имеется опыт работы с Domain Storytelling & Events Storming подходами."
     url: "https://www.domainlanguage.com/ddd/"
 
   - name: Docker
     logo: "/images/skills/docker.svg"
-    summary: "Write most of the programs as dockerized container. Widely use Docker containers in my local environment for development."
+    summary: "Способен создавать контейнеризованные программы. Широко использую Docker в локальной разработке."
     url: "https://www.docker.com/"
 
   - name: Kubernetes
     logo: "/images/skills/kubernetes.svg"
-    summary: "Capable of deploying, managing application on Kubernetes."
+    summary: "Способен размещать и управлять приложениями в Kubernetes."
     url: "https://kubernetes.io/"
 
   - name: GraphQL
     logo: "/images/skills/graphql.svg"
-    summary: "Capable of designing and creating GraphQL APIs and their implementations."
+    summary: "Способен проектировать и создавать GraphQL API."
     url: "https://graphql.org/"
 
   - name: Terraform
     logo: "/images/skills/terraform.svg"
-    summary: "Capable of writing simple Infrastructure-as-Code scripts. Still learning."
+    summary: "Способен создавать несложные Infrastructure-as-Code скрипты. Всё ещё учусь."
     url: "https://www.terraform.io/"
 
   - name: Git
     logo: "/images/skills/git.svg"
-    summary: "Experienced with git-based development. Have experience in working with Github, Gitlab, Bitbucket. Worked with Gerrit and git-flow."
+    summary: "Имеется широкий опыт в основанной на git разработке. Есть опыт использования Github, Gitlab, Bitbucket. Работал с Gerrit и git-flow подходом."
     url: "https://git-scm.com/"
 
   - name: Cloud Computing
     logo: "/images/skills/aws.svg"
-    summary: "Worked with AWS's EC2 and S3. Capable of configuring simple topologies and developing integration with S3 on application side. Still learning."
+    summary: "Работал с AWS's EC2 and S3. Способен настраивать простые топологии и разрабатывать интеграции с S3 сервисом в приложениях. Имеется небольшой опыт работы с Yandex Cloud."
     url: "https://aws.amazon.com/"
 
   - name: macOS
     logo: "/images/skills/apple.svg"
-    summary: "Using as the main operating system. Capable of writing bash/shell scripts."
+    summary: "Использую в качестве основной операционной системы. Способен писать bash/shell скрипты."
     url: "https://www.apple.com/macos/"
